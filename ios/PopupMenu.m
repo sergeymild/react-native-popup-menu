@@ -2,8 +2,6 @@
 
 @interface RCT_EXTERN_MODULE(PopupMenu, NSObject)
 
-RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(showPopup:(NSDictionary *)options callback:(RCTResponseSenderBlock)callback)
 
 @end
