@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 import { showPopup } from 'react-native-popup-menu';
 import { useRef } from 'react';
@@ -24,7 +25,7 @@ export default function App() {
             height: 56,
             width: 56,
             marginTop: 100,
-            marginStart: 200,
+            marginStart: Dimensions.get('window').width - 56,
             backgroundColor: 'red',
             alignItems: 'center',
             justifyContent: 'center',
@@ -32,20 +33,24 @@ export default function App() {
           onPress={() => {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
-                frame: { x, y, width, height },
+                nativeID: 'oneNative',
                 gravity: 'top',
                 theme: 'light',
                 buttons: [
                   {
-                    text: 'Firstsadkjkjldsa',
-                    data: '1',
+                    text: 'SHARE',
+                    data: 'SHARE',
                     icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'Second',
-                    data: '2',
-                    tint: 'red',
-                    icon: require('./assets/icUnsave.png'),
+                    text: 'VIEW_PAGE_PREVIEW ',
+                    data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
+                    //icon: require('./assets/icViews.png'),
+                  },
+                  {
+                    text: 'SETTINGS',
+                    data: 'SETTINGS',
+                    icon: require('./assets/icSettings.png'),
                   },
                 ],
               });

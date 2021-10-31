@@ -83,7 +83,7 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     public let didSelect: PopMenuActionHandler?
     
     /// Icon sizing.
-    public var iconWidthHeight: CGFloat = 27
+    public var iconWidthHeight: CGFloat = 24
     
     public var rightIcon: Bool = false
     
