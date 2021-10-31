@@ -40,8 +40,10 @@ interface PopupMenuProperties {
   readonly gravity?: 'top' | 'bottom';
 }
 
-export function showPopup(params: PopupMenuProperties) {
-  return new Promise((resolve) => {
+export function showPopup(
+  params: PopupMenuProperties
+): Promise<PopupMenuButton> {
+  return new Promise<PopupMenuButton>((resolve) => {
     PopupMenu.showPopup(
       {
         ...params,
