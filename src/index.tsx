@@ -42,8 +42,8 @@ interface PopupMenuProperties {
 
 export function showPopup(
   params: PopupMenuProperties
-): Promise<PopupMenuButton> {
-  return new Promise<PopupMenuButton>((resolve) => {
+): Promise<PopupMenuButton | undefined> {
+  return new Promise<PopupMenuButton | undefined>((resolve) => {
     PopupMenu.showPopup(
       {
         ...params,
