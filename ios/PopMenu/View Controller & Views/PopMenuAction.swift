@@ -162,7 +162,12 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     // MARK: - Initializer
     
     /// Initializer.
-    public init(title: String? = nil, image: UIImage? = nil, color: Color? = nil, didSelect: PopMenuActionHandler? = nil) {
+    public init(
+        title: String? = nil,
+        image: UIImage? = nil,
+        color: Color? = nil,
+        didSelect: PopMenuActionHandler? = nil
+    ) {
         self.title = title
         self.image = image
         self.color = color

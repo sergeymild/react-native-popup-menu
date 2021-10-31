@@ -39,6 +39,7 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     if (!params.hasKey("frame")) {
       gravity = params.gravity()
     }
+    var didDismissBySelectItem = false
     val popupMenu = popupMenu {
       style = s
       dropdownGravity = gravity
@@ -59,7 +60,10 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             iconColor = tint
             labelColor = tint
             label = button.getString("text")
-            callback = { actionCallback.invoke(i) }
+            callback = {
+              didDismissBySelectItem = true
+              actionCallback.invoke(i)
+            }
           }
         }
       }
@@ -81,6 +85,9 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             0,
             0
           )
+        }
+        popupMenu.setOnDismissListener {
+          if (!didDismissBySelectItem) actionCallback.invoke(null)
         }
         popupMenu.show(
           context = activity,

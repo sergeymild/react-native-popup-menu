@@ -30,7 +30,6 @@ export default function App() {
             justifyContent: 'center',
           }}
           onPress={() => {
-            console.log(StatusBar.currentHeight);
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 frame: { x, y, width, height },

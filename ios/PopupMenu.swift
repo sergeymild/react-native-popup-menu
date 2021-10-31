@@ -42,6 +42,9 @@ class PopupMenu: NSObject {
             manager.popMenuAppearance.popMenuGravityBottom = gravity ? .top(0) : .bottom(0)
             manager.popMenuAppearance.popMenuFont = .systemFont(ofSize: 17, weight: .medium)
             manager.popMenuAppearance.popMenuColor.actionColor = .tint(tint)
+            manager.popMenuDidDismiss = { didSelect in
+                if !didSelect { callback(nil) }
+            }
             
             var frame: CGRect?
             var sourceView: UIView?

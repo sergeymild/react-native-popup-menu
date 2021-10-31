@@ -51,7 +51,8 @@ export function showPopup(params: PopupMenuProperties) {
           tint: b.tint ? processColor(b.tint) : undefined,
         })),
       },
-      (index: number) => {
+      (index: number | undefined) => {
+        if (index === undefined) return resolve(undefined);
         const selected = params.buttons[index];
         resolve(selected);
       }

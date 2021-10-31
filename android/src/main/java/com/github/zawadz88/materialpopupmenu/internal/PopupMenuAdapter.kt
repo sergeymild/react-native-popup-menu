@@ -55,10 +55,10 @@ internal class PopupMenuAdapter(
     return if (viewType == TYPE_ITEM) {
       val v =
         LayoutInflater.from(parent.context).inflate(R.layout.mpm_popup_menu_item, parent, false)
-      ItemViewHolder(v, dismissPopupCallback)
+      ItemViewHolder(v)
     } else {
       val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-      CustomItemViewHolder(v, dismissPopupCallback)
+      CustomItemViewHolder(v)
     }
   }
 
@@ -89,19 +89,17 @@ internal class PopupMenuAdapter(
   }
 
   internal abstract class AbstractItemViewHolder(
-    itemView: View,
-    private val dismissPopupCallback: () -> Unit
+    itemView: View
   ) : RecyclerView.ViewHolder(itemView) {
 
     @CallSuper
     open fun bindItem(popupMenuItem: MaterialPopupMenu.AbstractPopupMenuItem) {
-      popupMenuItem.viewBoundCallback.dismissPopupAction = dismissPopupCallback
       popupMenuItem.viewBoundCallback.invoke(itemView)
     }
   }
 
-  internal class ItemViewHolder(itemView: View, dismissPopupCallback: () -> Unit) :
-    AbstractItemViewHolder(itemView, dismissPopupCallback) {
+  internal class ItemViewHolder(itemView: View) :
+    AbstractItemViewHolder(itemView) {
 
     private var label: TextView = itemView.findViewById(R.id.mpm_popup_menu_item_label)
 
@@ -150,8 +148,8 @@ internal class PopupMenuAdapter(
     }
   }
 
-  internal class CustomItemViewHolder(itemView: View, dismissPopupCallback: () -> Unit) :
-    AbstractItemViewHolder(itemView, dismissPopupCallback)
+  internal class CustomItemViewHolder(itemView: View) :
+    AbstractItemViewHolder(itemView)
 
   internal class SectionHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
