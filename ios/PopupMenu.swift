@@ -17,7 +17,12 @@ class PopupMenu: NSObject {
             manager.actions.removeAll()
             let buttons = options["buttons"] as! [[String: Any]]
             for (index, button) in buttons.enumerated() {
-                let icon = UIImage(data: try! Data(contentsOf: URL(string: button["icon"] as! String)!))
+                var icon: UIImage?
+                if let i = button["icon"] as? String,
+                let url = URL(string: i),
+                let data = try? Data(contentsOf: url) {
+                    icon = UIImage(data: data)
+                }
                 let color = RCTConvert.uiColor(button["tint"] as? NSNumber)
                 manager.actions.append(
                     PopMenuDefaultAction(
