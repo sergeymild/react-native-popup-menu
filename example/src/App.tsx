@@ -41,7 +41,7 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 nativeID: 'oneNative',
-                itemPaddingHorizontal: 16,
+                itemPaddingHorizontal: 4,
                 backgroundColor: 'white',
                 gravity: 'top',
                 itemFontSize: 17,

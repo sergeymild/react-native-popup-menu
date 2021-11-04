@@ -144,6 +144,7 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
           )
         }
         popupMenu.setOnDismissListener {
+          appearance = originalAppearance.copy()
           if (!didDismissBySelectItem) actionCallback.invoke(null)
         }
         popupMenu.show(
