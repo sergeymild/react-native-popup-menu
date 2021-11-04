@@ -5,19 +5,6 @@ class PopupMenu: NSObject {
     func configurePopup(_ options: NSDictionary) {
         configure(options)
         
-        
-        if options["backgroundColor"] == nil {
-            var isDark = false
-            if #available(iOS 12.0, *) {
-                isDark = UIScreen.main.traitCollection.userInterfaceStyle == .dark
-            }
-            if let theme = options["theme"] as? String {
-                isDark = theme == "dark"
-            }
-            PopMenuManager.default.popMenuAppearance.popMenuColor.backgroundColor =
-                .solid(fill: isDark ? .black : .white)
-        }
-        
         if let height = options["separatorHeight"] as? Double {
             PopMenuManager.default.popMenuAppearance.separator =
                 .fill(PopMenuManager.default.popMenuAppearance.separator.color,
@@ -32,22 +19,18 @@ class PopupMenu: NSObject {
                 )
         }
         
+        if options["tint"] != nil {
+            PopMenuManager.default.popMenuAppearance.popMenuColor.actionColor =
+                .tint(RCTConvert.uiColor(options["tint"]))
+        }
+        
     }
     
     private func configure(_ options: NSDictionary) {
-        var isDark = false
-        if #available(iOS 12.0, *) {
-            isDark = UIScreen.main.traitCollection.userInterfaceStyle == .dark
-        }
-        if let theme = options["theme"] as? String {
-            isDark = theme == "dark"
-        }
-        
         
         let manager = PopMenuManager.default
         
         let gravity = options["gravity"] as? String == "top"
-        let tint: UIColor = isDark ? .white : .black
         
         if options["isIconsFromRight"] != nil {
             let rightIcon = (options["isIconsFromRight"] as? Bool) == true
@@ -88,7 +71,6 @@ class PopupMenu: NSObject {
         
         manager.popMenuAppearance.popMenuBackgroundStyle = .none()
         manager.popMenuAppearance.popMenuGravityBottom = gravity ? .top(0) : .bottom(0)
-        manager.popMenuAppearance.popMenuColor.actionColor = .tint(tint)
     }
     
     @objc
@@ -106,12 +88,18 @@ class PopupMenu: NSObject {
                    let data = try? Data(contentsOf: url) {
                     icon = UIImage(data: data)
                 }
-                let color = RCTConvert.uiColor(button["tint"] as? NSNumber)
+                var color = manager.popMenuAppearance.popMenuColor.actionColor
+                
+                if button["tint"] != nil {
+                    color = .tint(RCTConvert.uiColor(button["tint"]))
+                }
+                
+                
                 manager.actions.append(
                     PopMenuAction(
                         title: button["text"] as? String,
                         image: icon,
-                        color: color,
+                        color: color.color,
                         didSelect: { _ in callback([index]) },
                         separator: separator(value: button)
                     ))

@@ -50,6 +50,10 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     if (options.hasKey("itemPaddingHorizontal")) {
       appearance.popMenuActionPaddingHorizontal = PixelUtil.toPixelFromDIP(options.getDouble("itemPaddingHorizontal"))
     }
+
+    if (options.hasKey("backgroundColor") && reactApplicationContext != null) {
+      appearance.backgroundColor = options.color(reactApplicationContext!!, "backgroundColor", Color.parseColor("#1F000000"))
+    }
   }
 
   @ReactMethod
@@ -64,8 +68,8 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
       appearance.separatorColor = options.color(reactApplicationContext!!, "separatorColor", Color.parseColor("#1F000000"))
     }
 
-    if (options.hasKey("backgroundColor") && reactApplicationContext != null) {
-      appearance.backgroundColor = options.color(reactApplicationContext!!, "backgroundColor", Color.parseColor("#1F000000"))
+    if (options.hasKey("tint") && reactApplicationContext != null) {
+      appearance.actionColor = options.color(reactApplicationContext!!, "tint", Color.parseColor("#1F000000"))
     }
   }
 

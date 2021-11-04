@@ -45,7 +45,6 @@ export default function App() {
                 backgroundColor: 'white',
                 gravity: 'top',
                 itemFontSize: 17,
-                theme: 'light',
                 buttons: [
                   {
                     text: 'SHARE',
@@ -63,6 +62,7 @@ export default function App() {
                     showSeparator: true,
                     separatorHeight: 10,
                     separatorColor: 'red',
+                    tint: 'yellow',
                   },
                   {
                     text: 'SETTINGS',
@@ -95,7 +95,6 @@ export default function App() {
                 cornerRadius: 10,
                 frame: { x, y, width, height },
                 // nativeID: 'twoNative',
-                theme: 'light',
                 buttons: [
                   {
                     text: 'Firstsadkjk',

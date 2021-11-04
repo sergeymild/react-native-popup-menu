@@ -32,10 +32,10 @@ export interface PopupMenuConfigure {
   readonly itemFontSize?: number;
   readonly itemIconSize?: number;
   readonly itemPaddingHorizontal?: number;
-  readonly theme?: 'light' | 'dark';
   readonly gravity?: 'top' | 'bottom';
   readonly separatorHeight?: number;
   readonly separatorColor?: string;
+  readonly tint?: string;
 }
 
 export interface PopupMenuButton {
@@ -63,6 +63,7 @@ export function configurePopup(params: PopupMenuConfigure) {
     separatorColor: params.separatorColor
       ? processColor(params.separatorColor)
       : undefined,
+    tint: params.tint ? processColor(params.tint) : undefined,
   });
 }
 
