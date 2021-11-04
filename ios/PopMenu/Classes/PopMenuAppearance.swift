@@ -21,46 +21,78 @@ public enum VerticalGravity {
 
 /// Appearance for PopMenu.
 /// Use for configuring custom styles and looks.
-final public class PopMenuAppearance: NSObject {
-    
+public struct PopMenuAppearance {
     /// Background and tint colors.
-    public var popMenuColor: PopMenuColor = .default()
+    public var popMenuColor: PopMenuColor
     
     /// Background style.
-    public var popMenuBackgroundStyle: PopMenuBackgroundStyle = .dimmed(color: .black, opacity: 0.4)
+    public var popMenuBackgroundStyle: PopMenuBackgroundStyle
     
     /// The font for labels.
-    public var popMenuFont: UIFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    public var popMenuFont: UIFont
     
-    public var rightIcon = false
-    
-    /// Corner radius for rounded corners.
-    public var popMenuCornerRadius: CGFloat = 24
+    public var rightIcon: Bool
     
     /// Corner radius for rounded corners.
-    public var popMenuGravityBottom = VerticalGravity.bottom(0)
+    public var popMenuCornerRadius: CGFloat
+    
+    /// Corner radius for rounded corners.
+    public var popMenuGravityBottom: VerticalGravity
     
     /// How tall each action is.
-    public var popMenuActionHeight: CGFloat = 50
+    public var popMenuActionHeight: CGFloat
+    
+    /// Size of item icon
+    public var popMenuActionIconSize: CGFloat
+
+    public var popMenuActionPaddingHorizontal: CGFloat
     
     /// How many actions are the breakpoint to trigger scrollable.
-    public var popMenuActionCountForScrollable: UInt = 6
+    public var popMenuActionCountForScrollable: UInt
 
     /// The scroll indicator style when the actions are scrollable.
-    public var popMenuScrollIndicatorStyle: UIScrollView.IndicatorStyle = .white
+    public var popMenuScrollIndicatorStyle: UIScrollView.IndicatorStyle
     
     /// Hide the scroll indicator or not when the actions are scrollable.
-    public var popMenuScrollIndicatorHidden = false
-    
-    /// The separator style for each action.
-    public var popMenuItemSeparator: PopMenuActionSeparator = .none()
+    public var popMenuScrollIndicatorHidden: Bool
 
     /// The status bar style of the pop menu.
     public var popMenuStatusBarStyle: UIStatusBarStyle?
     
     /// The presentation style
-    public var popMenuPresentationStyle: PopMenuPresentationStyle = .cover()
-
+    public var popMenuPresentationStyle: PopMenuPresentationStyle
+    
+    public init(
+        popMenuColor: PopMenuColor = .default(),
+        popMenuBackgroundStyle: PopMenuBackgroundStyle = .dimmed(color: .black, opacity: 0.4),
+        popMenuFont: UIFont = UIFont.systemFont(ofSize: 16, weight: .semibold),
+        rightIcon: Bool = false,
+        popMenuCornerRadius: CGFloat = 24,
+        popMenuGravityBottom: VerticalGravity = VerticalGravity.bottom(0),
+        popMenuActionHeight: CGFloat = 50,
+        popMenuActionIconSize: CGFloat = 24,
+        popMenuActionPaddingHorizontal: CGFloat = 16,
+        popMenuActionCountForScrollable: UInt = 6,
+        popMenuScrollIndicatorStyle: UIScrollView.IndicatorStyle = .white,
+        popMenuScrollIndicatorHidden: Bool = false,
+        popMenuStatusBarStyle: UIStatusBarStyle? = nil,
+        popMenuPresentationStyle: PopMenuPresentationStyle = .cover()
+    ) {
+        self.popMenuColor = popMenuColor
+        self.popMenuBackgroundStyle = popMenuBackgroundStyle
+        self.popMenuFont = popMenuFont
+        self.rightIcon = rightIcon
+        self.popMenuCornerRadius = popMenuCornerRadius
+        self.popMenuGravityBottom = popMenuGravityBottom
+        self.popMenuActionHeight = popMenuActionHeight
+        self.popMenuActionIconSize = popMenuActionIconSize
+        self.popMenuActionPaddingHorizontal = popMenuActionPaddingHorizontal
+        self.popMenuActionCountForScrollable = popMenuActionCountForScrollable
+        self.popMenuScrollIndicatorStyle = popMenuScrollIndicatorStyle
+        self.popMenuScrollIndicatorHidden = popMenuScrollIndicatorHidden
+        self.popMenuStatusBarStyle = popMenuStatusBarStyle
+        self.popMenuPresentationStyle = popMenuPresentationStyle
+    }
 }
 
 /// Background styles for PopMenu.
@@ -120,7 +152,8 @@ public struct PopMenuColor {
     
     /// Get default background and action color.
     public static func `default`() -> PopMenuColor {
-        return PopMenuColor(backgroundColor: .gradient(fill: #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1), #colorLiteral(red: 0.2156862745, green: 0.2156862745, blue: 0.2156862745, alpha: 1)), actionColor: .tint(.white))
+        return PopMenuColor(
+            backgroundColor: .gradient(fill: #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1), #colorLiteral(red: 0.2156862745, green: 0.2156862745, blue: 0.2156862745, alpha: 1)), actionColor: .tint(.white))
     }
     
 }
@@ -166,8 +199,14 @@ public struct PopMenuActionSeparator: Equatable {
     public let color: Color
     
     /// Fill separator color with given color and height.
-    public static func fill(_ color: Color = Color.white.withAlphaComponent(0.5), height: CGFloat = 0.5) -> PopMenuActionSeparator {
-        return PopMenuActionSeparator(height: height, color: color)
+    public static func fill(
+        _ color: Color? = nil,
+        height: CGFloat? = nil
+    ) -> PopMenuActionSeparator {
+        return PopMenuActionSeparator(
+            height: height ?? 1,
+            color: color ?? Color.lightGray.withAlphaComponent(0.5)
+        )
     }
     
     /// Get separator instance with no separator style.

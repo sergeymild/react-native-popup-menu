@@ -9,8 +9,15 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { showPopup } from 'react-native-popup-menu';
+import { configurePopup, showPopup } from 'react-native-popup-menu';
 import { useRef } from 'react';
+
+configurePopup({
+  backgroundColor: 'red',
+  itemFontSize: 10,
+  cornerRadius: 20,
+  itemPaddingHorizontal: 40,
+});
 
 export default function App() {
   const ref = useRef<TouchableOpacity>(null);
@@ -34,18 +41,28 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 nativeID: 'oneNative',
+                itemPaddingHorizontal: 16,
+                backgroundColor: 'white',
                 gravity: 'top',
+                itemFontSize: 17,
                 theme: 'light',
                 buttons: [
                   {
                     text: 'SHARE',
                     data: 'SHARE',
                     icon: require('./assets/icShare.png'),
+                    showSeparator: true,
+                    separatorHeight: 3,
+                    separatorColor: 'yellow',
+                    tint: 'red',
                   },
                   {
                     text: 'VIEW_PAGE_PREVIEW ',
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
                     //icon: require('./assets/icViews.png'),
+                    showSeparator: true,
+                    separatorHeight: 10,
+                    separatorColor: 'red',
                   },
                   {
                     text: 'SETTINGS',

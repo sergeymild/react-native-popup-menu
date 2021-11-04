@@ -436,7 +436,7 @@ extension PopMenuViewController {
     /// - Returns: The fitting width for content
     fileprivate func calculateContentWidth() -> CGFloat {
         var contentFitWidth: CGFloat = 0
-        contentFitWidth += PopMenuDefaultAction.textLeftPadding * 2
+        contentFitWidth += appearance.popMenuActionPaddingHorizontal * 2
         
         // Calculate the widest width from action titles to determine the width
         if let action = actions.max(by: {
@@ -449,7 +449,7 @@ extension PopMenuViewController {
             let desiredWidth = sizingLabel.sizeThatFits(view.bounds.size).width
             contentFitWidth += desiredWidth
             
-            contentFitWidth += action.iconWidthHeight
+            contentFitWidth += appearance.popMenuActionIconSize
             contentFitWidth += 16
         }
         
@@ -470,13 +470,8 @@ extension PopMenuViewController {
             action.font = appearance.popMenuFont
             action.rightIcon = appearance.rightIcon
             action.tintColor = action.color ?? appearance.popMenuColor.actionColor.color
-            action.cornerRadius = appearance.popMenuCornerRadius / 2
-            action.renderActionView()
-            
-            // Give separator to each action but the last
-            if !action.isEqual(actions.last) {
-                addSeparator(to: action.view)
-            }
+            action.renderActionView(appearance)
+            addSeparator(to: action.view, separator: action.separator)
             
             let tapper = UITapGestureRecognizer(target: self, action: #selector(menuDidTap(_:)))
             tapper.delaysTouchesEnded = false
@@ -532,11 +527,9 @@ extension PopMenuViewController {
     /// - Parameters:
     ///   - separator: Separator style
     ///   - actionView: Action's view
-    fileprivate func addSeparator(to actionView: UIView) {
+    fileprivate func addSeparator(to actionView: UIView, separator: PopMenuActionSeparator) {
         // Only setup separator if the style is neither 0 height or clear color
-        guard appearance.popMenuItemSeparator != .none() else { return }
-        
-        let separator = appearance.popMenuItemSeparator
+        guard separator != .none() else { return }
         
         let separatorView = UIView()
         separatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -570,7 +563,7 @@ extension PopMenuViewController {
     
     /// When the menu action gets tapped.
     @objc fileprivate func menuDidTap(_ gesture: UITapGestureRecognizer) {
-        guard let attachedView = gesture.view, let index = actions.index(where: { $0.view.isEqual(attachedView) }) else { return }
+        guard let attachedView = gesture.view, let index = actions.firstIndex(where: { $0.view.isEqual(attachedView) }) else { return }
 
         actionDidSelect(at: index)
     }
@@ -623,7 +616,7 @@ extension PopMenuViewController {
         let touchLocation = gesture.location(in: actionsView)
         // Get associated index for touch location.
         if let touchedView = actionsView.arrangedSubviews.filter({ return $0.frame.contains(touchLocation) }).first,
-            let index = actionsView.arrangedSubviews.index(of: touchedView){
+           let index = actionsView.arrangedSubviews.firstIndex(of: touchedView){
             return index
         }
         
@@ -635,7 +628,7 @@ extension PopMenuViewController {
     /// - Parameter index: The index for action
     fileprivate func actionDidSelect(at index: Int, animated: Bool = true) {
         let action = actions[index]
-        action.actionSelected?(animated: animated)
+        action.actionSelected(animated: animated)
         
         if shouldEnableHaptics {
             // Generate haptics

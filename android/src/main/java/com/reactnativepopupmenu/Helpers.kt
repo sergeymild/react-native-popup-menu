@@ -1,6 +1,7 @@
 package com.reactnativepopupmenu
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.graphics.drawable.DrawableCompat
+import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.PixelUtil
 import com.facebook.react.uimanager.util.ReactFindViewUtil
@@ -78,4 +80,9 @@ fun ReadableMap.bool(key: String): Boolean {
 fun ReadableMap.double(key: String, default: Double): Double {
   if (!hasKey(key)) return default
   return getDouble(key)
+}
+
+fun ReadableMap.color(context: Context, key: String, default: Int): Int {
+  if (!hasKey(key)) return default
+  return ColorPropConverter.getColor(getDouble(key), context)
 }

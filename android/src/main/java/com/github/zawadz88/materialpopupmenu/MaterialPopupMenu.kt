@@ -19,7 +19,6 @@ import com.reactnativepopupmenu.R
  * Holds all the required information for showing a popup menu.
  *
  * @param style Style of the popup menu. See [MaterialPopupMenuBuilder.style]
- * @param dropdownGravity Gravity of the dropdown list. See [MaterialPopupMenuBuilder.dropdownGravity]
  * @param sections a list of sections
  *
  * @author Piotr Zawadzki
@@ -27,8 +26,6 @@ import com.reactnativepopupmenu.R
 class MaterialPopupMenu
 internal constructor(
   @StyleRes internal val style: Int,
-  internal val dropdownGravity: Int,
-  internal val cornerRadius: Int,
   internal val sections: List<PopupMenuSection>,
   internal val fixedContentWidthInPx: Int,
   internal val dropDownVerticalOffset: Int?,
@@ -52,8 +49,6 @@ internal constructor(
     val styledContext = ContextThemeWrapper(context, style)
     val popupWindow = MaterialRecyclerViewPopupWindow(
       context = styledContext,
-      dropDownGravity = dropdownGravity,
-      cornerRadius = cornerRadius,
       fixedContentWidthInPx = fixedContentWidthInPx,
       dropDownVerticalOffset = dropDownVerticalOffset,
       dropDownHorizontalOffset = dropDownHorizontalOffset
@@ -105,7 +100,9 @@ internal constructor(
 
   internal data class PopupMenuItem(
     val label: CharSequence?,
-    @StringRes val labelRes: Int,
+    val showSeparator: Boolean,
+    val separatorHeight: Int,
+    val separatorColor: Int,
     @ColorInt val labelColor: Int,
     val iconDrawable: Drawable?,
     val rightIconDrawable: Drawable?,

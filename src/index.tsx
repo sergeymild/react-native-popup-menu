@@ -23,21 +23,44 @@ const PopupMenu = NativeModules.PopupMenu
       }
     );
 
+export interface PopupMenuConfigure {
+  readonly isIconsFromRight?: boolean;
+  readonly backgroundColor?: string;
+  readonly cornerRadius?: number;
+  readonly itemHeight?: number;
+  readonly itemFontFamily?: string;
+  readonly itemFontSize?: number;
+  readonly itemIconSize?: number;
+  readonly itemPaddingHorizontal?: number;
+  readonly theme?: 'light' | 'dark';
+  readonly gravity?: 'top' | 'bottom';
+  readonly separatorHeight?: number;
+  readonly separatorColor?: string;
+}
+
 export interface PopupMenuButton {
   readonly text: string;
   readonly data?: any;
   readonly tint?: string;
   readonly icon?: ImageRequireSource;
+  readonly showSeparator?: boolean;
+  readonly separatorHeight?: number;
+  readonly separatorColor?: string;
 }
 
-interface PopupMenuProperties {
-  readonly isIconsFromRight?: boolean;
-  readonly cornerRadius?: number;
+interface PopupMenuProperties extends PopupMenuConfigure {
   readonly buttons: PopupMenuButton[];
-  readonly theme?: 'light' | 'dark';
   readonly nativeID?: string;
   readonly frame?: { x: number; y: number; width: number; height: number };
-  readonly gravity?: 'top' | 'bottom';
+}
+
+export function configurePopup(params: PopupMenuConfigure) {
+  PopupMenu.configurePopup({
+    ...params,
+    backgroundColor: params.backgroundColor
+      ? processColor(params.backgroundColor)
+      : undefined,
+  });
 }
 
 export function showPopup(
@@ -47,10 +70,16 @@ export function showPopup(
     PopupMenu.showPopup(
       {
         ...params,
+        backgroundColor: params.backgroundColor
+          ? processColor(params.backgroundColor)
+          : undefined,
         buttons: params.buttons.map((b) => ({
           ...b,
           icon: b.icon ? Image.resolveAssetSource(b.icon).uri : undefined,
           tint: b.tint ? processColor(b.tint) : undefined,
+          separatorColor: b.separatorColor
+            ? processColor(b.separatorColor)
+            : undefined,
         })),
       },
       (index: number | undefined) => {

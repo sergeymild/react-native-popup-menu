@@ -2,6 +2,7 @@ package com.github.zawadz88.materialpopupmenu.internal
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenu
+import com.github.zawadz88.materialpopupmenu.appearance
 import com.reactnativepopupmenu.R
 
 /**
@@ -110,12 +112,27 @@ internal class PopupMenuAdapter(
     private var nestedIcon: AppCompatImageView =
       itemView.findViewById(R.id.mpm_popup_menu_item_nested_icon)
 
+    private var content: View = itemView.findViewById(R.id.content)
+    private var separator: View = itemView.findViewById(R.id.mpm_popup_menu_section_separator)
+
     override fun bindItem(popupMenuItem: MaterialPopupMenu.AbstractPopupMenuItem) {
+      content.setPaddingRelative(
+        appearance.popMenuActionPaddingHorizontal.toInt(),
+        0,
+        appearance.popMenuActionPaddingHorizontal.toInt(),
+        0
+      )
+      content.layoutParams.height = appearance.itemHeight.toInt()
+      label.setTextSize(TypedValue.COMPLEX_UNIT_SP, appearance.itemFontSize)
+      rightIcon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
+      rightIcon.layoutParams.height = appearance.popMenuActionIconSize.toInt()
+      icon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
+      icon.layoutParams.height = appearance.popMenuActionIconSize.toInt()
+
+
       val castedPopupMenuItem = popupMenuItem as MaterialPopupMenu.PopupMenuItem
       if (castedPopupMenuItem.label != null) {
         label.text = castedPopupMenuItem.label
-      } else {
-        label.setText(castedPopupMenuItem.labelRes)
       }
       if (castedPopupMenuItem.iconDrawable != null) {
         icon.apply {
@@ -144,6 +161,15 @@ internal class PopupMenuAdapter(
         label.setTextColor(castedPopupMenuItem.labelColor)
       }
       nestedIcon.visibility = if (castedPopupMenuItem.hasNestedItems) View.VISIBLE else View.GONE
+
+      if (castedPopupMenuItem.showSeparator) {
+        separator.visibility = View.VISIBLE
+        separator.setBackgroundColor(castedPopupMenuItem.separatorColor)
+        separator.layoutParams.height = castedPopupMenuItem.separatorHeight
+      } else {
+        separator.visibility = View.GONE
+      }
+
       super.bindItem(popupMenuItem)
     }
   }
@@ -152,9 +178,7 @@ internal class PopupMenuAdapter(
     AbstractItemViewHolder(itemView)
 
   internal class SectionHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
     var label: TextView = itemView.findViewById(R.id.mpm_popup_menu_section_header_label)
-
     var separator: View = itemView.findViewById(R.id.mpm_popup_menu_section_separator)
   }
 }

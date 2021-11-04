@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import com.facebook.react.bridge.*
 import com.facebook.react.uimanager.PixelUtil
+import com.github.zawadz88.materialpopupmenu.appearance
 import com.github.zawadz88.materialpopupmenu.popupMenu
 
 
@@ -24,42 +25,98 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     }
   }
 
+  fun configure(options: ReadableMap) {
+    if (options.hasKey("isIconsFromRight")) {
+      val rightIcon = options.getBoolean("isIconsFromRight")
+      appearance.rightIcon = rightIcon
+    }
+
+    if (options.hasKey("cornerRadius")) {
+      appearance.cornerRadius = PixelUtil.toPixelFromDIP(options.getDouble("cornerRadius"))
+    }
+
+    if (options.hasKey("itemHeight")) {
+      appearance.itemHeight = PixelUtil.toPixelFromDIP(options.getDouble("itemHeight"))
+    }
+
+    if (options.hasKey("itemFontSize")) {
+      appearance.itemFontSize = options.getDouble("itemFontSize").toFloat()
+    }
+
+    if (options.hasKey("itemIconSize")) {
+      appearance.popMenuActionIconSize = PixelUtil.toPixelFromDIP(options.getDouble("itemIconSize"))
+    }
+
+    if (options.hasKey("itemPaddingHorizontal")) {
+      appearance.popMenuActionPaddingHorizontal = PixelUtil.toPixelFromDIP(options.getDouble("itemPaddingHorizontal"))
+    }
+  }
+
+  @ReactMethod
+  fun configurePopup(options: ReadableMap) {
+    configure(options)
+
+    if (options.hasKey("separatorHeight")) {
+      appearance.separatorHeight = PixelUtil.toPixelFromDIP(options.getDouble("separatorHeight"))
+    }
+
+    if (options.hasKey("separatorColor") && reactApplicationContext != null) {
+      appearance.separatorColor = options.color(reactApplicationContext!!, "separatorColor", Color.parseColor("#1F000000"))
+    }
+
+    if (options.hasKey("backgroundColor") && reactApplicationContext != null) {
+      appearance.backgroundColor = options.color(reactApplicationContext!!, "backgroundColor", Color.parseColor("#1F000000"))
+    }
+  }
+
   @ReactMethod
   fun showPopup(params: ReadableMap, actionCallback: Callback) {
+    val originalAppearance = appearance.copy()
+    configure(params)
     val activity = reactApplicationContext?.currentActivity ?: return
 
-    val isIconsFromRight = params.bool("isIconsFromRight")
-    val isDark = Helpers.isDarkMode(activity, params)
     var s = R.style.Widget_MPM_Menu
     if (Helpers.isDarkMode(activity, params)) {
       s = R.style.Widget_MPM_Menu_Dark
     }
 
     var gravity = Gravity.NO_GRAVITY
-    if (!params.hasKey("frame")) {
-      gravity = params.gravity()
-    }
+    if (!params.hasKey("frame")) gravity = params.gravity()
+    appearance.popMenuGravity = gravity
     var didDismissBySelectItem = false
     val popupMenu = popupMenu {
       style = s
-      dropdownGravity = gravity
-      cornerRadius = params.double("cornerRadius", 20.0).toPixel()
       val buttons = params.getArray("buttons") ?: return@popupMenu
       section {
         for (i in 0 until buttons.size()) {
           val button = buttons.getMap(i) ?: continue
           val icon = Helpers.getIcon(activity, button.getString("icon"))
           val drawable = Helpers.toDrawable(activity, icon)
-          var tint = if (isDark) Color.WHITE else Color.BLACK
+
+          var tint = appearance.actionColor
           if (button.hasKey("tint")) {
-            tint = ColorPropConverter.getColor(button.getDouble("tint"), activity)
+            tint = button.color(activity, "tint", Color.BLACK)
           }
+
+          var sh = appearance.separatorHeight
+          if (button.hasKey("separatorHeight")) {
+            sh = PixelUtil.toPixelFromDIP(button.getDouble("separatorHeight"))
+          }
+
+          var sc = appearance.separatorColor
+          if (button.hasKey("separatorColor")) {
+            sc = button.color(activity, "separatorColor", appearance.separatorColor)
+          }
+
           item {
-            rightIconDrawable = if (isIconsFromRight) drawable else null
-            iconDrawable = if (!isIconsFromRight) drawable else null
+            rightIconDrawable = if (appearance.rightIcon) drawable else null
+            iconDrawable = if (!appearance.rightIcon) drawable else null
             iconColor = tint
             labelColor = tint
             label = button.getString("text")
+            showSeparator = button.bool("showSeparator")
+            separatorHeight = sh.toInt()
+            separatorColor = sc
             callback = {
               didDismissBySelectItem = true
               actionCallback.invoke(i)

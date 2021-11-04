@@ -36,7 +36,7 @@ final public class PopMenuManager: NSObject {
     public var popMenuShouldEnableHaptics: Bool = true
     
     /// Appearance for passing on to pop menu.
-    public let popMenuAppearance: PopMenuAppearance
+    public var popMenuAppearance: PopMenuAppearance
     
     /// Every action item about to be displayed.
     public var actions: [PopMenuAction] = []

@@ -16,6 +16,7 @@ import com.reactnativepopupmenu.R
 import java.lang.reflect.Method
 import android.graphics.Outline
 import androidx.annotation.RequiresApi
+import com.github.zawadz88.materialpopupmenu.appearance
 
 
 /**
@@ -29,8 +30,6 @@ import androidx.annotation.RequiresApi
 @SuppressLint("PrivateResource,RestrictedApi")
 internal class MaterialRecyclerViewPopupWindow(
   private val context: Context,
-  private var dropDownGravity: Int,
-  private var cornerRadius: Int,
   private val fixedContentWidthInPx: Int,
   dropDownVerticalOffset: Int?,
   dropDownHorizontalOffset: Int?
@@ -108,13 +107,9 @@ internal class MaterialRecyclerViewPopupWindow(
 
   private val backgroundDimAmount: Float
 
-  private val popupPaddingBottom: Int
+//  private val popupPaddingBottom: Int
 
-  private val popupPaddingStart: Int
-
-  private val popupPaddingEnd: Int
-
-  private val popupPaddingTop: Int
+//  private val popupPaddingTop: Int
 
   init {
     popup = createAppCompatPopupWindow(context)
@@ -141,14 +136,10 @@ internal class MaterialRecyclerViewPopupWindow(
       R.styleable.MaterialRecyclerViewPopupWindow_android_backgroundDimAmount,
       DEFAULT_BACKGROUND_DIM_AMOUNT
     )
-    popupPaddingBottom =
-      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingBottom, 0)
-    popupPaddingStart =
-      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingStart, 0)
-    popupPaddingEnd =
-      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingEnd, 0)
-    popupPaddingTop =
-      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingTop, 0)
+//    popupPaddingBottom =
+//      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingBottom, 0)
+//    popupPaddingTop =
+//      a.getDimensionPixelSize(R.styleable.MaterialRecyclerViewPopupWindow_mpm_paddingTop, 0)
 
     a.recycle()
 
@@ -209,10 +200,10 @@ internal class MaterialRecyclerViewPopupWindow(
         anchorView!!,
         dropDownHorizontalOffset,
         dropDownVerticalOffset,
-        dropDownGravity
+        appearance.popMenuGravity
       )
     } else {
-      popup.showAtLocation(anchorView, dropDownGravity, location.left, location.top)
+      popup.showAtLocation(anchorView, appearance.popMenuGravity, location.left, location.top)
     }
 
     if (backgroundDimEnabled) {
@@ -257,7 +248,6 @@ internal class MaterialRecyclerViewPopupWindow(
       it.layoutManager = LinearLayoutManager(context)
       it.isFocusable = true
       it.isFocusableInTouchMode = true
-      it.setPaddingRelative(popupPaddingStart, popupPaddingTop, popupPaddingEnd, popupPaddingBottom)
     }
 
     val background = popup.background
@@ -279,7 +269,7 @@ internal class MaterialRecyclerViewPopupWindow(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     popup.contentView.outlineProvider = object : ViewOutlineProvider() {
       override fun getOutline(view: View, outline: Outline) {
-        outline.setRoundRect(0, 0, view.width, view.height, cornerRadius.toFloat())
+        outline.setRoundRect(0, 0, view.width, view.height, appearance.cornerRadius)
       }
     }
 
@@ -298,7 +288,7 @@ internal class MaterialRecyclerViewPopupWindow(
       padding = 0
     }
 
-    if ((dropDownGravity and Gravity.BOTTOM) == Gravity.BOTTOM) {
+    if ((appearance.popMenuGravity and Gravity.BOTTOM) == Gravity.BOTTOM) {
       dropDownVerticalOffset += anchorView!!.height
     }
 

@@ -8,61 +8,11 @@
 
 import UIKit
 
-/// Customize your own action and conform to `PopMenuAction` protocol.
-@objc public protocol PopMenuAction: NSObjectProtocol {
-    
-    /// Title of the action.
-    var title: String? { get }
-    
-    /// Image of the action.
-    var image: UIImage? { get }
-    
-    /// Container view of the action.
-    var view: UIView { get }
-    
-    /// The initial color of the action.
-    var color: Color? { get }
-    
-    /// The handler of action.
-    var didSelect: PopMenuActionHandler? { get }
-    
-    /// Left padding when texts-only.
-    static var textLeftPadding: CGFloat { get }
-    
-    /// Icon left padding when icons are present.
-    static var iconLeftPadding: CGFloat { get }
-    
-    /// Icon sizing.
-    var iconWidthHeight: CGFloat { get set }
-    
-    /// The color to set for both label and icon.
-    var tintColor: UIColor { get set }
-    
-    /// The font for label.
-    var font: UIFont { get set }
-    
-    /// The font for label.
-    var rightIcon: Bool { get set }
-    
-    /// The corner radius of action view.
-    var cornerRadius: CGFloat { get set }
-    
-    /// Is the view highlighted by gesture.
-    var highlighted: Bool { get set }
-    
-    /// Render the view for action.
-    func renderActionView()
-
-    /// Called when the action gets selected.
-    @objc optional func actionSelected(animated: Bool)
- 
-    /// Type alias for selection handler.
-    typealias PopMenuActionHandler = (PopMenuAction) -> Void
-    
-}
+/// Type alias for selection handler.
+public typealias PopMenuActionHandler = (PopMenuAction) -> Void
 
 /// The default PopMenu action class.
-public class PopMenuDefaultAction: NSObject, PopMenuAction {
+public class PopMenuAction: NSObject {
     
     /// Title of action.
     public let title: String?
@@ -82,10 +32,9 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     /// Handler of action when selected.
     public let didSelect: PopMenuActionHandler?
     
-    /// Icon sizing.
-    public var iconWidthHeight: CGFloat = 24
-    
     public var rightIcon: Bool = false
+    
+    public var separator: PopMenuActionSeparator
     
     // MARK: - Computed Properties
     
@@ -108,16 +57,6 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
         }
         set {
             titleLabel.font = newValue
-        }
-    }
-    
-    /// Rounded corner radius for action view.
-    public var cornerRadius: CGFloat {
-        get {
-            return view.layer.cornerRadius
-        }
-        set {
-            view.layer.cornerRadius = newValue
         }
     }
     
@@ -154,11 +93,6 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
         return imageView
     }()
     
-    // MARK: - Constants
-    
-    public static let textLeftPadding: CGFloat = 25
-    public static let iconLeftPadding: CGFloat = 18
-    
     // MARK: - Initializer
     
     /// Initializer.
@@ -166,37 +100,39 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
         title: String? = nil,
         image: UIImage? = nil,
         color: Color? = nil,
-        didSelect: PopMenuActionHandler? = nil
+        didSelect: PopMenuActionHandler? = nil,
+        separator: PopMenuActionSeparator = .none()
     ) {
         self.title = title
         self.image = image
         self.color = color
         self.didSelect = didSelect
+        self.separator = separator
         
         view = UIView()
     }
     
     /// Setup necessary views.
-    fileprivate func configureViews() {
+    fileprivate func configureViews(_ appearance: PopMenuAppearance) {
         var hasImage = false
         if let _ = image {
             hasImage = true
             view.addSubview(iconImageView)
             
             NSLayoutConstraint.activate([
-                iconImageView.widthAnchor.constraint(equalToConstant: iconWidthHeight),
+                iconImageView.widthAnchor.constraint(equalToConstant: appearance.popMenuActionIconSize),
                 iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor),
                 iconImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
             if rightIcon {
                 iconImageView.trailingAnchor.constraint(
                     equalTo: view.trailingAnchor,
-                    constant: -PopMenuDefaultAction.iconLeftPadding
+                    constant: -appearance.popMenuActionPaddingHorizontal
                 ).isActive = true
             } else {
                 iconImageView.leadingAnchor.constraint(
                     equalTo: view.leadingAnchor,
-                    constant: PopMenuDefaultAction.iconLeftPadding
+                    constant: appearance.popMenuActionPaddingHorizontal
                 ).isActive = true
             }
         }
@@ -207,33 +143,32 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
         if rightIcon {
             titleLabel.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
-                constant: PopMenuDefaultAction.iconLeftPadding
+                constant: appearance.popMenuActionPaddingHorizontal
             ).isActive = true
             
             titleLabel.trailingAnchor.constraint(
                 equalTo: hasImage ? iconImageView.leadingAnchor : view.trailingAnchor,
-                constant: hasImage ? -8 : -PopMenuDefaultAction.textLeftPadding
+                constant: hasImage ? -8 : -appearance.popMenuActionPaddingHorizontal
             ).isActive = true
         }
         
         if !rightIcon {
             titleLabel.leadingAnchor.constraint(
                 equalTo: hasImage ? iconImageView.trailingAnchor : view.leadingAnchor,
-                constant: hasImage ? 8 : PopMenuDefaultAction.textLeftPadding
+                constant: hasImage ? 8 : appearance.popMenuActionPaddingHorizontal
             ).isActive = true
             titleLabel.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
-                constant: -PopMenuDefaultAction.textLeftPadding
+                constant: -appearance.popMenuActionPaddingHorizontal
             ).isActive = true
         }
     }
 
     /// Load and configure the action view.
-    public func renderActionView() {
-        view.layer.cornerRadius = 14
+    public func renderActionView(_ appearance: PopMenuAppearance) {
         view.layer.masksToBounds = true
         
-        configureViews()
+        configureViews(appearance)
     }
     
     /// Highlight the view when panned on top,

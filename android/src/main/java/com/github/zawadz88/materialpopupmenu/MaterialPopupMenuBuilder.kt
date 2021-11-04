@@ -1,5 +1,6 @@
 package com.github.zawadz88.materialpopupmenu
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -32,14 +33,6 @@ class MaterialPopupMenuBuilder {
    * are also declared in your style.
    */
   var style: Int = 0
-
-  /**
-   * Gravity of the dropdown list. This is commonly used to
-   * set gravity to START or END for alignment with the anchor.
-   * Setting [Gravity.BOTTOM] will anchor the dropdown list below the view.
-   */
-  var dropdownGravity: Int = Gravity.NO_GRAVITY
-  var cornerRadius: Int = 0
 
   /**
    * Setting this to a non-zero value will force the width of the popup menu to be exactly this value.
@@ -85,8 +78,6 @@ class MaterialPopupMenuBuilder {
 
     return MaterialPopupMenu(
       style = style,
-      dropdownGravity = dropdownGravity,
-      cornerRadius = cornerRadius,
       sections = sections,
       fixedContentWidthInPx = fixedContentWidthInPx,
       dropDownVerticalOffset = dropDownVerticalOffset,
@@ -158,18 +149,6 @@ class MaterialPopupMenuBuilder {
     var label: CharSequence? = null
 
     /**
-     * Item label.
-     *
-     * This must be a valid string resource ID if set.
-     * This is a required field and must not be *0*, unless you specify a label
-     * using [label].
-     *
-     * If both [label] and [labelRes] are set [label] will be used.
-     */
-    @StringRes
-    var labelRes: Int = 0
-
-    /**
      * Optional text color of the label. If not set or 0 the default color will be used.
      */
     @ColorInt
@@ -212,15 +191,18 @@ class MaterialPopupMenuBuilder {
      */
     var hasNestedItems: Boolean = false
 
+    var showSeparator: Boolean = false
+    var separatorHeight: Int = 1
+    var separatorColor = Color.BLACK
+
     override fun toString(): String {
-      return "ItemHolder(label=$label, labelRes=$labelRes, labelColor=$labelColor, iconDrawable=$iconDrawable, rightIconDrawable=$rightIconDrawable, iconColor=$iconColor, hasNestedItems=$hasNestedItems, viewBoundCallback=$viewBoundCallback, callback=$callback, dismissOnSelect=$dismissOnSelect)"
+      return "ItemHolder(label=$label, labelColor=$labelColor, iconDrawable=$iconDrawable, rightIconDrawable=$rightIconDrawable, iconColor=$iconColor, hasNestedItems=$hasNestedItems, viewBoundCallback=$viewBoundCallback, callback=$callback, dismissOnSelect=$dismissOnSelect)"
     }
 
     override fun convertToPopupMenuItem(): MaterialPopupMenu.PopupMenuItem {
-      require(label != null || labelRes != 0) { "Item '$this' does not have a label" }
+      require(label != null) { "Item '$this' does not have a label" }
       return MaterialPopupMenu.PopupMenuItem(
         label = label,
-        labelRes = labelRes,
         labelColor = labelColor,
         iconDrawable = iconDrawable,
         rightIconDrawable = rightIconDrawable,
@@ -228,7 +210,10 @@ class MaterialPopupMenuBuilder {
         hasNestedItems = hasNestedItems,
         viewBoundCallback = resolveViewBoundCallback(),
         callback = callback,
-        dismissOnSelect = dismissOnSelect
+        dismissOnSelect = dismissOnSelect,
+        showSeparator = showSeparator,
+        separatorHeight = separatorHeight,
+        separatorColor = separatorColor
       )
     }
   }
