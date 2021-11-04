@@ -61,6 +61,8 @@ public struct PopMenuAppearance {
     
     /// The presentation style
     public var popMenuPresentationStyle: PopMenuPresentationStyle
+
+    public var separator: PopMenuActionSeparator
     
     public init(
         popMenuColor: PopMenuColor = .default(),
@@ -76,7 +78,8 @@ public struct PopMenuAppearance {
         popMenuScrollIndicatorStyle: UIScrollView.IndicatorStyle = .white,
         popMenuScrollIndicatorHidden: Bool = false,
         popMenuStatusBarStyle: UIStatusBarStyle? = nil,
-        popMenuPresentationStyle: PopMenuPresentationStyle = .cover()
+        popMenuPresentationStyle: PopMenuPresentationStyle = .cover(),
+        separator: PopMenuActionSeparator = .fill(.lightGray, height: 0.5)
     ) {
         self.popMenuColor = popMenuColor
         self.popMenuBackgroundStyle = popMenuBackgroundStyle
@@ -92,6 +95,7 @@ public struct PopMenuAppearance {
         self.popMenuScrollIndicatorHidden = popMenuScrollIndicatorHidden
         self.popMenuStatusBarStyle = popMenuStatusBarStyle
         self.popMenuPresentationStyle = popMenuPresentationStyle
+        self.separator = separator
     }
 }
 

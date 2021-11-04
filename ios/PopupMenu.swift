@@ -18,6 +18,20 @@ class PopupMenu: NSObject {
                 .solid(fill: isDark ? .black : .white)
         }
         
+        if let height = options["separatorHeight"] as? Double {
+            PopMenuManager.default.popMenuAppearance.separator =
+                .fill(PopMenuManager.default.popMenuAppearance.separator.color,
+                      height: height
+                )
+        }
+        
+        if options["separatorColor"] != nil {
+            PopMenuManager.default.popMenuAppearance.separator =
+                .fill(RCTConvert.uiColor(options["separatorColor"]),
+                      height: PopMenuManager.default.popMenuAppearance.separator.height
+                )
+        }
+        
     }
     
     private func configure(_ options: NSDictionary) {
@@ -46,6 +60,13 @@ class PopupMenu: NSObject {
         
         if let height = options["itemHeight"] as? Double {
             manager.popMenuAppearance.popMenuActionHeight = height
+        }
+        
+        if let family = options["itemFontFamily"] as? String {
+            manager.popMenuAppearance.popMenuFont = UIFont(
+                name: family,
+                size: manager.popMenuAppearance.popMenuFont.pointSize
+            )!
         }
         
         if let size = options["itemFontSize"] as? Double {
@@ -145,8 +166,12 @@ func separator(value: [String: Any]) -> PopMenuActionSeparator {
     if (value["showSeparator"] as? Bool) != true {
         return .none()
     }
-    let color = RCTConvert.uiColor(value["separatorColor"] as? NSNumber)
-    let height = (value["separatorHeight"] as? Double) ?? 1
+    var color = PopMenuManager.default.popMenuAppearance.separator.color
+    if value["separatorColor"] != nil {
+        color = RCTConvert.uiColor(value["separatorColor"] as? NSNumber)
+    }
+
+    let height = (value["separatorHeight"] as? Double) ?? PopMenuManager.default.popMenuAppearance.separator.height
     return .fill(color, height: height)
 }
 
