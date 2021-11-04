@@ -162,13 +162,13 @@ internal class PopupMenuAdapter(
       }
       nestedIcon.visibility = if (castedPopupMenuItem.hasNestedItems) View.VISIBLE else View.GONE
 
-      if (castedPopupMenuItem.showSeparator) {
-        separator.visibility = View.VISIBLE
-        separator.setBackgroundColor(castedPopupMenuItem.separatorColor)
-        separator.layoutParams.height = castedPopupMenuItem.separatorHeight
-      } else {
-        separator.visibility = View.GONE
-      }
+//      if (castedPopupMenuItem.showSeparator) {
+//        separator.visibility = View.VISIBLE
+//        separator.setBackgroundColor(castedPopupMenuItem.separatorColor)
+//        separator.layoutParams.height = castedPopupMenuItem.separatorHeight
+//      } else {
+//      }
+      separator.visibility = View.GONE
 
       super.bindItem(popupMenuItem)
     }
