@@ -60,6 +60,9 @@ export function configurePopup(params: PopupMenuConfigure) {
     backgroundColor: params.backgroundColor
       ? processColor(params.backgroundColor)
       : undefined,
+    separatorColor: params.separatorColor
+      ? processColor(params.separatorColor)
+      : undefined,
   });
 }
 
