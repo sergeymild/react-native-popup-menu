@@ -11,11 +11,11 @@ import UIKit
 extension UIView {
     
     /// Quick configuration to give the view shadows.
-    public func addShadow(offset: CGSize = .zero, opacity: Float = 0.65, radius: CGFloat = 20, color: UIColor = .black) {
-        layer.shadowOffset = offset
-        layer.shadowOpacity = opacity
-        layer.shadowRadius = radius
-        layer.shadowColor = color.cgColor
+    public func addShadow(shadow: Shadow) {
+        layer.shadowOffset = shadow.offset
+        layer.shadowOpacity = shadow.opacity
+        layer.shadowRadius = shadow.radius
+        layer.shadowColor = shadow.color.cgColor
         layer.masksToBounds = false
     }
     

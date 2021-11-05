@@ -27,17 +27,6 @@ final public class PopMenuViewController: UIViewController {
     /// Background overlay that covers the whole screen.
     public let backgroundView = UIView()
     
-    /// The blur overlay view for translucent illusion.
-    private lazy var blurOverlayView: UIVisualEffectView = {
-        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        blurView.layer.cornerRadius = appearance.popMenuCornerRadius
-        blurView.layer.masksToBounds = true
-        blurView.isUserInteractionEnabled = false
-        
-        return blurView
-    }()
-    
     /// Main root view that has shadows.
     public let containerView = UIView()
     
@@ -190,22 +179,6 @@ final public class PopMenuViewController: UIViewController {
             return statusBarStyle
         }
         
-        // Contrast of blur style
-        let backgroundStyle = appearance.popMenuBackgroundStyle
-        if let blurStyle = backgroundStyle.blurStyle {
-            switch blurStyle {
-            case .dark:
-                return .lightContent
-            default:
-                return .default
-            }
-        }
-        
-        // Contrast of dimmed color
-        if let dimColor = backgroundStyle.dimColor {
-            return dimColor.blackOrWhiteContrastingColor() == .white ? .lightContent : .default
-        }
-        
         return .lightContent
     }
     
@@ -238,35 +211,13 @@ extension PopMenuViewController {
         backgroundView.addGestureRecognizer(tapGestureForDismissal)
         backgroundView.isUserInteractionEnabled = true
         
-        let backgroundStyle = appearance.popMenuBackgroundStyle
-        
-        // Blurred background
-        if let isBlurred = backgroundStyle.isBlurred,
-            isBlurred,
-            let blurStyle = backgroundStyle.blurStyle {
-            
-            let blurView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
-            blurView.frame = backgroundView.frame
-            
-            backgroundView.addSubview(blurView)
-        }
-        
-        // Dimmed background
-        if let isDimmed = backgroundStyle.isDimmed,
-            isDimmed,
-            let color = backgroundStyle.dimColor,
-            let opacity = backgroundStyle.dimOpacity {
-            
-            backgroundView.backgroundColor = color.withAlphaComponent(opacity)
-        }
-        
         view.insertSubview(backgroundView, at: 0)
     }
     
     /// Setup the content view.
     fileprivate func configureContentView() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addShadow(offset: .init(width: 0, height: 1), opacity: 0.2, radius: 10)
+        containerView.addShadow(shadow: appearance.shadow)
         containerView.layer.cornerRadius = appearance.popMenuCornerRadius
         containerView.backgroundColor = .clear
         
@@ -293,7 +244,6 @@ extension PopMenuViewController {
             }
         }
 
-        containerView.addSubview(blurOverlayView)
         containerView.addSubview(contentView)
         
         setupContentConstraints()
@@ -319,13 +269,6 @@ extension PopMenuViewController {
             contentView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
             contentView.topAnchor.constraint(equalTo: containerView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
-        // Activate blur overlay constraints
-        NSLayoutConstraint.activate([
-            blurOverlayView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-            blurOverlayView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
-            blurOverlayView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            blurOverlayView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
     

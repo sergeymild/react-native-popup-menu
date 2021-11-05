@@ -13,10 +13,18 @@ import { configurePopup, showPopup } from 'react-native-popup-menu';
 import { useRef } from 'react';
 
 configurePopup({
-  backgroundColor: 'red',
-  itemFontSize: 10,
+  itemFontSize: 17,
   cornerRadius: 20,
-  itemPaddingHorizontal: 40,
+  itemPaddingHorizontal: 16,
+  backgroundColor: 'white',
+  separatorColor: '#F4F4F4',
+  separatorHeight: StyleSheet.hairlineWidth,
+  shadow: {
+    color: 'rgba(0, 0, 0, 0.16)',
+    offset: { width: 0, height: 16 },
+    opacity: 0.5,
+    radius: 30,
+  },
 });
 
 export default function App() {
@@ -25,7 +33,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ flex: 1, backgroundColor: 'yellow' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
         <TouchableOpacity
           ref={ref}
           style={{
@@ -41,28 +49,17 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 nativeID: 'oneNative',
-                itemPaddingHorizontal: 4,
-                backgroundColor: 'white',
-                gravity: 'top',
-                itemFontSize: 17,
+                frame: { x, y, width, height },
                 buttons: [
                   {
                     text: 'SHARE',
                     data: 'SHARE',
                     icon: require('./assets/icShare.png'),
-                    showSeparator: true,
-                    separatorHeight: 3,
-                    separatorColor: 'yellow',
-                    tint: 'red',
                   },
                   {
                     text: 'VIEW_PAGE_PREVIEW ',
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
                     //icon: require('./assets/icViews.png'),
-                    showSeparator: true,
-                    separatorHeight: 10,
-                    separatorColor: 'red',
-                    tint: 'yellow',
                   },
                   {
                     text: 'SETTINGS',

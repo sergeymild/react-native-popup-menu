@@ -46,7 +46,7 @@ public class PopMenuAction: NSObject {
         set {
             titleLabel.textColor = newValue
             iconImageView.tintColor = newValue
-            backgroundColor = newValue.blackOrWhiteContrastingColor()
+            //backgroundColor = newValue.blackOrWhiteContrastingColor()
         }
     }
     
@@ -64,8 +64,6 @@ public class PopMenuAction: NSObject {
     public var highlighted: Bool = false {
         didSet {
             guard highlighted != oldValue else { return }
-            
-            highlightActionView(highlighted)
         }
     }
     
@@ -171,36 +169,11 @@ public class PopMenuAction: NSObject {
         configureViews(appearance)
     }
     
-    /// Highlight the view when panned on top,
-    /// unhighlight the view when pan gesture left.
-    public func highlightActionView(_ highlight: Bool) {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.26, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 9, options: self.highlighted ? UIView.AnimationOptions.curveEaseIn : UIView.AnimationOptions.curveEaseOut, animations: {
-                self.view.transform = self.highlighted ? CGAffineTransform.identity.scaledBy(x: 1.09, y: 1.09) : .identity
-                self.view.backgroundColor = self.highlighted ? self.backgroundColor.withAlphaComponent(0.25) : .clear
-            }, completion: nil)
-        }
-    }
     
     /// When the action is selected.
     public func actionSelected(animated: Bool) {
         // Trigger handler.
         didSelect?(self)
-        
-        // Animate selection
-        guard animated else { return }
-        
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.175, animations: {
-                self.view.transform = CGAffineTransform.identity.scaledBy(x: 0.915, y: 0.915)
-                self.view.backgroundColor = self.backgroundColor.withAlphaComponent(0.18)
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.175, animations: {
-                    self.view.transform = .identity
-                    self.view.backgroundColor = .clear
-                })
-            })
-        }
     }
     
 }

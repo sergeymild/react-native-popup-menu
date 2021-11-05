@@ -36,6 +36,14 @@ export interface PopupMenuConfigure {
   readonly separatorHeight?: number;
   readonly separatorColor?: string;
   readonly tint?: string;
+
+  readonly shadow?: {
+    offset: { width: number; height: number };
+    color: string;
+    radius: number;
+    opacity: number;
+  };
+  elevation?: number;
 }
 
 export interface PopupMenuButton {
@@ -48,7 +56,8 @@ export interface PopupMenuButton {
   readonly separatorColor?: string;
 }
 
-interface PopupMenuProperties extends PopupMenuConfigure {
+interface PopupMenuProperties
+  extends Omit<PopupMenuConfigure, 'shadow' | 'elevation'> {
   readonly buttons: PopupMenuButton[];
   readonly nativeID?: string;
   readonly frame?: { x: number; y: number; width: number; height: number };
@@ -64,6 +73,12 @@ export function configurePopup(params: PopupMenuConfigure) {
       ? processColor(params.separatorColor)
       : undefined,
     tint: params.tint ? processColor(params.tint) : undefined,
+    shadow: !params.shadow
+      ? undefined
+      : {
+          ...params.shadow,
+          color: processColor(params.shadow.color),
+        },
   });
 }
 

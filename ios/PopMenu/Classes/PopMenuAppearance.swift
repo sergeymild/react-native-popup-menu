@@ -19,19 +19,33 @@ public enum VerticalGravity {
     case top(CGFloat)
 }
 
+
+public struct Shadow {
+    public init(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float) {
+        self.offset = offset
+        self.color = color
+        self.radius = radius
+        self.opacity = opacity
+    }
+    
+    let offset: CGSize
+    let color: UIColor
+    let radius: CGFloat
+    let opacity: Float
+}
+
 /// Appearance for PopMenu.
 /// Use for configuring custom styles and looks.
 public struct PopMenuAppearance {
     /// Background and tint colors.
     public var popMenuColor: PopMenuColor
     
-    /// Background style.
-    public var popMenuBackgroundStyle: PopMenuBackgroundStyle
-    
     /// The font for labels.
     public var popMenuFont: UIFont
     
     public var rightIcon: Bool
+    
+    public var shadow: Shadow
     
     /// Corner radius for rounded corners.
     public var popMenuCornerRadius: CGFloat
@@ -66,7 +80,6 @@ public struct PopMenuAppearance {
     
     public init(
         popMenuColor: PopMenuColor = .default(),
-        popMenuBackgroundStyle: PopMenuBackgroundStyle = .dimmed(color: .black, opacity: 0.4),
         popMenuFont: UIFont = UIFont.systemFont(ofSize: 16, weight: .semibold),
         rightIcon: Bool = false,
         popMenuCornerRadius: CGFloat = 24,
@@ -79,10 +92,10 @@ public struct PopMenuAppearance {
         popMenuScrollIndicatorHidden: Bool = false,
         popMenuStatusBarStyle: UIStatusBarStyle? = nil,
         popMenuPresentationStyle: PopMenuPresentationStyle = .cover(),
-        separator: PopMenuActionSeparator = .fill(.lightGray, height: 0.5)
+        separator: PopMenuActionSeparator = .fill(.lightGray, height: 0.5),
+        shadow: Shadow = Shadow(offset: .init(width: 0, height: 1), color: UIColor.black.withAlphaComponent(0.4), radius: 20, opacity: 0.5)
     ) {
         self.popMenuColor = popMenuColor
-        self.popMenuBackgroundStyle = popMenuBackgroundStyle
         self.popMenuFont = popMenuFont
         self.rightIcon = rightIcon
         self.popMenuCornerRadius = popMenuCornerRadius
@@ -96,48 +109,8 @@ public struct PopMenuAppearance {
         self.popMenuStatusBarStyle = popMenuStatusBarStyle
         self.popMenuPresentationStyle = popMenuPresentationStyle
         self.separator = separator
+        self.shadow = shadow
     }
-}
-
-/// Background styles for PopMenu.
-public struct PopMenuBackgroundStyle {
-    
-    // MARK: - Dimmed Style
-    
-    /// Determines is the style in dimmed mode.
-    public let isDimmed: Bool?
-    
-    /// If dimmed, store the dim color.
-    public let dimColor: Color?
-    
-    /// If dimmed, store the dim opacity.
-    public let dimOpacity: CGFloat?
-    
-    // MARK: - Blur Style
-    
-    /// Determines is the style in blur mode.
-    public let isBlurred: Bool?
-    
-    /// If blurred, store the blur style.
-    public let blurStyle: UIBlurEffect.Style?
-    
-    // MARK: - Initializers
-    
-    /// Quick setter for dimmed mode.
-    public static func dimmed(color: Color, opacity: CGFloat) -> PopMenuBackgroundStyle {
-        return PopMenuBackgroundStyle(isDimmed: true, dimColor: color, dimOpacity: opacity, isBlurred: nil, blurStyle: nil)
-    }
-    
-    /// Quick setter for blurred mode.
-    public static func blurred(_ style: UIBlurEffect.Style) -> PopMenuBackgroundStyle{
-        return PopMenuBackgroundStyle(isDimmed: nil, dimColor: nil, dimOpacity: nil, isBlurred: true, blurStyle: style)
-    }
-    
-    /// No background style.
-    public static func none() -> PopMenuBackgroundStyle{
-        return PopMenuBackgroundStyle(isDimmed: nil, dimColor: nil, dimOpacity: nil, isBlurred: nil, blurStyle: nil)
-    }
-    
 }
 
 /// Color structure for PopMenu color styles.

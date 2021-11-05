@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.reactnativepopupmenu.R
 import java.lang.reflect.Method
 import android.graphics.Outline
+import android.os.Handler
 import androidx.annotation.RequiresApi
+import com.facebook.react.uimanager.PixelUtil
 import com.github.zawadz88.materialpopupmenu.appearance
 
 
@@ -183,8 +185,10 @@ internal class MaterialRecyclerViewPopupWindow(
       popup.isOutsideTouchable = true
 
       popup.update(
-        anchorView, dropDownHorizontalOffset,
-        dropDownVerticalOffset, widthSpec,
+        anchorView,
+        dropDownHorizontalOffset,
+        dropDownVerticalOffset,
+        widthSpec,
         if (height < 0) -1 else height
       )
     } else if (location == null) {

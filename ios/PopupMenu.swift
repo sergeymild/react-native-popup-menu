@@ -24,6 +24,17 @@ class PopupMenu: NSObject {
                 .tint(RCTConvert.uiColor(options["tint"]))
         }
         
+        if options["shadow"] != nil {
+            let shadow = options["shadow"] as! [String: Any]
+            
+            PopMenuManager.default.popMenuAppearance.shadow = .init(
+                offset: RCTConvert.cgSize(shadow["offset"]),
+                color: RCTConvert.uiColor(shadow["color"]),
+                radius: RCTConvert.cgFloat(shadow["radius"]),
+                opacity: RCTConvert.float(shadow["opacity"])
+            )
+        }
+        
     }
     
     private func configure(_ options: NSDictionary) {
@@ -68,8 +79,6 @@ class PopupMenu: NSObject {
             manager.popMenuAppearance.popMenuColor.backgroundColor =
                 .solid(fill: RCTConvert.uiColor(options["backgroundColor"]))
         }
-        
-        manager.popMenuAppearance.popMenuBackgroundStyle = .none()
         manager.popMenuAppearance.popMenuGravityBottom = gravity ? .top(0) : .bottom(0)
     }
     
