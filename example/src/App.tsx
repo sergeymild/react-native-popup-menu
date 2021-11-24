@@ -1,16 +1,15 @@
 import * as React from 'react';
+import { useRef } from 'react';
 
 import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StatusBar,
   Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { configurePopup, showPopup } from 'react-native-popup-menu';
-import { useRef } from 'react';
 
 configurePopup({
   itemFontSize: 17,
@@ -48,7 +47,6 @@ export default function App() {
           onPress={() => {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
-                nativeID: 'oneNative',
                 frame: { x, y, width, height },
                 buttons: [
                   {
