@@ -228,12 +228,7 @@ internal class MaterialRecyclerViewPopupWindow(
                 val contentHeight = popup.contentView.measuredHeight
                 val left = max(dp16, min(location.left, screenWidth - contentWidth - dp16))
                 val top = max(dp16, min(location.top, screenHeight - contentHeight - dp16))
-                popup.showAtLocation(
-                    anchorView,
-                    Gravity.TOP or Gravity.START,
-                    left,
-                    top
-                )
+                popup.showAtLocation(anchorView, appearance.popMenuGravity, left, top)
             }
         }
 
