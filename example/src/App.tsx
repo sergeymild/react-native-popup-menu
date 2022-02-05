@@ -9,15 +9,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { configurePopup, showPopup } from 'react-native-popup-menu';
+import {
+  configurePopup,
+  PopupHostView,
+  showPopup,
+} from 'react-native-popup-menu';
 
 configurePopup({
-  itemFontSize: 17,
   cornerRadius: 20,
-  itemPaddingHorizontal: 16,
   backgroundColor: 'white',
-  separatorColor: '#F4F4F4',
-  separatorHeight: StyleSheet.hairlineWidth,
+  isIconsFromRight: false,
+  item: {
+    fontSize: 17,
+    paddingHorizontal: 16,
+    separatorColor: '#F4F4F4',
+    separatorHeight: StyleSheet.hairlineWidth,
+  },
   shadow: {
     color: 'rgba(0, 0, 0, 0.16)',
     offset: { width: 0, height: 16 },
@@ -48,21 +55,24 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 frame: { x, y, width, height },
+                gravity: 'bottom',
                 buttons: [
                   {
                     text: 'SHARE',
                     data: 'SHARE',
-                    icon: require('./assets/icShare.png'),
+                    // icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'VIEW_PAGE_PREVIEW ',
-                    data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
-                    //icon: require('./assets/icViews.png'),
+                    text: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
+                    data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
+                    separatorHeight: 19,
+                    separatorColor: 'red',
+                    // icon: require('./assets/icViews.png'),
                   },
                   {
                     text: 'SETTINGS',
                     data: 'SETTINGS',
-                    icon: require('./assets/icSettings.png'),
+                    // icon: require('./assets/icSettings.png'),
                   },
                 ],
               });
@@ -72,7 +82,7 @@ export default function App() {
         >
           <Text nativeID={'oneNative'}>One</Text>
         </TouchableOpacity>
-        <View style={{ height: 350 }} />
+        <View style={{ height: 550 }} />
         <TouchableOpacity
           ref={ref2}
           style={{
@@ -88,6 +98,7 @@ export default function App() {
               const selected = await showPopup({
                 isIconsFromRight: true,
                 cornerRadius: 10,
+                gravity: 'top',
                 frame: { x, y, width, height },
                 // nativeID: 'twoNative',
                 buttons: [
@@ -97,19 +108,21 @@ export default function App() {
                     icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'Second',
+                    text: 'SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond',
                     data: '2',
                     icon: require('./assets/icUnsave.png'),
                   },
                 ],
               });
-              console.log(selected);
+              console.log('[App.selected]', selected);
             });
           }}
         >
           <Text nativeID={'twoNative'}>two</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <PopupHostView />
     </View>
   );
 }
