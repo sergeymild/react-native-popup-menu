@@ -19,6 +19,7 @@ configurePopup({
   cornerRadius: 20,
   backgroundColor: 'white',
   isIconsFromRight: false,
+  minWidth: 250,
   item: {
     fontSize: 17,
     paddingHorizontal: 16,
@@ -63,7 +64,7 @@ export default function App() {
                     // icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
+                    text: 'М',
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
                     separatorHeight: 19,
                     separatorColor: 'red',

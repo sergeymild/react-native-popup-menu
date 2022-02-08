@@ -6,6 +6,7 @@ export interface PopupMenuConfigure {
   readonly cornerRadius?: number;
   readonly gravity?: 'top' | 'bottom';
   readonly overlayColor?: string;
+  readonly minWidth?: number
 
   readonly item?: {
     readonly fontFamily?: string;

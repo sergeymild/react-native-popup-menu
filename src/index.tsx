@@ -37,29 +37,24 @@ export const PopupHostView: React.FC = () => {
   useEffect(() => {
     listener = setParams;
     return () => {
-      console.log('[Index.destroy]');
       listener = undefined;
     };
   }, []);
 
   const onShow = () => {
-    console.log('[Index.onShow]');
   };
 
   const onDismiss = () => {
-    console.log('[Index.onDismiss]');
     setPopupFrame(undefined);
   };
 
   const onOverlayPress = () => {
-    console.log('[Index.onOverlayPress]');
     params?.resolve(undefined);
     setParams(undefined);
   };
 
   const onItemPress = useCallback(
     (index: number) => {
-      console.log('[Index.]', index);
       params?.resolve(index);
       setParams(undefined);
     },
@@ -76,19 +71,19 @@ export const PopupHostView: React.FC = () => {
     let newFrame: PopupFrame = {
       x: params.frame.x,
       y: params.frame.y + additionalY + (additionalY > 0 ? 8 : 0),
-      width: undefined,
+      width: Math.max(params.minWidth ?? 1, layout.width),
     };
 
     // calculate max width
     console.log('[Index.onLayout.w]', layout.width, width - 32);
-    newFrame.width = layout.width;
-    if (layout.width > width - 32) {
+    newFrame.width = Math.max(params.minWidth ?? 1, layout.width);
+    if (newFrame.width > width - 32) {
       newFrame.width = width - 32;
     }
 
     // calculate right offset
     if (newFrame.width + layout.x >= width - 16) {
-      newFrame.x = Math.max(16, width - layout.width - 16);
+      newFrame.x = Math.max(16, width - newFrame.width - 16);
     }
 
     // calculate bottom offset
