@@ -65,6 +65,7 @@ export const PopupHostView: React.FC = () => {
     if (!params?.frame) return;
     const layout = e.nativeEvent.layout;
     const { width, height } = Dimensions.get('screen');
+    const maxHeight = (height - (params.safeArea?.bottom ?? 0))
 
     const additionalY =
       params.gravity === 'bottom' ? params.frame.height ?? 0 : 0;
@@ -75,7 +76,6 @@ export const PopupHostView: React.FC = () => {
     };
 
     // calculate max width
-    console.log('[Index.onLayout.w]', layout.width, width - 32);
     newFrame.width = Math.max(params.minWidth ?? 1, layout.width);
     if (newFrame.width > width - 32) {
       newFrame.width = width - 32;
@@ -87,11 +87,10 @@ export const PopupHostView: React.FC = () => {
     }
 
     // calculate bottom offset
-    if (layout.height + layout.y >= height - 16) {
-      newFrame.y = height - layout.height - 16;
+    if (layout.height + newFrame.y >= maxHeight) {
+      newFrame.y = maxHeight - layout.height;
     }
     if (newFrame.x === 0) newFrame.x = 16;
-    console.log('[Index.onLayout]', newFrame);
     setPopupFrame(newFrame);
   };
 
@@ -182,8 +181,6 @@ export function showPopup(
     });
   });
 }
-
-export {PopupMenuButton}
 
 const styles = StyleSheet.create({
   overlay: {
