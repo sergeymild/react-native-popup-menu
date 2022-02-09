@@ -40,6 +40,11 @@ interface PopupMenuConfigure {
     readonly separatorColor?: string;
     readonly tint?: string;
   };
+  
+  readonly safeArea?: {
+    bottom?: number
+    top?: number
+  }
 
   readonly shadow?: {
     offset: { width: number; height: number };
