@@ -182,6 +182,8 @@ export function showPopup(
   });
 }
 
+export {PopupMenuButton}
+
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
