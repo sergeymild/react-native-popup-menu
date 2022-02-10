@@ -51,12 +51,14 @@ export const PopupHostView: React.FC = () => {
   const onOverlayPress = () => {
     params?.resolve(undefined);
     setParams(undefined);
+    setPopupFrame(undefined);
   };
 
   const onItemPress = useCallback(
     (index: number) => {
       params?.resolve(index);
       setParams(undefined);
+      setPopupFrame(undefined);
     },
     [params]
   );
