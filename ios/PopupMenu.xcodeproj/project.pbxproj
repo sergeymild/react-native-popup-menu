@@ -6,20 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		92EB267A272D5E26004078FB /* PopMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB266D272D5E1A004078FB /* PopMenuViewController.swift */; };
-		92EB267B272D5E26004078FB /* PopMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB266C272D5E1A004078FB /* PopMenuAction.swift */; };
-		92EB267C272D5E29004078FB /* PopMenuAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB266F272D5E1A004078FB /* PopMenuAppearance.swift */; };
-		92EB267D272D5E29004078FB /* PopMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2670272D5E1A004078FB /* PopMenuManager.swift */; };
-		92EB267E272D5E2D004078FB /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2675272D5E1A004078FB /* Haptics.swift */; };
-		92EB267F272D5E2D004078FB /* PopMenuGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2673272D5E1A004078FB /* PopMenuGradientView.swift */; };
-		92EB2680272D5E2D004078FB /* UIColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2672272D5E1A004078FB /* UIColor+Contrast.swift */; };
-		92EB2681272D5E2D004078FB /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2674272D5E1A004078FB /* UIView+Shadows.swift */; };
-		92EB2682272D5E30004078FB /* PopMenuPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2677272D5E1A004078FB /* PopMenuPresentAnimationController.swift */; };
-		92EB2683272D5E30004078FB /* PopMenuDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EB2678272D5E1A004078FB /* PopMenuDismissAnimationController.swift */; };
-		F4FF95D7245B92E800C19C63 /* PopupMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* PopupMenu.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		58B511D91A9E6C8500147676 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -34,20 +20,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libPopupMenu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPopupMenu.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		92EB266C272D5E1A004078FB /* PopMenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuAction.swift; sourceTree = "<group>"; };
-		92EB266D272D5E1A004078FB /* PopMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuViewController.swift; sourceTree = "<group>"; };
-		92EB266F272D5E1A004078FB /* PopMenuAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuAppearance.swift; sourceTree = "<group>"; };
-		92EB2670272D5E1A004078FB /* PopMenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuManager.swift; sourceTree = "<group>"; };
-		92EB2672272D5E1A004078FB /* UIColor+Contrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Contrast.swift"; sourceTree = "<group>"; };
-		92EB2673272D5E1A004078FB /* PopMenuGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuGradientView.swift; sourceTree = "<group>"; };
-		92EB2674272D5E1A004078FB /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
-		92EB2675272D5E1A004078FB /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
-		92EB2677272D5E1A004078FB /* PopMenuPresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuPresentAnimationController.swift; sourceTree = "<group>"; };
-		92EB2678272D5E1A004078FB /* PopMenuDismissAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopMenuDismissAnimationController.swift; sourceTree = "<group>"; };
 		92EB2679272D5E1A004078FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* PopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupMenu.m; sourceTree = "<group>"; };
-		F4FF95D5245B92E700C19C63 /* PopupMenu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PopupMenu-Bridging-Header.h"; sourceTree = "<group>"; };
-		F4FF95D6245B92E800C19C63 /* PopupMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,9 +46,6 @@
 			isa = PBXGroup;
 			children = (
 				92EB2669272D5E1A004078FB /* PopMenu */,
-				F4FF95D6245B92E800C19C63 /* PopupMenu.swift */,
-				B3E7B5891CC2AC0600A0062D /* PopupMenu.m */,
-				F4FF95D5245B92E700C19C63 /* PopupMenu-Bridging-Header.h */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,51 +53,9 @@
 		92EB2669272D5E1A004078FB /* PopMenu */ = {
 			isa = PBXGroup;
 			children = (
-				92EB266B272D5E1A004078FB /* View Controller & Views */,
-				92EB266E272D5E1A004078FB /* Classes */,
-				92EB2676272D5E1A004078FB /* Transitions */,
 				92EB2679272D5E1A004078FB /* Info.plist */,
 			);
 			path = PopMenu;
-			sourceTree = "<group>";
-		};
-		92EB266B272D5E1A004078FB /* View Controller & Views */ = {
-			isa = PBXGroup;
-			children = (
-				92EB266C272D5E1A004078FB /* PopMenuAction.swift */,
-				92EB266D272D5E1A004078FB /* PopMenuViewController.swift */,
-			);
-			path = "View Controller & Views";
-			sourceTree = "<group>";
-		};
-		92EB266E272D5E1A004078FB /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				92EB266F272D5E1A004078FB /* PopMenuAppearance.swift */,
-				92EB2670272D5E1A004078FB /* PopMenuManager.swift */,
-				92EB2671272D5E1A004078FB /* Helpers */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		92EB2671272D5E1A004078FB /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				92EB2672272D5E1A004078FB /* UIColor+Contrast.swift */,
-				92EB2673272D5E1A004078FB /* PopMenuGradientView.swift */,
-				92EB2674272D5E1A004078FB /* UIView+Shadows.swift */,
-				92EB2675272D5E1A004078FB /* Haptics.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		92EB2676272D5E1A004078FB /* Transitions */ = {
-			isa = PBXGroup;
-			children = (
-				92EB2677272D5E1A004078FB /* PopMenuPresentAnimationController.swift */,
-				92EB2678272D5E1A004078FB /* PopMenuDismissAnimationController.swift */,
-			);
-			path = Transitions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,17 +115,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92EB2681272D5E2D004078FB /* UIView+Shadows.swift in Sources */,
-				92EB2682272D5E30004078FB /* PopMenuPresentAnimationController.swift in Sources */,
-				92EB267E272D5E2D004078FB /* Haptics.swift in Sources */,
-				92EB267D272D5E29004078FB /* PopMenuManager.swift in Sources */,
-				92EB2683272D5E30004078FB /* PopMenuDismissAnimationController.swift in Sources */,
-				92EB267F272D5E2D004078FB /* PopMenuGradientView.swift in Sources */,
-				F4FF95D7245B92E800C19C63 /* PopupMenu.swift in Sources */,
-				92EB267A272D5E26004078FB /* PopMenuViewController.swift in Sources */,
-				92EB267C272D5E29004078FB /* PopMenuAppearance.swift in Sources */,
-				92EB267B272D5E26004078FB /* PopMenuAction.swift in Sources */,
-				92EB2680272D5E2D004078FB /* UIColor+Contrast.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +227,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = PopupMenu;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "PopupMenu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -329,7 +246,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = PopupMenu;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "PopupMenu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
