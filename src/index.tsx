@@ -11,10 +11,11 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   InternalParams,
-  PopupMenuButton,
   PopupMenuConfigure,
   PopupMenuProperties,
 } from './types';
+// @ts-ignore
+import {PopupMenuButton} from './types'
 import { MenuListItem } from './MenuListItem';
 
 let defaultParams: PopupMenuConfigure = {};
