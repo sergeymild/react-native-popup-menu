@@ -92,6 +92,7 @@ export const PopupHostView: React.FC = () => {
     if (layout.height + newFrame.y >= maxHeight) {
       newFrame.y = maxHeight - layout.height;
     }
+
     if (newFrame.x === 0) newFrame.x = 16;
     setPopupFrame(newFrame);
   };
