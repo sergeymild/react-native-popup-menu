@@ -44,7 +44,6 @@ export interface PopupMenuButton {
 
 export interface PopupMenuProperties
   extends Omit<PopupMenuConfigure, 'shadow' | 'elevation'> {
-  readonly nativeID: string;
   readonly buttons: PopupMenuButton[];
   readonly frame?: { x: number; y: number; width: number; height: number };
 }

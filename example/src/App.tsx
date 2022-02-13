@@ -9,11 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  configurePopup,
-  PopupHostView,
-  showPopup,
-} from 'react-native-popup-menu';
+import { configurePopup, showPopup } from 'react-native-popup-menu';
+import { PopupHostView } from '../../src/index.android';
 
 configurePopup({
   cornerRadius: 20,
@@ -58,7 +55,6 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 frame: { x, y, width, height },
-                nativeID: 'Pressable',
                 gravity: 'bottom',
                 buttons: [
                   {
@@ -104,7 +100,6 @@ export default function App() {
                 cornerRadius: 10,
                 gravity: 'top',
                 frame: { x, y, width, height },
-                // nativeID: 'twoNative',
                 buttons: [
                   {
                     text: 'Firstsadkjk',
