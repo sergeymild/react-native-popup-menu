@@ -1,0 +1,82 @@
+//
+//  ContextMenuTVC.swift
+//  ContextMenuSwift
+//
+//  Created by Umer Jabbar on 13/06/2020.
+//  Copyright © 2020 Umer jabbar. All rights reserved.
+//
+
+import UIKit
+
+open class ContextMenuCell: UITableViewCell {
+    
+    static let identifier = "ContextMenuCell"
+
+    let titleLabel = UILabel()
+    let iconImageView = UIImageView()
+    
+    weak var contextMenu: ContextMenu?
+    weak var tableView: UITableView?
+    var item: ContextMenuItem!
+    var style : ContextMenuConstants? = nil
+    
+    let separatorView = UIView()
+    
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        addSubview(separatorView)
+        addSubview(titleLabel)
+        addSubview(iconImageView)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        separatorView.frame = .init(
+            x: 0,
+            y: item.itemHeight,
+            width: frame.width,
+            height: item.separatorHeight
+        )
+        
+        titleLabel.frame = .init(
+            x: item.horizontalPadding,
+            y: 0,
+            width: frame.width - (item.horizontalPadding * 2) - 16 - item.iconSize,
+            height: frame.height - item.separatorHeight
+        )
+        
+        iconImageView.frame = .init(
+            x: frame.width - item.horizontalPadding - item.iconSize,
+            y: (frame.height - item.iconSize) / 2,
+            width: item.iconSize,
+            height: item.iconSize
+        )
+    }
+
+    override open func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+        self.titleLabel.text = nil
+        self.iconImageView.image = nil
+    }
+    
+    open func setup(isLast: Bool) {
+        separatorView.backgroundColor = isLast ? .clear : item.separatorColor
+        
+        titleLabel.text = item.title
+        titleLabel.textColor = item.tintColor
+        titleLabel.font = item.font
+        
+        
+        iconImageView.image = item.image
+        iconImageView.isHidden = (item.image == nil)
+    }
+    
+}

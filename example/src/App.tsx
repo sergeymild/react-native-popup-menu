@@ -25,6 +25,7 @@ configurePopup({
     paddingHorizontal: 16,
     separatorColor: '#F4F4F4',
     separatorHeight: StyleSheet.hairlineWidth,
+    tint: 'rgba(18, 18, 18, 1)',
   },
   shadow: {
     color: 'rgba(0, 0, 0, 0.16)',
@@ -43,6 +44,7 @@ export default function App() {
       <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
         <TouchableOpacity
           ref={ref}
+          accessibilityLabel={'Pressable'}
           style={{
             height: 56,
             width: 56,
@@ -56,6 +58,7 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 frame: { x, y, width, height },
+                nativeID: 'Pressable',
                 gravity: 'bottom',
                 buttons: [
                   {
