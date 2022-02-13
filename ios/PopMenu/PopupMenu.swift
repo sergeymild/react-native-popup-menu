@@ -149,31 +149,46 @@ class PopupMenu: NSObject {
 //            }
 //
             var frame: CGRect?
-            var sourceView: UIView?
             if options["frame"] != nil {
                 frame = RCTConvert.cgRect(options["frame"])
             }
-            if options["nativeID"] != nil {
-                let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-                guard let rootView = window?.rootViewController?.view else { return }
-                sourceView = rootView.find(options["nativeID"] as! String)
-            }
-            if frame == nil && sourceView == nil {
+
+            if frame == nil {
                 fatalError("Cant present menu bacause frame or nativeID is nil")
             }
             
+            let baseShadow = baseOptions?["shadow"] as? [String: Any]
+            let shadow = Shadow(
+                shadowOffset: RCTConvert.cgSize(baseShadow?["offset"]),
+                shadowOpacity: RCTConvert.cgFloat(baseShadow?["opacity"]),
+                shadowRadius: RCTConvert.cgFloat(baseShadow?["radius"]),
+                shadowColor: RCTConvert.uiColor(baseShadow?["color"]) ?? .clear)
+            
+            let style = Style(backgroundColor: RCTConvert.uiColor(baseOptions?["backgroundColor"]) ?? .white)
+            
             CM.items = items
-            CM.showMenu(viewTargeted: sourceView!, delegate: self)
+            CM.showMenu(frame: frame!, shadow: shadow, style: style)
+            
+            var didSelect = false
+            CM.contextMenuDidDisappear = {
+                if !didSelect { callback(nil) }
+            }
+
+            CM.didItemSelect = { item, index in
+                debugPrint(index)
+                didSelect = true
+                callback([index.row])
+            }
         }
     }
 }
 
 extension PopupMenu : ContextMenuDelegate {
-    func contextMenuDidSelect(_ contextMenu: ContextMenu, cell: ContextMenuCell, targetedView: UIView, didSelect item: ContextMenuItem, forRowAt index: Int) -> Bool {
+    func contextMenuDidSelect(_ contextMenu: ContextMenu, cell: ContextMenuCell, didSelect item: ContextMenuItem, forRowAt index: Int) -> Bool {
         return true
     }
     
-    func contextMenuDidDeselect(_ contextMenu: ContextMenu, cell: ContextMenuCell, targetedView: UIView, didSelect item: ContextMenuItem, forRowAt index: Int) {
+    func contextMenuDidDeselect(_ contextMenu: ContextMenu, cell: ContextMenuCell, didSelect item: ContextMenuItem, forRowAt index: Int) {
         
     }
     
