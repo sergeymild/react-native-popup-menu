@@ -76,7 +76,7 @@ open class ContextMenuCell: UITableViewCell {
         titleLabel.font = item.font
         
         
-        iconImageView.image = item.image
+        iconImageView.image = item.image?.withRenderingMode(.alwaysTemplate)
         iconImageView.isHidden = (item.image == nil)
         iconImageView.tintColor = item.tintColor
     }
