@@ -64,8 +64,8 @@ export default function App() {
                   {
                     text: 'М',
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
-                    // separatorHeight: 19,
-                    // separatorColor: 'red',
+                    separatorHeight: 19,
+                    separatorColor: 'red',
                     // showSeparator: true,
                     // icon: require('./assets/icViews.png'),
                   },
