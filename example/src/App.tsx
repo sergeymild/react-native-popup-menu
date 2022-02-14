@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import { configurePopup, showPopup } from 'react-native-popup-menu';
-import { PopupHostView } from '../../src/index.android';
 
 configurePopup({
   cornerRadius: 20,
@@ -20,8 +19,8 @@ configurePopup({
   item: {
     fontSize: 17,
     paddingHorizontal: 16,
-    separatorColor: '#F4F4F4',
-    separatorHeight: StyleSheet.hairlineWidth,
+    // separatorColor: '#F4F4F4',
+    //separatorHeight: StyleSheet.hairlineWidth,
     tint: 'rgba(18, 18, 18, 1)',
   },
   shadow: {
@@ -46,7 +45,7 @@ export default function App() {
             height: 56,
             width: 56,
             marginTop: 100,
-            marginStart: Dimensions.get('window').width - 56,
+            marginStart: Dimensions.get('window').width - 156,
             backgroundColor: 'red',
             alignItems: 'center',
             justifyContent: 'center',
@@ -65,8 +64,9 @@ export default function App() {
                   {
                     text: 'М',
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
-                    separatorHeight: 19,
-                    separatorColor: 'red',
+                    // separatorHeight: 19,
+                    // separatorColor: 'red',
+                    // showSeparator: true,
                     // icon: require('./assets/icViews.png'),
                   },
                   {
@@ -120,8 +120,6 @@ export default function App() {
           <Text nativeID={'twoNative'}>two</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      <PopupHostView />
     </View>
   );
 }
