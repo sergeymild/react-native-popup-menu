@@ -51,7 +51,7 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
 //      }
       fragment.onDismiss = Runnable {
         (context as ReactContext).getJSModule(RCTEventEmitter::class.java)
-          .receiveEvent(id, "onDismiss", Arguments.createMap())
+          .receiveEvent(id, "onSheetDismiss", Arguments.createMap())
       }
       fragment.show(getCurrentActivity().supportFragmentManager, fragmentTag)
     }

@@ -27,7 +27,7 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
     return MapBuilder.builder<String, Any>()
-      .put("onDismiss", MapBuilder.of("registrationName", "onDismiss"))
+      .put("onDismiss", MapBuilder.of("registrationName", "onSheetDismiss"))
       .build()
   }
 

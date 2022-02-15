@@ -6,6 +6,7 @@ export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
 interface Props {
   readonly sheetSize?: number;
   readonly maxWidth?: number;
+  readonly onSheetDismiss?: () => void;
 }
 
 interface State {
@@ -54,6 +55,7 @@ export class FittedSheet extends React.PureComponent<Props, State> {
   private onDismiss = () => {
     console.log('[FitterSheet.onDismiss]');
     this.hide();
+    this.props.onSheetDismiss?.();
   };
 
   render() {

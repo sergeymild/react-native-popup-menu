@@ -65,7 +65,7 @@ class HostFittetSheet: UIView {
     var _isPresented = false
     
     @objc
-    private var onDismiss: RCTBubblingEventBlock? {
+    private var onSheetDismiss: RCTBubblingEventBlock? {
         didSet {
             debugPrint("ds")
         }
@@ -162,7 +162,7 @@ class HostFittetSheet: UIView {
                 self.reactViewController().present(self._modalViewController!, animated: true)
                 
                 self._modalViewController?.didDismiss = { [weak self] _ in
-                    self?.onDismiss?([:])
+                    self?.onSheetDismiss?([:])
                 }
             }
         }
@@ -183,7 +183,7 @@ class HostFittetSheet: UIView {
         _touchHandler = nil
         _bridge = nil
         manager?.sheetView = nil
-        onDismiss = nil
+        onSheetDismiss = nil
         sheetSize = nil
         sheetMaxWidthSize = nil
     }
