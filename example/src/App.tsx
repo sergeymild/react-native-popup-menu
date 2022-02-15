@@ -37,14 +37,15 @@ export const CustomV: React.FC<ViewProps> = (props) => {
       {...props}
       onLayout={(e) => console.log('[App.]', e.nativeEvent.layout)}
     >
-      {/*<ScrollView*/}
-      {/*  style={{ flex: 1, width: '50%', backgroundColor: 'yellow' }}*/}
-      {/*  contentContainerStyle={{ paddingBottom: 20 }}*/}
-      {/*>*/}
-      {/*  <View*/}
-      {/*    style={{ height: 3000, width: '90%', backgroundColor: 'green' }}*/}
-      {/*  />*/}
-      {/*</ScrollView>*/}
+      <ScrollView
+        nestedScrollEnabled
+        style={{ flex: 1, width: '50%', backgroundColor: 'yellow' }}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
+        <View
+          style={{ height: 3000, width: '90%', backgroundColor: 'green' }}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -56,9 +57,9 @@ export default function App() {
   const sheetRef = useRef<FitterSheet>(null);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   sheetRef.current?.setSize(600);
-    // }, 2000);
+    setTimeout(() => {
+      //sheetRef.current?.setSize(600);
+    }, 2000);
   }, []);
 
   return (
@@ -69,9 +70,9 @@ export default function App() {
       >
         <Text>Press</Text>
       </TouchableOpacity>
-      <FitterSheet sheetSize={undefined} ref={sheetRef}>
+      <FitterSheet sheetSize={100} ref={sheetRef}>
         <CustomV
-          style={{ height: 400, width: '100%', backgroundColor: 'red' }}
+          style={{ height: 500, width: '100%', backgroundColor: 'red' }}
         />
       </FitterSheet>
       {/*<ScrollView style={{ flex: 1, backgroundColor: 'white' }}>*/}

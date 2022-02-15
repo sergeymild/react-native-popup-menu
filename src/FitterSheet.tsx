@@ -45,6 +45,7 @@ export class FitterSheet extends React.PureComponent<Props, State> {
   };
 
   private onDismiss = () => {
+    console.log('[FitterSheet.onDismiss]');
     this.hide();
   };
 
