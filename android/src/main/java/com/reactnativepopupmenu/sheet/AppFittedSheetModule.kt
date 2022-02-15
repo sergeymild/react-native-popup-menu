@@ -1,6 +1,7 @@
 package com.reactnativepopupmenu.sheet
 
 import com.facebook.react.common.MapBuilder
+import com.facebook.react.uimanager.PixelUtil
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
@@ -16,12 +17,12 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
 
   @ReactProp(name = "sheetSize")
   fun sheetSize(view: AppFittedSheet, size: Double) {
-    view.sheetSize = size
+    view.sheetSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
   @ReactProp(name = "sheetMaxWidthSize")
   fun sheetMaxWidthSize(view: AppFittedSheet, size: Double) {
-    view.sheetMaxWidthSize = size
+    view.sheetMaxWidthSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {

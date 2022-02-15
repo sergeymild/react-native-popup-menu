@@ -9,7 +9,12 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import { configurePopup, FitterSheet } from 'react-native-popup-menu';
+import {
+  configurePopup,
+  FITTED_SHEET_SCROLL_VIEW,
+  FittedSheet,
+  useFittedSheetContext,
+} from 'react-native-popup-menu';
 
 configurePopup({
   cornerRadius: 20,
@@ -32,21 +37,29 @@ configurePopup({
 });
 
 export const CustomV: React.FC<ViewProps> = (props) => {
+  const sheetContext = useFittedSheetContext();
+
   return (
-    <View
+    <TouchableOpacity
       {...props}
+      activeOpacity={1}
       onLayout={(e) => console.log('[App.]', e.nativeEvent.layout)}
+      onPress={() => {
+        sheetContext?.setSize(100);
+        console.log('[App.pressss]');
+      }}
     >
-      <ScrollView
-        nestedScrollEnabled
-        style={{ flex: 1, width: '50%', backgroundColor: 'yellow' }}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        <View
-          style={{ height: 3000, width: '90%', backgroundColor: 'green' }}
-        />
-      </ScrollView>
-    </View>
+      {/*<ScrollView*/}
+      {/*  nestedScrollEnabled*/}
+      {/*  nativeID={FITTED_SHEET_SCROLL_VIEW}*/}
+      {/*  style={{ flex: 1, width: '50%', backgroundColor: 'yellow' }}*/}
+      {/*  contentContainerStyle={{ paddingBottom: 20 }}*/}
+      {/*>*/}
+      {/*  <View*/}
+      {/*    style={{ height: 3000, width: '90%', backgroundColor: 'green' }}*/}
+      {/*  />*/}
+      {/*</ScrollView>*/}
+    </TouchableOpacity>
   );
 };
 
@@ -54,7 +67,7 @@ export default function App() {
   const ref = useRef<TouchableOpacity>(null);
   const ref2 = useRef<TouchableOpacity>(null);
 
-  const sheetRef = useRef<FitterSheet>(null);
+  const sheetRef = useRef<FittedSheet>(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -70,11 +83,18 @@ export default function App() {
       >
         <Text>Press</Text>
       </TouchableOpacity>
-      <FitterSheet sheetSize={100} ref={sheetRef}>
+
+      <Text style={{ position: 'absolute', bottom: 50 }}>
+        The constructor is init(controller:, sizes:, options:). Sizes is
+        optional, but if specified, the first size in the array will determine
+        the initial size of the sheet. Options is also optional, if not
+        specified, the default options will be used.
+      </Text>
+      <FittedSheet sheetSize={200} ref={sheetRef}>
         <CustomV
           style={{ height: 500, width: '100%', backgroundColor: 'red' }}
         />
-      </FitterSheet>
+      </FittedSheet>
       {/*<ScrollView style={{ flex: 1, backgroundColor: 'white' }}>*/}
       {/*  <TouchableOpacity*/}
       {/*    ref={ref}*/}

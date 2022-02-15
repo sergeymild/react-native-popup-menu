@@ -20,6 +20,8 @@ class ModalHostShadowView: RCTShadowView {
     }
 }
 
+let FITTED_SHEET_SCROLL_VIEW = "fittedSheetScrollView"
+
 @objc(AppFitterSheet)
 class AppFitterSheet: RCTViewManager {
     var sheetView: UIView?
@@ -72,7 +74,8 @@ class HostFittetSheet: UIView {
     @objc
     var sheetSize: NSNumber? {
         didSet {
-            if _isPresented {
+            debugPrint("🥲sheetSize", sheetSize?.floatValue)
+            if _isPresented && sheetSize != nil {
                 let sizes: [SheetSize] = [.fixed(CGFloat(sheetSize!.floatValue))]
                 self._modalViewController?.sizes = sizes
                 self._modalViewController?.resize(to: sizes[0], animated: true)
@@ -142,11 +145,19 @@ class HostFittetSheet: UIView {
                 self._modalViewController = SheetViewController(
                     controller: self.viewController,
                     sizes: [.fixed(size.height)],
-                    options: .init(maxWidth: self.sheetWidth)
+                    options: .init(
+                        pullBarHeight: 0,
+                        shouldExtendBackground: false,
+                        shrinkPresentingViewController: false,
+                        maxWidth: self.sheetWidth
+                    )
                 )
+                self._modalViewController?.allowPullingPastMaxHeight = false
                 
-                //let f = self._reactSubview?.subviews[0] as! RCTScrollView
-                //self._modalViewController?.handleScrollView(f.scrollView)
+                let scrollView = self._reactSubview?.find(FITTED_SHEET_SCROLL_VIEW, deepIndex: 0) as? RCTScrollView
+                if scrollView != nil {
+                    self._modalViewController?.handleScrollView(scrollView!.scrollView)
+                }
 
                 self.reactViewController().present(self._modalViewController!, animated: true)
                 
@@ -173,10 +184,31 @@ class HostFittetSheet: UIView {
         _bridge = nil
         manager?.sheetView = nil
         onDismiss = nil
+        sheetSize = nil
+        sheetMaxWidthSize = nil
     }
     
     deinit {
         debugPrint("🥲deinit")
     }
 
+}
+
+
+extension UIView {
+    func find(_ nativeID: String, deepIndex: Int) -> UIView? {
+        if deepIndex >= 10 { return nil }
+        if self.nativeID == nativeID {
+            return self
+        }
+        
+        let index = deepIndex + 1
+        for subview in subviews {
+            if let v = subview.find(nativeID, deepIndex: index) {
+                return v
+            }
+        }
+        
+        return nil
+    }
 }

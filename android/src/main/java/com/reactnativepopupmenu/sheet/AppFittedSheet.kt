@@ -19,6 +19,10 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
   private var mHostView = DialogRootViewGroup(context)
 
   var sheetSize: Double = -1.0
+  set(value) {
+    sheet?.peekHeight = value
+    field = value
+  }
   var sheetMaxWidthSize: Double = -1.0
 
   private fun getCurrentActivity(): AppCompatActivity {
@@ -60,10 +64,6 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
 
   private fun getContentView(): View {
     return mHostView
-//    if (!pendingUseScrollView) return mHostView
-//    return NestedScrollView(context as ReactContext).also {
-//      it.addView(mHostView)
-//    }
   }
 
   override fun addView(child: View, index: Int) {

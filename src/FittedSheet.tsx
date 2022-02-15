@@ -1,12 +1,7 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { requireNativeComponent } from 'react-native';
 
 export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
-
-export interface FitterSheetRef {
-  readonly show: () => void;
-  readonly toggle: () => void;
-}
 
 interface Props {
   readonly sheetSize?: number;
@@ -18,13 +13,25 @@ interface State {
   sheetSize?: number;
 }
 
-export class FitterSheet extends React.PureComponent<Props, State> {
+export const FITTED_SHEET_SCROLL_VIEW = 'fittedSheetScrollView';
+
+interface Context {
+  hide: () => void;
+  setSize: (size: number) => void;
+}
+
+const FittedSheetContext = createContext<Context | null>(null);
+
+export const useFittedSheetContext = () => {
+  return useContext(FittedSheetContext);
+};
+
+export class FittedSheet extends React.PureComponent<Props, State> {
   private sheetRef = React.createRef<any>();
   constructor(props: Props) {
     super(props);
     this.state = {
       show: false,
-      sheetSize: this.props.sheetSize,
     };
   }
 
@@ -33,7 +40,7 @@ export class FitterSheet extends React.PureComponent<Props, State> {
   };
 
   hide = () => {
-    this.setState({ show: false });
+    this.setState({ show: false, sheetSize: undefined });
   };
 
   toggle = () => {
@@ -60,9 +67,12 @@ export class FitterSheet extends React.PureComponent<Props, State> {
         onDismiss={this.onDismiss}
         ref={this.sheetRef}
         sheetMaxWidthSize={this.props.maxWidth}
-        sheetSize={this.state.sheetSize}
-        children={this.props.children}
-      />
+        sheetSize={this.state.sheetSize ?? this.props.sheetSize}
+      >
+        <FittedSheetContext.Provider value={this}>
+          {this.props.children}
+        </FittedSheetContext.Provider>
+      </_FitterSheet>
     );
   }
 }
