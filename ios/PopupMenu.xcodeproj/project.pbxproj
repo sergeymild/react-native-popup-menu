@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92B123B327BAD7E700D9D82A /* AppFitterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B123B227BAD7E700D9D82A /* AppFitterSheet.swift */; };
 		92BDEE5E27B8FF3C0016BD77 /* ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BDEE5C27B8FF380016BD77 /* ContextMenu.swift */; };
 		92BDEE5F27B8FF3E0016BD77 /* ContextMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BDEE5D27B8FF380016BD77 /* ContextMenuCell.swift */; };
 		92BDEE6227B8FF620016BD77 /* PopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BDEE6127B8FF620016BD77 /* PopupMenu.m */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libPopupMenu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPopupMenu.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B123B227BAD7E700D9D82A /* AppFitterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFitterSheet.swift; sourceTree = "<group>"; };
 		92BDEE5C27B8FF380016BD77 /* ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenu.swift; sourceTree = "<group>"; };
 		92BDEE5D27B8FF380016BD77 /* ContextMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuCell.swift; sourceTree = "<group>"; };
 		92BDEE6027B8FF610016BD77 /* PopupMenu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PopupMenu-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				92BDEE6127B8FF620016BD77 /* PopupMenu.m */,
 				92BDEE6027B8FF610016BD77 /* PopupMenu-Bridging-Header.h */,
 				92BDEE6327B8FF7B0016BD77 /* PopupMenu.swift */,
+				92B123B227BAD7E700D9D82A /* AppFitterSheet.swift */,
 			);
 			path = PopMenu;
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92B123B327BAD7E700D9D82A /* AppFitterSheet.swift in Sources */,
 				92BDEE6227B8FF620016BD77 /* PopupMenu.m in Sources */,
 				92BDEE5F27B8FF3E0016BD77 /* ContextMenuCell.swift in Sources */,
 				92BDEE5E27B8FF3C0016BD77 /* ContextMenu.swift in Sources */,

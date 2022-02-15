@@ -1,4 +1,5 @@
 import { Image, NativeModules, Platform, processColor } from 'react-native';
+import { FitterSheet, FitterSheetRef } from './FitterSheet';
 import type { PopupMenuConfigure, PopupMenuProperties } from './types';
 // @ts-ignore
 import { PopupMenuButton } from './types';
@@ -72,3 +73,4 @@ export function showPopup(
 }
 
 export { PopupMenuButton };
+export { FitterSheet, FitterSheetRef };
