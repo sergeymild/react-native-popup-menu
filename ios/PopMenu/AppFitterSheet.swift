@@ -27,7 +27,7 @@ class AppFitterSheet: RCTViewManager {
     var sheetView: UIView?
     
     override func customBubblingEventTypes() -> [String]! {
-        return ["dismiss"]
+        return ["onSheetDismiss"]
     }
     
     override class func requiresMainQueueSetup() -> Bool {

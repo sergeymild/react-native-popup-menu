@@ -66,7 +66,7 @@ export class FittedSheet extends React.PureComponent<Props, State> {
     console.log('[FitterSheet.render.add]');
     return (
       <_FitterSheet
-        onDismiss={this.onDismiss}
+        onSheetDismiss={this.onDismiss}
         ref={this.sheetRef}
         sheetMaxWidthSize={this.props.maxWidth}
         sheetSize={this.state.sheetSize ?? this.props.sheetSize}
