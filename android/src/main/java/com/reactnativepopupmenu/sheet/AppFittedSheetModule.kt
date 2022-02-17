@@ -4,6 +4,8 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.*
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.yoga.YogaMeasureFunction
+import com.facebook.yoga.YogaMeasureOutput
 import com.facebook.yoga.YogaPositionType
 
 internal class ModalHostShadowNode : LayoutShadowNode() {
@@ -13,9 +15,10 @@ internal class ModalHostShadowNode : LayoutShadowNode() {
    */
   override fun addChildAt(child: ReactShadowNodeImpl, i: Int) {
     super.addChildAt(child, i)
+    println("🥲shadowNode.addChildAt")
     val modalSize = ModalHostHelper.getModalHostSize(themedContext)
     child.setStyleWidth(modalSize.x.toFloat())
-    child.setStyleHeight(modalSize.y.toFloat())
+    //child.setStyleHeight(modalSize.y.toFloat())
     child.setPositionType(YogaPositionType.ABSOLUTE)
   }
 }
@@ -31,11 +34,13 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
 
   @ReactProp(name = "sheetSize")
   fun sheetSize(view: AppFittedSheet, size: Double) {
+    println("🥲sheetSize")
     view.sheetSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
   @ReactProp(name = "sheetMaxWidthSize")
   fun sheetMaxWidthSize(view: AppFittedSheet, size: Double) {
+    println("🥲sheetMaxWidthSize")
     view.sheetMaxWidthSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
@@ -54,6 +59,7 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
   }
 
   override fun createShadowNodeInstance(context: ReactApplicationContext): LayoutShadowNode {
+    println("🥲createShadowNodeInstance")
     return ModalHostShadowNode()
   }
 

@@ -60,6 +60,7 @@ export const CustomV: React.FC<ViewProps> = (props) => {
     >
       <FlatList
         data={data}
+        onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}
         nestedScrollEnabled
         style={{ flex: 1 }}
         windowSize={2}
@@ -198,10 +199,8 @@ export default function App() {
         {/*</ScrollView>*/}
       </View>
 
-      <FittedSheet sheetSize={-1} ref={sheetRef}>
-        <CustomV
-          style={{ height: 1000, width: '100%', backgroundColor: 'red' }}
-        />
+      <FittedSheet sheetSize={400} ref={sheetRef}>
+        <CustomV style={{ flex: 1, backgroundColor: 'white' }} />
       </FittedSheet>
 
       {/*<Modal animationType={'none'} transparent>*/}

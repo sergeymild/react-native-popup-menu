@@ -44,7 +44,6 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
   private void updateFirstChildView() {
     if (getChildCount() > 0) {
       hasAdjustedSize = false;
-      final int viewTag = getChildAt(0).getId();
       if (mStateWrapper != null) {
         // This will only be called under Fabric
         updateState(mStateWrapper, viewWidth, viewHeight);
@@ -83,9 +82,9 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    if (getChildAt(0) != null) {
-      super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(getChildAt(0).getMeasuredHeight(), MeasureSpec.EXACTLY));
-      System.out.println("🥲measure " + getChildAt(0).getMeasuredHeight());
+    if (FragmentModalBottomSheetKt.getPublicPeekHeight() > 0 ) {
+      super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) FragmentModalBottomSheetKt.getPublicPeekHeight(), MeasureSpec.EXACTLY));
+      System.out.println("🥲measure " + FragmentModalBottomSheetKt.getPublicPeekHeight());
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

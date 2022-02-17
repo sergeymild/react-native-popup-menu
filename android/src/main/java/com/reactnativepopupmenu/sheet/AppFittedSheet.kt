@@ -11,6 +11,8 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.UiThreadUtil
+import com.facebook.react.uimanager.UIManagerHelper.getReactContext
+import com.facebook.react.uimanager.UIManagerModule
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import java.util.*
 
@@ -44,7 +46,6 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
       val fragment = FragmentModalBottomSheet()
       fragment.createViewCallable = { getContentView() }
       fragment.peekHeight = sheetSize
-
 //      pendingHandleRadius?.also {
 //        fragment.handleRadius = it
 //        pendingHandleRadius = null
