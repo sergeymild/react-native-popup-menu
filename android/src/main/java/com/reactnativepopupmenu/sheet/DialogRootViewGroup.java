@@ -1,6 +1,7 @@
 package com.reactnativepopupmenu.sheet;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -73,9 +74,10 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
         @Override
         public void runGuarded() {
           System.out.println("🥲 measured " + getChildAt(0).getMeasuredWidth() + " h: " + getChildAt(0).getMeasuredHeight());
+          Point modalHostSize = ModalHostHelper.getModalHostSize(reactContext);
           (getReactContext())
             .getNativeModule(UIManagerModule.class)
-            .updateNodeSize(viewTag, getChildAt(0).getMeasuredWidth(), getChildAt(0).getMeasuredHeight());
+            .updateNodeSize(viewTag, modalHostSize.x, (int) FragmentModalBottomSheetKt.getPublicPeekHeight());
         }
       });
   }
@@ -84,7 +86,6 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     if (FragmentModalBottomSheetKt.getPublicPeekHeight() > 0 ) {
       super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) FragmentModalBottomSheetKt.getPublicPeekHeight(), MeasureSpec.EXACTLY));
-      System.out.println("🥲measure " + FragmentModalBottomSheetKt.getPublicPeekHeight());
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -97,15 +98,13 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
     WritableMap map = new WritableNativeMap();
     map.putDouble("screenWidth", PixelUtil.toDIPFromPixel(width));
     map.putDouble("screenHeight", PixelUtil.toDIPFromPixel(height));
-    stateWrapper.updateState(map);
+    //stateWrapper.updateState(map);
   }
 
   @Override
   public void addView(View child, int index, LayoutParams params) {
     super.addView(child, index, params);
-    if (hasAdjustedSize) {
-      updateFirstChildView();
-    }
+    setSize();
   }
 
   @Override

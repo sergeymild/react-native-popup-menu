@@ -51,15 +51,15 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
   }
 
   fun setSize(view: ViewGroup) {
-    val viewTag: Int = view.getChildAt(0).getId()
     val reactContext: ReactContext = getReactContext(view)
     reactContext.runOnNativeModulesQueueThread(
       object : GuardedRunnable(reactContext) {
         override fun runGuarded() {
+          val viewTag: Int = view.getChildAt(0).getId()
           val modalSize = ModalHostHelper.getModalHostSize(reactContext)
           println("🥲runGuarded peekHeight: ${peekHeight} height: ${modalSize.y} vH: ${view.measuredHeight} ${PixelUtil.toPixelFromDIP(peekHeight)}")
           getReactContext(view)
-            .getNativeModule(UIManagerModule::class.java)
+            .getNativeModule(UIManagerModule::class.java)!!
             .updateNodeSize(viewTag, modalSize.x, peekHeight.toInt())
         }
       })
@@ -68,7 +68,6 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     val view = createViewCallable!!.invoke()
     if (peekHeight > 0.0) {
-      setSize(view as ViewGroup)
       return view
     }
 
