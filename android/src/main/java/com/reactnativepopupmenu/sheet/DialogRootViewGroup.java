@@ -66,10 +66,26 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
     }
   }
 
+  void setSize() {
+    final int viewTag = getChildAt(0).getId();
+    ReactContext reactContext = getReactContext();
+    reactContext.runOnNativeModulesQueueThread(
+      new GuardedRunnable(reactContext) {
+        @Override
+        public void runGuarded() {
+          System.out.println("🥲 measured " + getChildAt(0).getMeasuredWidth() + " h: " + getChildAt(0).getMeasuredHeight());
+          (getReactContext())
+            .getNativeModule(UIManagerModule.class)
+            .updateNodeSize(viewTag, getChildAt(0).getMeasuredWidth(), getChildAt(0).getMeasuredHeight());
+        }
+      });
+  }
+
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     if (getChildAt(0) != null) {
       super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(getChildAt(0).getMeasuredHeight(), MeasureSpec.EXACTLY));
+      System.out.println("🥲measure " + getChildAt(0).getMeasuredHeight());
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

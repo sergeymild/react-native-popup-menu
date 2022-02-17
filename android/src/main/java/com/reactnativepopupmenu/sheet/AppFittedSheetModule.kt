@@ -1,10 +1,24 @@
 package com.reactnativepopupmenu.sheet
 
+import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.common.MapBuilder
-import com.facebook.react.uimanager.PixelUtil
-import com.facebook.react.uimanager.ThemedReactContext
-import com.facebook.react.uimanager.ViewGroupManager
+import com.facebook.react.uimanager.*
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.yoga.YogaPositionType
+
+internal class ModalHostShadowNode : LayoutShadowNode() {
+  /**
+   * We need to set the styleWidth and styleHeight of the one child (represented by the <View></View>
+   * within the <RCTModalHostView></RCTModalHostView> in Modal.js. This needs to fill the entire window.
+   */
+  override fun addChildAt(child: ReactShadowNodeImpl, i: Int) {
+    super.addChildAt(child, i)
+    val modalSize = ModalHostHelper.getModalHostSize(themedContext)
+    child.setStyleWidth(modalSize.x.toFloat())
+    child.setStyleHeight(modalSize.y.toFloat())
+    child.setPositionType(YogaPositionType.ABSOLUTE)
+  }
+}
 
 class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
   override fun getName(): String {
@@ -27,8 +41,20 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
     return MapBuilder.builder<String, Any>()
-      .put("onDismiss", MapBuilder.of("registrationName", "onSheetDismiss"))
+      .put("onSheetDismiss", MapBuilder.of("registrationName", "onSheetDismiss"))
       .build()
+  }
+
+  override fun getShadowNodeClass(): Class<out LayoutShadowNode> {
+    return ModalHostShadowNode::class.java
+  }
+
+  override fun createShadowNodeInstance(): LayoutShadowNode {
+    return ModalHostShadowNode()
+  }
+
+  override fun createShadowNodeInstance(context: ReactApplicationContext): LayoutShadowNode {
+    return ModalHostShadowNode()
   }
 
   override fun onAfterUpdateTransaction(view: AppFittedSheet) {

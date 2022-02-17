@@ -14,9 +14,10 @@ import FittedSheets
 class ModalHostShadowView: RCTShadowView {
     override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
         super.insertReactSubview(subview, at: atIndex)
-//        if subview != nil {
-//            (subview as RCTShadowView).size = RCTScreenSize()
-//        }
+        if subview != nil {
+            (subview as RCTShadowView).size = RCTScreenSize()
+            subview.position = .absolute
+        }
     }
 }
 
@@ -107,8 +108,6 @@ class HostFittetSheet: UIView {
       }
     }
     
-    
-    
     override func insertReactSubview(_ subview: UIView!, at atIndex: Int) {
         debugPrint("🥲insertReactSubview")
         super.insertReactSubview(subview, at: atIndex)
@@ -120,14 +119,25 @@ class HostFittetSheet: UIView {
     override func removeReactSubview(_ subview: UIView!) {
         debugPrint("🥲removeReactSubview")
         super.removeReactSubview(subview)
-        destroy()
+        _touchHandler?.detach(from: subview)
+        _reactSubview = nil
+        //destroy()
     }
     
     override func didUpdateReactSubviews() {
-        
+        debugPrint("🥲didUpdateReactSubviews", _reactSubview?.superview?.accessibilityLabel)
     }
     
     override func didMoveToWindow() {
+        super.didMoveToWindow()
+        
+        // In the case where there is a LayoutAnimation, we will be reinserted into the view hierarchy but only for aesthetic
+        // purposes. In such a case, we should NOT represent the <Modal>.
+        
+        if (!self.isUserInteractionEnabled && self.superview?.reactSubviews().contains(self) != nil) {
+          return;
+        }
+        
         if (!_isPresented && self.window != nil) {
             _isPresented = true
             var size: CGSize = .zero
@@ -171,7 +181,15 @@ class HostFittetSheet: UIView {
     override func removeFromSuperview() {
         super.removeFromSuperview()
         debugPrint("🥲removeFromSuperview")
-        destroy()
+        //destroy()
+    }
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        if _isPresented && superview == nil {
+            debugPrint("🥲didMoveToSuperview")
+            destroy()
+        }
     }
     
     func destroy() {

@@ -43,13 +43,13 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     val view = createViewCallable!!.invoke()
-    if (peekHeight != 0.0) return view
+    if (peekHeight > 0.0) return view
 
     val reactView = (view as ViewGroup).getChildAt(0)
     reactView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener {
       override fun onPreDraw(): Boolean {
         reactView.viewTreeObserver.removeOnPreDrawListener(this)
-        peekHeight = view.measuredHeight.toDouble()
+        if (peekHeight <= 0.0) peekHeight = view.measuredHeight.toDouble()
         return true
       }
     })

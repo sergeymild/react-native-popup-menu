@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
 import {
+  FlatList,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,30 +38,47 @@ configurePopup({
   },
 });
 
+const data = [...Array(200)].map((_, index) => index);
+
 export const CustomV: React.FC<ViewProps> = (props) => {
   const sheetContext = useFittedSheetContext();
 
-  return (
-    <TouchableOpacity
-      {...props}
-      activeOpacity={1}
-      onLayout={(e) => console.log('[App.]', e.nativeEvent.layout)}
-      onPress={() => {
-        sheetContext?.setSize(100);
-        console.log('[App.pressss]');
-      }}
+  const renderItem = (info: any) => (
+    <Text
+      key={info.item}
+      style={{ height: 56, width: '100%', borderBottomWidth: 1 }}
     >
+      {info.item}
+    </Text>
+  );
+
+  return (
+    <View
+      {...props}
+      accessibilityLabel={'sheetView'}
+      onLayout={(e) => console.log('[App.]', e.nativeEvent.layout)}
+    >
+      <FlatList
+        data={data}
+        nestedScrollEnabled
+        style={{ flex: 1 }}
+        windowSize={2}
+        keyExtractor={(item) => item.toString()}
+        renderItem={(info) => (
+          <Text style={{ height: 56, width: '100%', borderBottomWidth: 1 }}>
+            {info.item}
+          </Text>
+        )}
+      />
       {/*<ScrollView*/}
       {/*  nestedScrollEnabled*/}
       {/*  nativeID={FITTED_SHEET_SCROLL_VIEW}*/}
-      {/*  style={{ flex: 1, width: '50%', backgroundColor: 'yellow' }}*/}
+      {/*  style={{ flex: 1, backgroundColor: 'yellow' }}*/}
       {/*  contentContainerStyle={{ paddingBottom: 20 }}*/}
       {/*>*/}
-      {/*  <View*/}
-      {/*    style={{ height: 3000, width: '90%', backgroundColor: 'green' }}*/}
-      {/*  />*/}
+      {/*  {data.map(renderItem)}*/}
       {/*</ScrollView>*/}
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -71,114 +90,128 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      //sheetRef.current?.setSize(600);
+      //sheetRef.current?.show();
     }, 2000);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => sheetRef.current?.show()}
-        style={{ marginTop: 100 }}
-      >
-        <Text>Press</Text>
-      </TouchableOpacity>
+    <>
+      <View style={styles.container} accessibilityLabel={'container'}>
+        <TouchableOpacity
+          accessibilityLabel={'TouchableOpacity'}
+          onPress={() => sheetRef.current?.show()}
+          style={{ marginTop: 100 }}
+        >
+          <Text>Press</Text>
+        </TouchableOpacity>
 
-      <Text style={{ position: 'absolute', bottom: 50 }}>
-        The constructor is init(controller:, sizes:, options:). Sizes is
-        optional, but if specified, the first size in the array will determine
-        the initial size of the sheet. Options is also optional, if not
-        specified, the default options will be used.
-      </Text>
-      <FittedSheet sheetSize={200} ref={sheetRef}>
+        <View accessibilityLabel={'flexOne'} style={{ flex: 1 }} />
+
+        <Text style={{ marginBottom: 10 }} accessibilityLabel={'text'}>
+          The constructor is init(controller:, sizes:, options:). Sizes is
+          optional, but if specified, the first size in the array will determine
+          the initial size of the sheet. Options is also optional, if not
+          specified, the default options will be used.
+        </Text>
+        {/*<ScrollView style={{ flex: 1, backgroundColor: 'white' }}>*/}
+        {/*  <TouchableOpacity*/}
+        {/*    ref={ref}*/}
+        {/*    accessibilityLabel={'Pressable'}*/}
+        {/*    style={{*/}
+        {/*      height: 56,*/}
+        {/*      width: 56,*/}
+        {/*      marginTop: 100,*/}
+        {/*      marginStart: Dimensions.get('window').width - 156,*/}
+        {/*      backgroundColor: 'red',*/}
+        {/*      alignItems: 'center',*/}
+        {/*      justifyContent: 'center',*/}
+        {/*    }}*/}
+        {/*    onPress={() => {*/}
+        {/*      ref.current?.measureInWindow(async (x, y, width, height) => {*/}
+        {/*        const selected = await showPopup({*/}
+        {/*          frame: { x, y, width, height },*/}
+        {/*          gravity: 'bottom',*/}
+        {/*          buttons: [*/}
+        {/*            {*/}
+        {/*              text: 'SHARE',*/}
+        {/*              data: 'SHARE',*/}
+        {/*              // icon: require('./assets/icShare.png'),*/}
+        {/*            },*/}
+        {/*            {*/}
+        {/*              text: 'М',*/}
+        {/*              data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',*/}
+        {/*              separatorHeight: 19,*/}
+        {/*              separatorColor: 'red',*/}
+        {/*              // showSeparator: true,*/}
+        {/*              // icon: require('./assets/icViews.png'),*/}
+        {/*            },*/}
+        {/*            {*/}
+        {/*              text: 'SETTINGS',*/}
+        {/*              data: 'SETTINGS',*/}
+        {/*              // icon: require('./assets/icSettings.png'),*/}
+        {/*            },*/}
+        {/*          ],*/}
+        {/*        });*/}
+        {/*        console.log(selected);*/}
+        {/*      });*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <Text nativeID={'oneNative'}>One</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <View style={{ height: 550 }} />*/}
+        {/*  <TouchableOpacity*/}
+        {/*    ref={ref2}*/}
+        {/*    style={{*/}
+        {/*      height: 100,*/}
+        {/*      width: '100%',*/}
+        {/*      backgroundColor: 'green',*/}
+        {/*      alignItems: 'center',*/}
+        {/*      justifyContent: 'center',*/}
+        {/*    }}*/}
+        {/*    onPress={async () => {*/}
+        {/*      ref2.current?.measureInWindow(async (x, y, width, height) => {*/}
+        {/*        console.log('-----', y, height);*/}
+        {/*        const selected = await showPopup({*/}
+        {/*          isIconsFromRight: true,*/}
+        {/*          cornerRadius: 10,*/}
+        {/*          gravity: 'top',*/}
+        {/*          frame: { x, y, width, height },*/}
+        {/*          buttons: [*/}
+        {/*            {*/}
+        {/*              text: 'Firstsadkjk',*/}
+        {/*              data: '1',*/}
+        {/*              icon: require('./assets/icShare.png'),*/}
+        {/*            },*/}
+        {/*            {*/}
+        {/*              text: 'SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond',*/}
+        {/*              data: '2',*/}
+        {/*              icon: require('./assets/icUnsave.png'),*/}
+        {/*            },*/}
+        {/*          ],*/}
+        {/*        });*/}
+        {/*        console.log('[App.selected]', selected);*/}
+        {/*      });*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <Text nativeID={'twoNative'}>two</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*</ScrollView>*/}
+      </View>
+
+      <FittedSheet sheetSize={-1} ref={sheetRef}>
         <CustomV
-          style={{ height: 500, width: '100%', backgroundColor: 'red' }}
+          style={{ height: 1000, width: '100%', backgroundColor: 'red' }}
         />
       </FittedSheet>
-      {/*<ScrollView style={{ flex: 1, backgroundColor: 'white' }}>*/}
-      {/*  <TouchableOpacity*/}
-      {/*    ref={ref}*/}
-      {/*    accessibilityLabel={'Pressable'}*/}
-      {/*    style={{*/}
-      {/*      height: 56,*/}
-      {/*      width: 56,*/}
-      {/*      marginTop: 100,*/}
-      {/*      marginStart: Dimensions.get('window').width - 156,*/}
-      {/*      backgroundColor: 'red',*/}
-      {/*      alignItems: 'center',*/}
-      {/*      justifyContent: 'center',*/}
-      {/*    }}*/}
-      {/*    onPress={() => {*/}
-      {/*      ref.current?.measureInWindow(async (x, y, width, height) => {*/}
-      {/*        const selected = await showPopup({*/}
-      {/*          frame: { x, y, width, height },*/}
-      {/*          gravity: 'bottom',*/}
-      {/*          buttons: [*/}
-      {/*            {*/}
-      {/*              text: 'SHARE',*/}
-      {/*              data: 'SHARE',*/}
-      {/*              // icon: require('./assets/icShare.png'),*/}
-      {/*            },*/}
-      {/*            {*/}
-      {/*              text: 'М',*/}
-      {/*              data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',*/}
-      {/*              separatorHeight: 19,*/}
-      {/*              separatorColor: 'red',*/}
-      {/*              // showSeparator: true,*/}
-      {/*              // icon: require('./assets/icViews.png'),*/}
-      {/*            },*/}
-      {/*            {*/}
-      {/*              text: 'SETTINGS',*/}
-      {/*              data: 'SETTINGS',*/}
-      {/*              // icon: require('./assets/icSettings.png'),*/}
-      {/*            },*/}
-      {/*          ],*/}
-      {/*        });*/}
-      {/*        console.log(selected);*/}
-      {/*      });*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <Text nativeID={'oneNative'}>One</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <View style={{ height: 550 }} />*/}
-      {/*  <TouchableOpacity*/}
-      {/*    ref={ref2}*/}
-      {/*    style={{*/}
-      {/*      height: 100,*/}
-      {/*      width: '100%',*/}
-      {/*      backgroundColor: 'green',*/}
-      {/*      alignItems: 'center',*/}
-      {/*      justifyContent: 'center',*/}
-      {/*    }}*/}
-      {/*    onPress={async () => {*/}
-      {/*      ref2.current?.measureInWindow(async (x, y, width, height) => {*/}
-      {/*        console.log('-----', y, height);*/}
-      {/*        const selected = await showPopup({*/}
-      {/*          isIconsFromRight: true,*/}
-      {/*          cornerRadius: 10,*/}
-      {/*          gravity: 'top',*/}
-      {/*          frame: { x, y, width, height },*/}
-      {/*          buttons: [*/}
-      {/*            {*/}
-      {/*              text: 'Firstsadkjk',*/}
-      {/*              data: '1',*/}
-      {/*              icon: require('./assets/icShare.png'),*/}
-      {/*            },*/}
-      {/*            {*/}
-      {/*              text: 'SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond',*/}
-      {/*              data: '2',*/}
-      {/*              icon: require('./assets/icUnsave.png'),*/}
-      {/*            },*/}
-      {/*          ],*/}
-      {/*        });*/}
-      {/*        console.log('[App.selected]', selected);*/}
-      {/*      });*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <Text nativeID={'twoNative'}>two</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</ScrollView>*/}
-    </View>
+
+      {/*<Modal animationType={'none'} transparent>*/}
+      {/*  <FittedSheet sheetSize={200} ref={sheetRef}>*/}
+      {/*    <CustomV*/}
+      {/*      style={{ height: 500, width: '100%', backgroundColor: 'red' }}*/}
+      {/*    />*/}
+      {/*  </FittedSheet>*/}
+      {/*</Modal>*/}
+    </>
   );
 }
 

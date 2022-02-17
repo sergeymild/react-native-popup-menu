@@ -37,18 +37,22 @@ export class FittedSheet extends React.PureComponent<Props, State> {
   }
 
   show = () => {
+    console.log('[FittedSheet.show]');
     this.setState({ show: true });
   };
 
   hide = () => {
+    console.log('[FittedSheet.hide]');
     this.setState({ show: false, sheetSize: undefined });
   };
 
   toggle = () => {
+    console.log('[FittedSheet.toggle]');
     this.setState({ show: !this.state.show });
   };
 
   setSize = (size: number) => {
+    console.log('[FittedSheet.setSize]', size);
     this.setState({ sheetSize: size });
   };
 
