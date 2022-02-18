@@ -56,21 +56,26 @@ export const CustomV: React.FC<ViewProps> = (props) => {
     <View
       {...props}
       accessibilityLabel={'sheetView'}
-      onLayout={(e) => console.log('[App.]', e.nativeEvent.layout)}
+      onLayout={(e) => console.log('[App.root]', e.nativeEvent.layout)}
     >
-      <FlatList
-        data={data}
-        onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}
-        nestedScrollEnabled
+      <View
+        accessibilityLabel={'nestedView'}
         style={{ flex: 1 }}
-        windowSize={2}
-        keyExtractor={(item) => item.toString()}
-        renderItem={(info) => (
-          <Text style={{ height: 56, width: '100%', borderBottomWidth: 1 }}>
-            {info.item}
-          </Text>
-        )}
+        onLayout={(e) => console.log('[App.child]', e.nativeEvent.layout)}
       />
+      {/*<FlatList*/}
+      {/*  data={data}*/}
+      {/*  onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}*/}
+      {/*  nestedScrollEnabled*/}
+      {/*  style={{ flex: 1 }}*/}
+      {/*  windowSize={2}*/}
+      {/*  keyExtractor={(item) => item.toString()}*/}
+      {/*  renderItem={(info) => (*/}
+      {/*    <Text style={{ height: 56, width: '100%', borderBottomWidth: 1 }}>*/}
+      {/*      {info.item}*/}
+      {/*    </Text>*/}
+      {/*  )}*/}
+      {/*/>*/}
       {/*<ScrollView*/}
       {/*  nestedScrollEnabled*/}
       {/*  nativeID={FITTED_SHEET_SCROLL_VIEW}*/}
@@ -199,8 +204,8 @@ export default function App() {
         {/*</ScrollView>*/}
       </View>
 
-      <FittedSheet sheetSize={400} ref={sheetRef}>
-        <CustomV style={{ flex: 1, backgroundColor: 'white' }} />
+      <FittedSheet sheetSize={200} ref={sheetRef}>
+        <CustomV style={{ height: 100, backgroundColor: 'red' }} />
       </FittedSheet>
 
       {/*<Modal animationType={'none'} transparent>*/}

@@ -104,7 +104,21 @@ class HostFittetSheet: UIView {
     
     func notifyForBoundsChange(newBounds: CGSize) {
       if (_reactSubview != nil && _isPresented) {
-          _bridge?.uiManager.setSize(newBounds, for: _reactSubview!)
+//          _bridge?.uiManager.setSize(.init(width: newBounds.width, height: 100), for: _reactSubview!)
+          
+          
+          let registery = self._bridge?.uiManager.value(forKey: "_shadowViewRegistry") as? [NSNumber: RCTShadowView]
+          let shadowView = registery?[self._reactSubview!.reactTag]
+          let origin = shadowView?.layoutMetrics.frame ?? .zero
+          shadowView?.size = .init(width: newBounds.width, height: 100)
+          shadowView?.onLayout?([
+            "layout": [
+                "x": "\(origin.origin.x)",
+                "y": "\(origin.origin.y)",
+                "width": "\(newBounds.width)",
+                "height": "\(100)"
+            ]
+          ])
       }
     }
     

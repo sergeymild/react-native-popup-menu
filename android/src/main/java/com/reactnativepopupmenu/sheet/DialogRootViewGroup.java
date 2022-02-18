@@ -2,6 +2,8 @@ package com.reactnativepopupmenu.sheet;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.os.Handler;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,12 +15,24 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.JSTouchDispatcher;
+import com.facebook.react.uimanager.NativeViewHierarchyOptimizer;
+import com.facebook.react.uimanager.OnLayoutEvent;
 import com.facebook.react.uimanager.PixelUtil;
+import com.facebook.react.uimanager.ReactShadowNode;
 import com.facebook.react.uimanager.RootView;
+import com.facebook.react.uimanager.ShadowNodeRegistry;
 import com.facebook.react.uimanager.StateWrapper;
+import com.facebook.react.uimanager.UIImplementation;
+import com.facebook.react.uimanager.UIManagerHelper;
 import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.UIManagerModuleListener;
+import com.facebook.react.uimanager.UIViewOperationQueue;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.views.view.ReactViewGroup;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 class DialogRootViewGroup extends ReactViewGroup implements RootView {
   private boolean hasAdjustedSize = false;
@@ -66,30 +80,14 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
     }
   }
 
-  void setSize() {
-    final int viewTag = getChildAt(0).getId();
-    ReactContext reactContext = getReactContext();
-    reactContext.runOnNativeModulesQueueThread(
-      new GuardedRunnable(reactContext) {
-        @Override
-        public void runGuarded() {
-          System.out.println("🥲 measured " + getChildAt(0).getMeasuredWidth() + " h: " + getChildAt(0).getMeasuredHeight());
-          Point modalHostSize = ModalHostHelper.getModalHostSize(reactContext);
-          (getReactContext())
-            .getNativeModule(UIManagerModule.class)
-            .updateNodeSize(viewTag, modalHostSize.x, (int) FragmentModalBottomSheetKt.getPublicPeekHeight());
-        }
-      });
-  }
-
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    System.out.println("dialogRootViewGroup.measure " + FragmentModalBottomSheetKt.getPublicPeekHeight() + " h: " + MeasureSpec.getSize(heightMeasureSpec));
     if (FragmentModalBottomSheetKt.getPublicPeekHeight() > 0 ) {
       super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) FragmentModalBottomSheetKt.getPublicPeekHeight(), MeasureSpec.EXACTLY));
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
-
   }
 
   @UiThread
@@ -104,7 +102,10 @@ class DialogRootViewGroup extends ReactViewGroup implements RootView {
   @Override
   public void addView(View child, int index, LayoutParams params) {
     super.addView(child, index, params);
-    setSize();
+    // call only if peekHeight is not zero
+    if (FragmentModalBottomSheetKt.getPublicPeekHeight() > 0) {
+      ReactNativeReflection.setSize(getChildAt(0), getReactContext());
+    }
   }
 
   @Override

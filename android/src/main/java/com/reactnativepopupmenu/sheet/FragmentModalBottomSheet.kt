@@ -50,19 +50,27 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
     override fun onSlide(bottomSheet: View, slideOffset: Float) {}
   }
 
-  fun setSize(view: ViewGroup) {
+  fun setSize(reactView: ViewGroup) {
     val reactContext: ReactContext = getReactContext(view)
-    reactContext.runOnNativeModulesQueueThread(
-      object : GuardedRunnable(reactContext) {
-        override fun runGuarded() {
-          val viewTag: Int = view.getChildAt(0).getId()
-          val modalSize = ModalHostHelper.getModalHostSize(reactContext)
-          println("🥲runGuarded peekHeight: ${peekHeight} height: ${modalSize.y} vH: ${view.measuredHeight} ${PixelUtil.toPixelFromDIP(peekHeight)}")
-          getReactContext(view)
-            .getNativeModule(UIManagerModule::class.java)!!
-            .updateNodeSize(viewTag, modalSize.x, peekHeight.toInt())
-        }
-      })
+    val modalSize = ModalHostHelper.getModalHostSize(reactContext)
+    println("before measure dialogRootViewGroup")
+    ((dialog as SheetDialog).containerView.getChildAt(0) as ViewGroup).getChildAt(1).measure(
+      View.MeasureSpec.makeMeasureSpec(modalSize.x, View.MeasureSpec.EXACTLY),
+      View.MeasureSpec.makeMeasureSpec(peekHeight.toInt(), View.MeasureSpec.EXACTLY)
+    )
+    ReactNativeReflection.setSize(reactView, modalSize.x, peekHeight.toInt())
+    this.peekHeight = peekHeight
+//    reactContext.runOnNativeModulesQueueThread(
+//      object : GuardedRunnable(reactContext) {
+//        override fun runGuarded() {
+//          val viewTag: Int = view.getChildAt(0).getId()
+//          val modalSize = ModalHostHelper.getModalHostSize(reactContext)
+//          println("🥲runGuarded peekHeight: ${peekHeight} height: ${modalSize.y} vH: ${view.measuredHeight} ${PixelUtil.toPixelFromDIP(peekHeight)}")
+//          getReactContext(view)
+//            .getNativeModule(UIManagerModule::class.java)!!
+//            .updateNodeSize(viewTag, modalSize.x, peekHeight.toInt())
+//        }
+//      })
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -75,9 +83,11 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
     reactView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener {
       override fun onPreDraw(): Boolean {
         reactView.viewTreeObserver.removeOnPreDrawListener(this)
-        println("🥲 onPreDraw ${view.measuredHeight}")
-        if (peekHeight <= 0.0) peekHeight = view.measuredHeight.toDouble()
-        setSize(view as ViewGroup)
+        println("🥲 onPreDraw ${reactView.measuredHeight}")
+        Handler().postDelayed(Runnable {
+          peekHeight = reactView.measuredHeight.toDouble()
+          setSize(reactView as ViewGroup)
+        }, 3000)
         return true
       }
     })

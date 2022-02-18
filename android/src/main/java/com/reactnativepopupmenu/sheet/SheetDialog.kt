@@ -3,8 +3,10 @@ package com.reactnativepopupmenu.sheet
 import android.content.Context
 import android.graphics.Outline
 import android.os.Build
+import android.os.Handler
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.annotation.RequiresApi
 import com.facebook.react.uimanager.DisplayMetricsHolder
@@ -64,6 +66,7 @@ internal class SheetDialog(context: Context, theme: Int) : CustomBottomSheetDial
     if (peekHeight > 0) {
       behavior.skipCollapsed = false
       behavior.setPeekHeight(peekHeight, true)
+      behavior.state = BottomSheetBehavior.STATE_COLLAPSED
       startState = BottomSheetBehavior.STATE_COLLAPSED
     } else {
       behavior.setPeekHeight(10, true)

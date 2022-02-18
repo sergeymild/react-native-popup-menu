@@ -17,18 +17,21 @@ internal class ModalHostShadowNode : LayoutShadowNode() {
     super.addChildAt(child, i)
     println("🥲shadowNode.addChildAt")
     val modalSize = ModalHostHelper.getModalHostSize(themedContext)
-    child.setStyleWidth(modalSize.x.toFloat())
+    //child.setStyleWidth(modalSize.x.toFloat())
     //child.setStyleHeight(modalSize.y.toFloat())
     child.setPositionType(YogaPositionType.ABSOLUTE)
   }
 }
 
 class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
+
   override fun getName(): String {
     return "AppFitterSheet"
   }
 
+
   override fun createViewInstance(reactContext: ThemedReactContext): AppFittedSheet {
+    ReactNativeReflection.initialize(reactContext);
     return AppFittedSheet(reactContext)
   }
 
