@@ -177,6 +177,7 @@ class HostFittetSheet: UIView {
                     )
                 )
                 self._modalViewController?.allowPullingPastMaxHeight = false
+                self._modalViewController?.autoAdjustToKeyboard = false
                 
                 let scrollView = self._reactSubview?.find(FITTED_SHEET_SCROLL_VIEW, deepIndex: 0) as? RCTScrollView
                 if scrollView != nil {
