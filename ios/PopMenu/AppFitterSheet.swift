@@ -110,13 +110,13 @@ class HostFittetSheet: UIView {
           let registery = self._bridge?.uiManager.value(forKey: "_shadowViewRegistry") as? [NSNumber: RCTShadowView]
           let shadowView = registery?[self._reactSubview!.reactTag]
           let origin = shadowView?.layoutMetrics.frame ?? .zero
-          shadowView?.size = .init(width: newBounds.width, height: 100)
+          shadowView?.size = .init(width: newBounds.width, height: newBounds.height)
           shadowView?.onLayout?([
             "layout": [
                 "x": "\(origin.origin.x)",
                 "y": "\(origin.origin.y)",
                 "width": "\(newBounds.width)",
-                "height": "\(100)"
+                "height": "\(newBounds.height)"
             ]
           ])
       }
