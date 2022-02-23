@@ -11,6 +11,89 @@ import UIKit
 import React
 import FittedSheets
 
+class DynamicShadowView: RCTShadowView {
+    override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
+        super.insertReactSubview(subview, at: atIndex)
+        if subview != nil {
+            subview.position = .absolute
+        }
+    }
+}
+
+
+@objc(DynamicViewManager)
+class DynamicViewManager: RCTViewManager {
+    override class func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
+    override func view() -> UIView! {
+        let v = SimpleDynamicView(bridge: bridge, manager: self)
+        return v
+    }
+    
+    override func shadowView() -> RCTShadowView! {
+        return DynamicShadowView()
+    }
+    
+    @objc
+    func didDismiss() {
+        debugPrint("🥲didDismiss")
+    }
+}
+
+class SimpleDynamicView: UIView {
+    var _bridge: RCTBridge?
+    weak var manager: DynamicViewManager?
+    
+    @objc
+    var simpleEmptyProp: NSNumber?
+    
+    init(bridge: RCTBridge, manager: DynamicViewManager) {
+        self._bridge = bridge
+        self.manager = manager
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var prefFrame: CGRect = .zero
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundColor = .yellow
+        
+        let registery = self._bridge?.uiManager.value(forKey: "_shadowViewRegistry") as? [NSNumber: RCTShadowView]
+        let shadowView = registery?[subviews[0].reactTag]
+        let origin = shadowView?.layoutMetrics.frame ?? .zero
+        
+        debugPrint("==== ", frame, origin)
+        frame = .init(origin: frame.origin, size: origin.size)
+    }
+    
+    override func insertReactSubview(_ subview: UIView!, at atIndex: Int) {
+        super.insertReactSubview(subview, at: atIndex)
+        //frame = .init(origin: frame.origin, size: .init(width: subviews[0].frame.size.width, height: 520))
+        
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            shadowView?.size = .init(width: self.frame.width, height: self.frame.height)
+//            shadowView?.onLayout?([
+//              "layout": [
+//                  "x": "\(origin.origin.x)",
+//                  "y": "\(origin.origin.y)",
+//                  "width": "\(self.frame.width)",
+//                  "height": "\(self.frame.height)"
+//              ]
+//            ])
+//        }
+    }
+}
+
+
+
 class ModalHostShadowView: RCTShadowView {
     override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
         super.insertReactSubview(subview, at: atIndex)

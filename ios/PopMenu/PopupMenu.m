@@ -16,6 +16,10 @@ RCT_EXPORT_VIEW_PROPERTY(sheetSize, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(sheetMaxWidthSize, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(onSheetDismiss, RCTBubblingEventBlock)
 RCT_EXTERN_METHOD(dismiss)
+@end
 
 
+@interface RCT_EXTERN_MODULE(DynamicViewManager, RCTViewManager)
+RCT_EXTERN_METHOD(didDismiss)
+RCT_EXPORT_VIEW_PROPERTY(simpleEmptyProp, NSNumber)
 @end

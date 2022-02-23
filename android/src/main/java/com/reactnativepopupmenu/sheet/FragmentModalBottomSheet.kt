@@ -84,6 +84,7 @@ class FragmentModalBottomSheet : BottomSheetDialogFragment() {
       override fun onPreDraw(): Boolean {
         reactView.viewTreeObserver.removeOnPreDrawListener(this)
         println("🥲 onPreDraw ${reactView.measuredHeight}")
+        //TODO this thing need to fix
         Handler().postDelayed(Runnable {
           peekHeight = reactView.measuredHeight.toDouble()
           setSize(reactView as ViewGroup)

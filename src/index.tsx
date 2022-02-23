@@ -1,4 +1,5 @@
 import { Image, NativeModules, Platform, processColor } from 'react-native';
+import { DynamicView } from './DynamicView';
 import {
   FittedSheet,
   FITTED_SHEET_SCROLL_VIEW,
@@ -77,4 +78,9 @@ export function showPopup(
 }
 
 export { PopupMenuButton };
-export { FittedSheet, FITTED_SHEET_SCROLL_VIEW, useFittedSheetContext };
+export {
+  FittedSheet,
+  FITTED_SHEET_SCROLL_VIEW,
+  useFittedSheetContext,
+  DynamicView,
+};

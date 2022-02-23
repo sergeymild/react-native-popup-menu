@@ -2,9 +2,6 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
 import {
-  FlatList,
-  Modal,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,7 +10,6 @@ import {
 } from 'react-native';
 import {
   configurePopup,
-  FITTED_SHEET_SCROLL_VIEW,
   FittedSheet,
   useFittedSheetContext,
 } from 'react-native-popup-menu';
@@ -111,7 +107,26 @@ export default function App() {
           <Text>Press</Text>
         </TouchableOpacity>
 
-        <View accessibilityLabel={'flexOne'} style={{ flex: 1 }} />
+        {/*<DynamicView>*/}
+        {/*  <View*/}
+        {/*    style={{*/}
+        {/*      padding: 20,*/}
+        {/*      backgroundColor: 'red',*/}
+        {/*    }}*/}
+        {/*    onLayout={(e) => console.log('[Appdynamic.]', e.nativeEvent.layout)}*/}
+        {/*  >*/}
+        {/*    <Text>lorem ipsum</Text>*/}
+        {/*    <View style={{ width: 20, height: 10, backgroundColor: 'green' }} />*/}
+        {/*    <Text>*/}
+        {/*      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A*/}
+        {/*      eligendi fugit ratione rerum. Accusantium hic maxime provident.*/}
+        {/*      Animi autem dolores nostrum porro quibusdam? Fugiat magnam*/}
+        {/*      molestiae quis rerum ullam voluptas.*/}
+        {/*    </Text>*/}
+        {/*  </View>*/}
+        {/*</DynamicView>*/}
+
+        {/*<View accessibilityLabel={'flexOne'} style={{ flex: 1 }} />*/}
 
         <Text style={{ marginBottom: 10 }} accessibilityLabel={'text'}>
           The constructor is init(controller:, sizes:, options:). Sizes is
@@ -204,7 +219,7 @@ export default function App() {
         {/*</ScrollView>*/}
       </View>
 
-      <FittedSheet sheetSize={200} ref={sheetRef}>
+      <FittedSheet sheetSize={-1} ref={sheetRef}>
         <CustomV style={{ height: 100, backgroundColor: 'red' }} />
       </FittedSheet>
 
