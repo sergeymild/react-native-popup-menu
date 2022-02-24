@@ -59,6 +59,13 @@ export const CustomV: React.FC<ViewProps> = (props) => {
         style={{ flex: 1 }}
         onLayout={(e) => console.log('[App.child]', e.nativeEvent.layout)}
       />
+      <TouchableOpacity
+        onPress={() => {
+          sheetContext?.setSize(500);
+        }}
+      >
+        <Text>SetSize</Text>
+      </TouchableOpacity>
       {/*<FlatList*/}
       {/*  data={data}*/}
       {/*  onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}*/}
@@ -221,6 +228,15 @@ export default function App() {
 
       <FittedSheet sheetSize={-1} ref={sheetRef}>
         <CustomV style={{ height: 100, backgroundColor: 'red' }} />
+        {/*<View*/}
+        {/*  style={{*/}
+        {/*    height: 100,*/}
+        {/*    width: '100%',*/}
+        {/*    backgroundColor: 'yellow',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Text>123</Text>*/}
+        {/*</View>*/}
       </FittedSheet>
 
       {/*<Modal animationType={'none'} transparent>*/}

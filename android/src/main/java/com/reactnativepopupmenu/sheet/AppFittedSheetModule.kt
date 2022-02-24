@@ -37,8 +37,8 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
 
   @ReactProp(name = "sheetSize")
   fun sheetSize(view: AppFittedSheet, size: Double) {
-    println("🥲sheetSize")
-    view.sheetSize = PixelUtil.toPixelFromDIP(size).toDouble()
+    println("🥲sheetSize $size")
+    view.sheetSize = if (size == -1.0) -1 else PixelUtil.toPixelFromDIP(size).toInt()
   }
 
   @ReactProp(name = "sheetMaxWidthSize")
