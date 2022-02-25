@@ -227,7 +227,9 @@ export default function App() {
       </View>
 
       <FittedSheet sheetSize={-1} ref={sheetRef}>
-        <CustomV style={{ height: 100, backgroundColor: 'red' }} />
+        <CustomV
+          style={{ height: 100, width: '100%', backgroundColor: 'red' }}
+        />
         {/*<View*/}
         {/*  style={{*/}
         {/*    height: 100,*/}

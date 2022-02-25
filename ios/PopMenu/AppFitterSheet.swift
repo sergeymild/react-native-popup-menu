@@ -98,7 +98,7 @@ class ModalHostShadowView: RCTShadowView {
     override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
         super.insertReactSubview(subview, at: atIndex)
         if subview != nil {
-            (subview as RCTShadowView).size = RCTScreenSize()
+            //(subview as RCTShadowView).size = RCTScreenSize()
             subview.position = .absolute
         }
     }
@@ -158,11 +158,14 @@ class HostFittetSheet: UIView {
     @objc
     var sheetSize: NSNumber? {
         didSet {
-            debugPrint("🥲sheetSize", sheetSize?.floatValue)
-            if _isPresented && sheetSize != nil {
-                let sizes: [SheetSize] = [.fixed(CGFloat(sheetSize!.floatValue))]
+            if _isPresented && sheetSize != nil, let reactSubView = _reactSubview {
+                let newHeight = CGFloat(sheetSize!.floatValue)
+                if reactSubView.frame.height == newHeight { return }
+                let sizes: [SheetSize] = [.fixed(newHeight)]
                 self._modalViewController?.sizes = sizes
                 self._modalViewController?.resize(to: sizes[0], animated: true)
+                self.notifyForBoundsChange(newBounds: .init(width: reactSubView.frame.width, height: newHeight))
+                debugPrint("updateVisibleFittedSheetSize", newHeight)
             }
         }
     }
