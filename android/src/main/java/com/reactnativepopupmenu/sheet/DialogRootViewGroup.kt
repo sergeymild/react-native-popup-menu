@@ -55,7 +55,6 @@ internal class DialogRootViewGroup(context: Context?) : ReactViewGroup(context),
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        println("🔦 222 reactHeight ${reactHeight}")
         if (reactHeight > -1) {
             setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), reactHeight)
         } else {
@@ -91,7 +90,6 @@ internal class DialogRootViewGroup(context: Context?) : ReactViewGroup(context),
                         UIManagerHelper.getReactContext(this@DialogRootViewGroup)
                     val modalSize = ModalHostHelper.getModalHostSize(reactContext)
                     val newHeight = child.measuredHeight
-                    println("🔦 111 ${newHeight}")
                     this@DialogRootViewGroup.reactHeight = newHeight
                     ReactNativeReflection.setSize(child, modalSize.x, newHeight)
 //                    this@DialogRootViewGroup.forceLayout()

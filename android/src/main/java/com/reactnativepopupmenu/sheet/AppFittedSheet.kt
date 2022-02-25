@@ -19,11 +19,8 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
 
     var sheetSize: Int = -1
         set(value) {
-            println("🔦 SETTT h ${value}")
             mHostView.reactHeight = value
-            if (field != value) {
-                mHostView.setVirtualHeight(value)
-            }
+            if (field != value) mHostView.setVirtualHeight(value)
             field = value
         }
         get() = mHostView.reactHeight
@@ -44,7 +41,6 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
         if (sheet == null) {
             val fragment = FragmentModalBottomSheet()
             fragment.createViewCallable = ::getContentView
-            fragment.peekHeight = sheetSize.toDouble()
             fragment.onDismiss = Runnable {
                 (context as ReactContext).getJSModule(RCTEventEmitter::class.java)
                     .receiveEvent(id, "onSheetDismiss", Arguments.createMap())
@@ -58,9 +54,7 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
         mHostView.dispatchProvideStructure(structure)
     }
 
-    private fun getContentView(): View {
-        return mHostView
-    }
+    private fun getContentView(): Wrapper = mHostView
 
     override fun addView(child: View, index: Int) {
         println("🥲addView")
@@ -68,13 +62,9 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
         mHostView.addView(child, index)
     }
 
-    override fun getChildCount(): Int {
-        return mHostView.childCount
-    }
+    override fun getChildCount(): Int = mHostView.childCount
 
-    override fun getChildAt(index: Int): View? {
-        return mHostView.getChildAt(index)
-    }
+    override fun getChildAt(index: Int): View? = mHostView.getChildAt(index)
 
     override fun removeView(child: View?) {
         UiThreadUtil.assertOnUiThread()

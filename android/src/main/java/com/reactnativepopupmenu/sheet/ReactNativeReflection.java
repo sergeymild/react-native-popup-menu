@@ -1,17 +1,14 @@
 package com.reactnativepopupmenu.sheet;
 
-import android.graphics.Point;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.NativeViewHierarchyOptimizer;
 import com.facebook.react.uimanager.OnLayoutEvent;
 import com.facebook.react.uimanager.ReactShadowNode;
 import com.facebook.react.uimanager.ShadowNodeRegistry;
 import com.facebook.react.uimanager.UIImplementation;
-import com.facebook.react.uimanager.UIManagerHelper;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.UIViewOperationQueue;
 import com.facebook.react.uimanager.events.EventDispatcher;
@@ -81,25 +78,25 @@ public class ReactNativeReflection {
   }
 
 
-  static void setSize(View view, ReactContext reactContext) {
-    final int viewTag = view.getId();
-    Point modalHostSize = ModalHostHelper.getModalHostSize(reactContext);
-    ReactShadowNode reactShadowNode = shadowNodeSparseArray.get(viewTag);
-    reactShadowNode.setStyleWidth(modalHostSize.x);
-    reactShadowNode.setStyleHeight((int) FragmentModalBottomSheetKt.getPublicPeekHeight());
-    applyUpdatesRecursive(reactShadowNode, ReactNativeReflection.uiViewOperationQueue, ReactNativeReflection.nativeViewHierarchyOptimizer, ReactNativeReflection.eventDispatcher, 0f, 0f);
-
-    ReactNativeReflection.eventDispatcher.dispatchEvent(
-      OnLayoutEvent.obtain(
-        viewTag,
-        reactShadowNode.getScreenX(),
-        reactShadowNode.getScreenY(),
-        reactShadowNode.getScreenWidth(),
-        reactShadowNode.getScreenHeight()));
-    if (ReactNativeReflection.layoutUpdateListener != null) {
-      ReactNativeReflection.layoutUpdateListener.onLayoutUpdated(reactShadowNode);
-    }
-  }
+//  static void setSize(View view, ReactContext reactContext) {
+//    final int viewTag = view.getId();
+//    Point modalHostSize = ModalHostHelper.getModalHostSize(reactContext);
+//    ReactShadowNode reactShadowNode = shadowNodeSparseArray.get(viewTag);
+//    reactShadowNode.setStyleWidth(modalHostSize.x);
+//    reactShadowNode.setStyleHeight((int) FragmentModalBottomSheetKt.getPublicPeekHeight());
+//    applyUpdatesRecursive(reactShadowNode, ReactNativeReflection.uiViewOperationQueue, ReactNativeReflection.nativeViewHierarchyOptimizer, ReactNativeReflection.eventDispatcher, 0f, 0f);
+//
+//    ReactNativeReflection.eventDispatcher.dispatchEvent(
+//      OnLayoutEvent.obtain(
+//        viewTag,
+//        reactShadowNode.getScreenX(),
+//        reactShadowNode.getScreenY(),
+//        reactShadowNode.getScreenWidth(),
+//        reactShadowNode.getScreenHeight()));
+//    if (ReactNativeReflection.layoutUpdateListener != null) {
+//      ReactNativeReflection.layoutUpdateListener.onLayoutUpdated(reactShadowNode);
+//    }
+//  }
 
   static void setSize(View view, int width, int height) {
     final int viewTag = view.getId();
