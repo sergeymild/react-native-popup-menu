@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { Platform, requireNativeComponent, View } from 'react-native';
+import { Platform, requireNativeComponent } from 'react-native';
 
 export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
 
