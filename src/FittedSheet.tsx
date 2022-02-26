@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { Platform, requireNativeComponent } from "react-native";
+import { Platform, requireNativeComponent, View } from 'react-native';
 
 export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
 
@@ -53,7 +53,18 @@ export class FittedSheet extends React.PureComponent<Props, State> {
 
   setSize = (size: number) => {
     console.log('[FittedSheet.setSize]', size);
-    this.setState({ sheetSize: size });
+    //this.setState({ sheetSize: size });
+    this.sheetRef.current?.setNativeProps({ sheetSize: size });
+  };
+
+  increaseHeight = (by: number) => {
+    console.log('[FittedSheet.increaseHeight]', by);
+    this.sheetRef.current?.setNativeProps({ increaseHeight: by });
+  };
+
+  decreaseHeight = (by: number) => {
+    console.log('[FittedSheet.decreaseHeight]', by);
+    this.sheetRef.current?.setNativeProps({ decreaseHeight: by });
   };
 
   private onDismiss = () => {
@@ -67,8 +78,8 @@ export class FittedSheet extends React.PureComponent<Props, State> {
       console.log('[FitterSheet.render.remove]');
       return null;
     }
-    let height = this.state.sheetSize ?? this.props.sheetSize
-    if (height === undefined && Platform.OS === 'android') height = -1
+    let height = this.state.sheetSize ?? this.props.sheetSize;
+    if (height === undefined && Platform.OS === 'android') height = -1;
     console.log('[FitterSheet.render.add]', height);
     return (
       <_FitterSheet
@@ -78,7 +89,13 @@ export class FittedSheet extends React.PureComponent<Props, State> {
         sheetSize={height}
       >
         <FittedSheetContext.Provider value={this}>
-          {this.props.children}
+          {Platform.OS === 'android' ? (
+            <View accessibilityLabel={'androidFittedSheetChildrenWrapper'}>
+              {this.props.children}
+            </View>
+          ) : (
+            this.props.children
+          )}
         </FittedSheetContext.Provider>
       </_FitterSheet>
     );
