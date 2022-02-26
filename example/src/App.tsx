@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import {
   configurePopup,
+  FITTED_SHEET_SCROLL_VIEW,
   FittedSheet,
   useFittedSheetContext,
 } from 'react-native-popup-menu';
@@ -36,6 +38,14 @@ configurePopup({
 
 const data = [...Array(200)].map((_, index) => index);
 
+const renderItem = (info: any) => (
+  <Text
+    key={info}
+    style={{ height: 56, width: '100%', borderBottomWidth: 1 }}
+    children={info}
+  />
+);
+
 export const CustomV: React.FC<ViewProps> = (props) => {
   const sheetContext = useFittedSheetContext();
 
@@ -45,17 +55,17 @@ export const CustomV: React.FC<ViewProps> = (props) => {
       accessibilityLabel={'sheetView'}
       onLayout={(e) => console.log('[App.root]', e.nativeEvent.layout)}
     >
-      <TouchableOpacity
-        style={{ width: '100%', height: 100 }}
-        onPress={() => {
-          sheetContext?.setSize(500);
-        }}
-      >
-        <Text style={{ color: 'black', height: 50, backgroundColor: 'red' }}>
-          SetSize
-        </Text>
-      </TouchableOpacity>
-      <View style={{ height: 100, width: '100%', backgroundColor: 'yellow' }} />
+      {/*<TouchableOpacity*/}
+      {/*  style={{ width: '100%', height: 100 }}*/}
+      {/*  onPress={() => {*/}
+      {/*    sheetContext?.setSize(500);*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <Text style={{ color: 'black', height: 50, backgroundColor: 'red' }}>*/}
+      {/*    SetSize*/}
+      {/*  </Text>*/}
+      {/*</TouchableOpacity>*/}
+      {/*<View style={{ height: 100, width: '100%', backgroundColor: 'yellow' }} />*/}
       {/*<FlatList*/}
       {/*  data={data}*/}
       {/*  onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}*/}
@@ -69,14 +79,15 @@ export const CustomV: React.FC<ViewProps> = (props) => {
       {/*    </Text>*/}
       {/*  )}*/}
       {/*/>*/}
-      {/*<ScrollView*/}
-      {/*  nestedScrollEnabled*/}
-      {/*  nativeID={FITTED_SHEET_SCROLL_VIEW}*/}
-      {/*  style={{ flex: 1, backgroundColor: 'yellow' }}*/}
-      {/*  contentContainerStyle={{ paddingBottom: 20 }}*/}
-      {/*>*/}
-      {/*  {data.map(renderItem)}*/}
-      {/*</ScrollView>*/}
+      <ScrollView
+        nestedScrollEnabled
+        nativeID={FITTED_SHEET_SCROLL_VIEW}
+        style={{ flex: 1, backgroundColor: 'yellow' }}
+      >
+        {data.map((item) => (
+          <React.Fragment key={item}>{renderItem(item)}</React.Fragment>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -111,11 +122,11 @@ export default function App() {
         </Text>
       </View>
 
-      <FittedSheet ref={sheetRef}>
+      <FittedSheet sheetSize={-1} ref={sheetRef}>
         <CustomV
           style={{
             width: '100%',
-            height: 100,
+            height: 400,
             backgroundColor: 'red',
           }}
         />
