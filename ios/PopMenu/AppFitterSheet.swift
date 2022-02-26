@@ -248,6 +248,9 @@ class HostFittetSheet: UIView {
         _reactSubview = nil
         //destroy()
     }
+    
+    // need to leave it empty
+    override func didUpdateReactSubviews() {}
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
