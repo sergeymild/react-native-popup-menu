@@ -43,7 +43,6 @@ export const CustomV: React.FC<ViewProps> = (props) => {
     <View
       {...props}
       accessibilityLabel={'sheetView'}
-      style={{ backgroundColor: 'red' }}
       onLayout={(e) => console.log('[App.root]', e.nativeEvent.layout)}
     >
       <TouchableOpacity
@@ -104,120 +103,15 @@ export default function App() {
         >
           <Text>Press</Text>
         </TouchableOpacity>
-
-        {/*<DynamicView>*/}
-        {/*  <View*/}
-        {/*    style={{*/}
-        {/*      padding: 20,*/}
-        {/*      backgroundColor: 'red',*/}
-        {/*    }}*/}
-        {/*    onLayout={(e) => console.log('[Appdynamic.]', e.nativeEvent.layout)}*/}
-        {/*  >*/}
-        {/*    <Text>lorem ipsum</Text>*/}
-        {/*    <View style={{ width: 20, height: 10, backgroundColor: 'green' }} />*/}
-        {/*    <Text>*/}
-        {/*      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A*/}
-        {/*      eligendi fugit ratione rerum. Accusantium hic maxime provident.*/}
-        {/*      Animi autem dolores nostrum porro quibusdam? Fugiat magnam*/}
-        {/*      molestiae quis rerum ullam voluptas.*/}
-        {/*    </Text>*/}
-        {/*  </View>*/}
-        {/*</DynamicView>*/}
-
-        {/*<View accessibilityLabel={'flexOne'} style={{ flex: 1 }} />*/}
-
         <Text style={{ marginBottom: 10 }} accessibilityLabel={'text'}>
           The constructor is init(controller:, sizes:, options:). Sizes is
           optional, but if specified, the first size in the array will determine
           the initial size of the sheet. Options is also optional, if not
           specified, the default options will be used.
         </Text>
-        {/*<ScrollView style={{ flex: 1, backgroundColor: 'white' }}>*/}
-        {/*  <TouchableOpacity*/}
-        {/*    ref={ref}*/}
-        {/*    accessibilityLabel={'Pressable'}*/}
-        {/*    style={{*/}
-        {/*      height: 56,*/}
-        {/*      width: 56,*/}
-        {/*      marginTop: 100,*/}
-        {/*      marginStart: Dimensions.get('window').width - 156,*/}
-        {/*      backgroundColor: 'red',*/}
-        {/*      alignItems: 'center',*/}
-        {/*      justifyContent: 'center',*/}
-        {/*    }}*/}
-        {/*    onPress={() => {*/}
-        {/*      ref.current?.measureInWindow(async (x, y, width, height) => {*/}
-        {/*        const selected = await showPopup({*/}
-        {/*          frame: { x, y, width, height },*/}
-        {/*          gravity: 'bottom',*/}
-        {/*          buttons: [*/}
-        {/*            {*/}
-        {/*              text: 'SHARE',*/}
-        {/*              data: 'SHARE',*/}
-        {/*              // icon: require('./assets/icShare.png'),*/}
-        {/*            },*/}
-        {/*            {*/}
-        {/*              text: 'М',*/}
-        {/*              data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',*/}
-        {/*              separatorHeight: 19,*/}
-        {/*              separatorColor: 'red',*/}
-        {/*              // showSeparator: true,*/}
-        {/*              // icon: require('./assets/icViews.png'),*/}
-        {/*            },*/}
-        {/*            {*/}
-        {/*              text: 'SETTINGS',*/}
-        {/*              data: 'SETTINGS',*/}
-        {/*              // icon: require('./assets/icSettings.png'),*/}
-        {/*            },*/}
-        {/*          ],*/}
-        {/*        });*/}
-        {/*        console.log(selected);*/}
-        {/*      });*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <Text nativeID={'oneNative'}>One</Text>*/}
-        {/*  </TouchableOpacity>*/}
-        {/*  <View style={{ height: 550 }} />*/}
-        {/*  <TouchableOpacity*/}
-        {/*    ref={ref2}*/}
-        {/*    style={{*/}
-        {/*      height: 100,*/}
-        {/*      width: '100%',*/}
-        {/*      backgroundColor: 'green',*/}
-        {/*      alignItems: 'center',*/}
-        {/*      justifyContent: 'center',*/}
-        {/*    }}*/}
-        {/*    onPress={async () => {*/}
-        {/*      ref2.current?.measureInWindow(async (x, y, width, height) => {*/}
-        {/*        console.log('-----', y, height);*/}
-        {/*        const selected = await showPopup({*/}
-        {/*          isIconsFromRight: true,*/}
-        {/*          cornerRadius: 10,*/}
-        {/*          gravity: 'top',*/}
-        {/*          frame: { x, y, width, height },*/}
-        {/*          buttons: [*/}
-        {/*            {*/}
-        {/*              text: 'Firstsadkjk',*/}
-        {/*              data: '1',*/}
-        {/*              icon: require('./assets/icShare.png'),*/}
-        {/*            },*/}
-        {/*            {*/}
-        {/*              text: 'SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond',*/}
-        {/*              data: '2',*/}
-        {/*              icon: require('./assets/icUnsave.png'),*/}
-        {/*            },*/}
-        {/*          ],*/}
-        {/*        });*/}
-        {/*        console.log('[App.selected]', selected);*/}
-        {/*      });*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <Text nativeID={'twoNative'}>two</Text>*/}
-        {/*  </TouchableOpacity>*/}
-        {/*</ScrollView>*/}
       </View>
 
-      <FittedSheet sheetSize={200} ref={sheetRef}>
+      <FittedSheet ref={sheetRef}>
         <CustomV
           style={{
             width: '100%',
@@ -225,24 +119,7 @@ export default function App() {
             backgroundColor: 'red',
           }}
         />
-        {/*<View*/}
-        {/*  style={{*/}
-        {/*    height: 100,*/}
-        {/*    width: '100%',*/}
-        {/*    backgroundColor: 'yellow',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <Text>123</Text>*/}
-        {/*</View>*/}
       </FittedSheet>
-
-      {/*<Modal animationType={'none'} transparent>*/}
-      {/*  <FittedSheet sheetSize={200} ref={sheetRef}>*/}
-      {/*    <CustomV*/}
-      {/*      style={{ height: 500, width: '100%', backgroundColor: 'red' }}*/}
-      {/*    />*/}
-      {/*  </FittedSheet>*/}
-      {/*</Modal>*/}
     </>
   );
 }
