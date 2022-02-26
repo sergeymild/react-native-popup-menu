@@ -14,6 +14,8 @@ RCT_EXTERN_METHOD(configurePopup:(NSDictionary *)options)
 RCT_EXPORT_VIEW_PROPERTY(dismissKeyboardOnScroll, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(sheetSize, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(sheetMaxWidthSize, NSNumber)
+RCT_EXPORT_VIEW_PROPERTY(increaseHeight, NSNumber)
+RCT_EXPORT_VIEW_PROPERTY(decreaseHeight, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(onSheetDismiss, RCTBubblingEventBlock)
 RCT_EXTERN_METHOD(dismiss)
 @end

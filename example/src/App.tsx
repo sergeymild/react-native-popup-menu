@@ -39,33 +39,24 @@ const data = [...Array(200)].map((_, index) => index);
 export const CustomV: React.FC<ViewProps> = (props) => {
   const sheetContext = useFittedSheetContext();
 
-  const renderItem = (info: any) => (
-    <Text
-      key={info.item}
-      style={{ height: 56, width: '100%', borderBottomWidth: 1 }}
-    >
-      {info.item}
-    </Text>
-  );
-
   return (
     <View
       {...props}
       accessibilityLabel={'sheetView'}
+      style={{ backgroundColor: 'red' }}
       onLayout={(e) => console.log('[App.root]', e.nativeEvent.layout)}
     >
-      <View
-        accessibilityLabel={'nestedView'}
-        style={{ flex: 1 }}
-        onLayout={(e) => console.log('[App.child]', e.nativeEvent.layout)}
-      />
       <TouchableOpacity
+        style={{ width: '100%', height: 100 }}
         onPress={() => {
           sheetContext?.setSize(500);
         }}
       >
-        <Text>SetSize</Text>
+        <Text style={{ color: 'black', height: 50, backgroundColor: 'red' }}>
+          SetSize
+        </Text>
       </TouchableOpacity>
+      <View style={{ height: 100, width: '100%', backgroundColor: 'yellow' }} />
       {/*<FlatList*/}
       {/*  data={data}*/}
       {/*  onLayout={(e) => console.log('[FlatList.]', e.nativeEvent.layout)}*/}
@@ -226,9 +217,13 @@ export default function App() {
         {/*</ScrollView>*/}
       </View>
 
-      <FittedSheet sheetSize={-1} ref={sheetRef}>
+      <FittedSheet sheetSize={200} ref={sheetRef}>
         <CustomV
-          style={{ height: 100, width: '100%', backgroundColor: 'red' }}
+          style={{
+            width: '100%',
+            height: 100,
+            backgroundColor: 'red',
+          }}
         />
         {/*<View*/}
         {/*  style={{*/}

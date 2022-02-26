@@ -9,6 +9,7 @@ import com.facebook.react.uimanager.OnLayoutEvent;
 import com.facebook.react.uimanager.ReactShadowNode;
 import com.facebook.react.uimanager.ShadowNodeRegistry;
 import com.facebook.react.uimanager.UIImplementation;
+import com.facebook.react.uimanager.UIManagerHelper;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.UIViewOperationQueue;
 import com.facebook.react.uimanager.events.EventDispatcher;
@@ -29,6 +30,13 @@ public class ReactNativeReflection {
     if (isInitialized) return;
     uiImplementation = getUiImplementation(context);
     uiImplementationClass = uiImplementation.getClass();
+
+    String name = uiImplementationClass.getName();
+    while (!name.equals("com.facebook.react.uimanager.UIImplementation") && !name.equals("java.lang.Object") && uiImplementationClass != null) {
+      uiImplementationClass = (Class<? extends UIImplementation>) uiImplementationClass.getSuperclass();
+      name = uiImplementationClass.getName();
+    }
+
     uiViewOperationQueue = getUiViewOperationQueue();
     nativeViewHierarchyOptimizer = getNativeViewHierarchyOptimizer();
     eventDispatcher = getEventDispatcher();

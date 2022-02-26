@@ -24,7 +24,7 @@ class Wrapper(context: Context) : ReactViewGroup(context), RootView {
     private val eventDispatcher: EventDispatcher
         private get() {
             val reactContext = reactContext
-            return reactContext.getNativeModule(UIManagerModule::class.java).eventDispatcher
+            return reactContext.getNativeModule(UIManagerModule::class.java)!!.eventDispatcher
         }
     private var reactView: View? = null
         set(value) {

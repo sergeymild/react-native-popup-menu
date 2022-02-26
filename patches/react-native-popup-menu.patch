@@ -1,0 +1,229 @@
+diff --git a/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheet.kt b/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheet.kt
+index 5339fac..7b90218 100644
+--- a/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheet.kt
++++ b/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheet.kt
+@@ -15,7 +15,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter
+
+ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListener {
+     private val fragmentTag = "CCBottomSheet-${System.currentTimeMillis()}"
+-    private var mHostView: Wrapper = Wrapper(context)
++    var mHostView: Wrapper = Wrapper(context)
+
+     var sheetSize: Int = -1
+         set(value) {
+diff --git a/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheetModule.kt b/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheetModule.kt
+index 2f3d5aa..54b34f0 100644
+--- a/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheetModule.kt
++++ b/android/src/main/java/com/reactnativepopupmenu/sheet/AppFittedSheetModule.kt
+@@ -41,6 +41,22 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
+     view.sheetSize = if (size < 0) -1 else PixelUtil.toPixelFromDIP(size).toInt()
+   }
+
++  @ReactProp(name = "increaseHeight")
++  fun setIncreaseHeight(view: AppFittedSheet, by: Double) {
++    if (by == 0.0) return
++    val newHeight = view.mHostView.reactHeight + PixelUtil.toPixelFromDIP(by)
++    println("🥲increaseHeight from: ${view.mHostView.reactHeight} to: $newHeight")
++    view.sheetSize = newHeight.toInt()
++  }
++
++  @ReactProp(name = "decreaseHeight")
++  fun setDecreaseHeight(view: AppFittedSheet, by: Double) {
++    if (by == 0.0) return
++    val newHeight = view.mHostView.reactHeight - PixelUtil.toPixelFromDIP(by)
++    println("🥲decreaseHeight from: ${view.mHostView.reactHeight} to: $newHeight")
++    view.sheetSize = newHeight.toInt()
++  }
++
+   @ReactProp(name = "sheetMaxWidthSize")
+   fun sheetMaxWidthSize(view: AppFittedSheet, size: Double) {
+     println("🥲sheetMaxWidthSize")
+diff --git a/android/src/main/java/com/reactnativepopupmenu/sheet/DialogRootViewGroup.kt b/android/src/main/java/com/reactnativepopupmenu/sheet/DialogRootViewGroup.kt
+index 9b3d5b3..7558f6c 100644
+--- a/android/src/main/java/com/reactnativepopupmenu/sheet/DialogRootViewGroup.kt
++++ b/android/src/main/java/com/reactnativepopupmenu/sheet/DialogRootViewGroup.kt
+@@ -133,6 +133,6 @@ internal class DialogRootViewGroup(context: Context?) : ReactViewGroup(context),
+     private val eventDispatcher: EventDispatcher
+         private get() {
+             val reactContext = reactContext
+-            return reactContext.getNativeModule(UIManagerModule::class.java).eventDispatcher
++            return reactContext.getNativeModule(UIManagerModule::class.java)!!.eventDispatcher
+         }
+ }
+diff --git a/android/src/main/java/com/reactnativepopupmenu/sheet/ReactNativeReflection.java b/android/src/main/java/com/reactnativepopupmenu/sheet/ReactNativeReflection.java
+index ff69bd8..aa992cf 100644
+--- a/android/src/main/java/com/reactnativepopupmenu/sheet/ReactNativeReflection.java
++++ b/android/src/main/java/com/reactnativepopupmenu/sheet/ReactNativeReflection.java
+@@ -9,6 +9,7 @@ import com.facebook.react.uimanager.OnLayoutEvent;
+ import com.facebook.react.uimanager.ReactShadowNode;
+ import com.facebook.react.uimanager.ShadowNodeRegistry;
+ import com.facebook.react.uimanager.UIImplementation;
++import com.facebook.react.uimanager.UIManagerHelper;
+ import com.facebook.react.uimanager.UIManagerModule;
+ import com.facebook.react.uimanager.UIViewOperationQueue;
+ import com.facebook.react.uimanager.events.EventDispatcher;
+@@ -29,6 +30,13 @@ public class ReactNativeReflection {
+     if (isInitialized) return;
+     uiImplementation = getUiImplementation(context);
+     uiImplementationClass = uiImplementation.getClass();
++
++    String name = uiImplementationClass.getName();
++    while (!name.equals("com.facebook.react.uimanager.UIImplementation") && !name.equals("java.lang.Object") && uiImplementationClass != null) {
++      uiImplementationClass = (Class<? extends UIImplementation>) uiImplementationClass.getSuperclass();
++      name = uiImplementationClass.getName();
++    }
++
+     uiViewOperationQueue = getUiViewOperationQueue();
+     nativeViewHierarchyOptimizer = getNativeViewHierarchyOptimizer();
+     eventDispatcher = getEventDispatcher();
+diff --git a/android/src/main/java/com/reactnativepopupmenu/sheet/Wrapper.kt b/android/src/main/java/com/reactnativepopupmenu/sheet/Wrapper.kt
+index 6d460fd..c5f4254 100644
+--- a/android/src/main/java/com/reactnativepopupmenu/sheet/Wrapper.kt
++++ b/android/src/main/java/com/reactnativepopupmenu/sheet/Wrapper.kt
+@@ -24,7 +24,7 @@ class Wrapper(context: Context) : ReactViewGroup(context), RootView {
+     private val eventDispatcher: EventDispatcher
+         private get() {
+             val reactContext = reactContext
+-            return reactContext.getNativeModule(UIManagerModule::class.java).eventDispatcher
++            return reactContext.getNativeModule(UIManagerModule::class.java)!!.eventDispatcher
+         }
+     private var reactView: View? = null
+         set(value) {
+diff --git a/ios/PopMenu/AppFitterSheet.swift b/ios/PopMenu/AppFitterSheet.swift
+index fec5c4e..3f4c074 100644
+--- a/ios/PopMenu/AppFitterSheet.swift
++++ b/ios/PopMenu/AppFitterSheet.swift
+@@ -98,7 +98,7 @@ class ModalHostShadowView: RCTShadowView {
+     override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
+         super.insertReactSubview(subview, at: atIndex)
+         if subview != nil {
+-            //(subview as RCTShadowView).size = RCTScreenSize()
++            (subview as RCTShadowView).width = YGValue.init(value: Float(RCTScreenSize().width), unit: .point)
+             subview.position = .absolute
+         }
+     }
+@@ -110,12 +110,12 @@ let FITTED_SHEET_SCROLL_VIEW = "fittedSheetScrollView"
+ class AppFitterSheet: RCTViewManager {
+     var sheetView: UIView?
+
+-    override func customBubblingEventTypes() -> [String]! {
+-        return ["onSheetDismiss"]
++    override static func requiresMainQueueSetup() -> Bool {
++        return true
+     }
+
+-    override class func requiresMainQueueSetup() -> Bool {
+-        return true
++    override func customBubblingEventTypes() -> [String]! {
++        return ["onSheetDismiss"]
+     }
+
+     override func view() -> UIView! {
+@@ -170,6 +170,35 @@ class HostFittetSheet: UIView {
+         }
+     }
+
++    @objc
++    func setIncreaseHeight(_ by: NSNumber) {
++        if by.floatValue == 0 { return }
++        debugPrint("setIncreaseHeight", by.floatValue)
++        changeHeight(by.floatValue)
++    }
++
++    @objc
++    func setDecreaseHeight(_ by: NSNumber) {
++        if by.floatValue == 0 { return }
++        debugPrint("setDecreaseHeight", -by.floatValue)
++        changeHeight(-by.floatValue)
++    }
++
++    private func changeHeight(_ by: Float) {
++        if !_isPresented { return }
++        guard let reactSubView = _reactSubview else { return }
++
++        let newHeight = CGFloat(by)
++        if reactSubView.frame.height == newHeight { return }
++        let increasedHeight = reactSubView.frame.height + newHeight
++        debugPrint("changeHeight from", reactSubView.frame.height, "to", increasedHeight)
++        let sizes: [SheetSize] = [.fixed(increasedHeight)]
++        self._modalViewController?.sizes = sizes
++        self._modalViewController?.resize(to: sizes[0], animated: true)
++        self.notifyForBoundsChange(newBounds: .init(width: reactSubView.frame.width, height: increasedHeight))
++        debugPrint("", increasedHeight)
++    }
++
+     @objc
+     private var sheetMaxWidthSize: NSNumber?
+
+@@ -251,6 +280,9 @@ class HostFittetSheet: UIView {
+                 } else {
+                     size = .init(width: self.sheetWidth, height: CGFloat(self.sheetSize!.floatValue))
+                 }
++                if size.width > self.sheetWidth {
++                    size.width = self.sheetWidth
++                }
+                 self.notifyForBoundsChange(newBounds: size)
+                 self._modalViewController = SheetViewController(
+                     controller: self.viewController,
+diff --git a/ios/PopMenu/PopupMenu.m b/ios/PopMenu/PopupMenu.m
+index 6b70b35..9a2bbe3 100644
+--- a/ios/PopMenu/PopupMenu.m
++++ b/ios/PopMenu/PopupMenu.m
+@@ -14,6 +14,8 @@ @interface RCT_EXTERN_MODULE(AppFitterSheet, RCTViewManager)
+ RCT_EXPORT_VIEW_PROPERTY(dismissKeyboardOnScroll, BOOL)
+ RCT_EXPORT_VIEW_PROPERTY(sheetSize, NSNumber)
+ RCT_EXPORT_VIEW_PROPERTY(sheetMaxWidthSize, NSNumber)
++RCT_EXPORT_VIEW_PROPERTY(increaseHeight, NSNumber)
++RCT_EXPORT_VIEW_PROPERTY(decreaseHeight, NSNumber)
+ RCT_EXPORT_VIEW_PROPERTY(onSheetDismiss, RCTBubblingEventBlock)
+ RCT_EXTERN_METHOD(dismiss)
+ @end
+diff --git a/src/FittedSheet.tsx b/src/FittedSheet.tsx
+index cb87d1b..ca6333d 100644
+--- a/src/FittedSheet.tsx
++++ b/src/FittedSheet.tsx
+@@ -1,5 +1,5 @@
+ import React, { createContext, useContext } from 'react';
+-import { requireNativeComponent } from 'react-native';
++import { Platform, requireNativeComponent } from "react-native";
+
+ export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
+
+@@ -53,7 +53,18 @@ export class FittedSheet extends React.PureComponent<Props, State> {
+
+   setSize = (size: number) => {
+     console.log('[FittedSheet.setSize]', size);
+-    this.setState({ sheetSize: size });
++    //this.setState({ sheetSize: size });
++    this.sheetRef.current?.setNativeProps({sheetSize: size})
++  };
++
++  increaseHeight = (by: number) => {
++    console.log('[FittedSheet.increaseHeight]', by);
++    this.sheetRef.current?.setNativeProps({increaseHeight: by})
++  };
++
++  decreaseHeight = (by: number) => {
++    console.log('[FittedSheet.decreaseHeight]', by);
++    this.sheetRef.current?.setNativeProps({decreaseHeight: by})
+   };
+
+   private onDismiss = () => {
+@@ -67,13 +78,15 @@ export class FittedSheet extends React.PureComponent<Props, State> {
+       console.log('[FitterSheet.render.remove]');
+       return null;
+     }
+-    console.log('[FitterSheet.render.add]');
++    let height = this.state.sheetSize ?? this.props.sheetSize
++    if (height === undefined && Platform.OS === 'android') height = -1
++    console.log('[FitterSheet.render.add]', height);
+     return (
+       <_FitterSheet
+         onSheetDismiss={this.onDismiss}
+         ref={this.sheetRef}
+         sheetMaxWidthSize={this.props.maxWidth}
+-        sheetSize={this.state.sheetSize ?? this.props.sheetSize}
++        sheetSize={height}
+       >
+         <FittedSheetContext.Provider value={this}>
+           {this.props.children}

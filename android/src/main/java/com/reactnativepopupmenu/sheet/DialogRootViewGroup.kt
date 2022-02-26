@@ -133,6 +133,6 @@ internal class DialogRootViewGroup(context: Context?) : ReactViewGroup(context),
     private val eventDispatcher: EventDispatcher
         private get() {
             val reactContext = reactContext
-            return reactContext.getNativeModule(UIManagerModule::class.java).eventDispatcher
+            return reactContext.getNativeModule(UIManagerModule::class.java)!!.eventDispatcher
         }
 }

@@ -63,7 +63,6 @@ class SimpleDynamicView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        backgroundColor = .yellow
         
         let registery = self._bridge?.uiManager.value(forKey: "_shadowViewRegistry") as? [NSNumber: RCTShadowView]
         let shadowView = registery?[subviews[0].reactTag]
@@ -98,7 +97,7 @@ class ModalHostShadowView: RCTShadowView {
     override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
         super.insertReactSubview(subview, at: atIndex)
         if subview != nil {
-            //(subview as RCTShadowView).size = RCTScreenSize()
+            (subview as RCTShadowView).width = YGValue.init(value: Float(RCTScreenSize().width), unit: .point)
             subview.position = .absolute
         }
     }
@@ -110,12 +109,12 @@ let FITTED_SHEET_SCROLL_VIEW = "fittedSheetScrollView"
 class AppFitterSheet: RCTViewManager {
     var sheetView: UIView?
     
-    override func customBubblingEventTypes() -> [String]! {
-        return ["onSheetDismiss"]
+    override static func requiresMainQueueSetup() -> Bool {
+        return true
     }
     
-    override class func requiresMainQueueSetup() -> Bool {
-        return true
+    override func customBubblingEventTypes() -> [String]! {
+        return ["onSheetDismiss"]
     }
     
     override func view() -> UIView! {
@@ -147,27 +146,53 @@ class HostFittetSheet: UIView {
     var _bridge: RCTBridge?
     weak var manager: AppFitterSheet?
     var _isPresented = false
+    var _sheetSize: NSNumber?
     
     @objc
-    private var onSheetDismiss: RCTBubblingEventBlock? {
-        didSet {
-            debugPrint("ds")
+    private var onSheetDismiss: RCTBubblingEventBlock?
+    
+    @objc
+    func setSheetSize(_ value: NSNumber) {
+        if value == -1 { return }
+        _sheetSize = value
+        if _isPresented, let reactSubView = _reactSubview {
+            let newHeight = CGFloat(value.floatValue)
+            if reactSubView.frame.height == newHeight { return }
+            let sizes: [SheetSize] = [.fixed(newHeight)]
+            self._modalViewController?.sizes = sizes
+            self._modalViewController?.resize(to: sizes[0], animated: true)
+            self.notifyForBoundsChange(newBounds: .init(width: reactSubView.frame.width, height: newHeight))
+            debugPrint("updateVisibleFittedSheetSize", newHeight)
         }
     }
     
     @objc
-    var sheetSize: NSNumber? {
-        didSet {
-            if _isPresented && sheetSize != nil, let reactSubView = _reactSubview {
-                let newHeight = CGFloat(sheetSize!.floatValue)
-                if reactSubView.frame.height == newHeight { return }
-                let sizes: [SheetSize] = [.fixed(newHeight)]
-                self._modalViewController?.sizes = sizes
-                self._modalViewController?.resize(to: sizes[0], animated: true)
-                self.notifyForBoundsChange(newBounds: .init(width: reactSubView.frame.width, height: newHeight))
-                debugPrint("updateVisibleFittedSheetSize", newHeight)
-            }
-        }
+    func setIncreaseHeight(_ by: NSNumber) {
+        if by.floatValue == 0 { return }
+        debugPrint("setIncreaseHeight", by.floatValue)
+        changeHeight(by.floatValue)
+    }
+    
+    @objc
+    func setDecreaseHeight(_ by: NSNumber) {
+        if by.floatValue == 0 { return }
+        debugPrint("setDecreaseHeight", -by.floatValue)
+        changeHeight(-by.floatValue)
+    }
+    
+    private func changeHeight(_ by: Float) {
+        if !_isPresented { return }
+        guard let reactSubView = _reactSubview else { return }
+        
+        let newHeight = CGFloat(by)
+        if reactSubView.frame.height == newHeight { return }
+        let increasedHeight = reactSubView.frame.height + newHeight
+        debugPrint("changeHeight from", reactSubView.frame.height, "to", increasedHeight)
+        let sizes: [SheetSize] = [.fixed(increasedHeight)]
+        self._modalViewController?.sizes = sizes
+        self._modalViewController?.resize(to: sizes[0], animated: true)
+        self.notifyForBoundsChange(newBounds: .init(width: reactSubView.frame.width, height: increasedHeight))
+        debugPrint("", increasedHeight)
     }
     
     @objc
@@ -223,11 +248,7 @@ class HostFittetSheet: UIView {
         _reactSubview = nil
         //destroy()
     }
-    
-    override func didUpdateReactSubviews() {
-        debugPrint("🥲didUpdateReactSubviews", _reactSubview?.superview?.accessibilityLabel)
-    }
-    
+
     override func didMoveToWindow() {
         super.didMoveToWindow()
         
@@ -243,13 +264,16 @@ class HostFittetSheet: UIView {
             var size: CGSize = .zero
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                if self.sheetSize?.floatValue == nil {
+                if self._sheetSize?.floatValue == nil {
                     self._reactSubview?.setNeedsLayout()
                     self._reactSubview?.layoutIfNeeded()
                     self._reactSubview?.sizeToFit()
                     size = self._reactSubview?.frame.size ?? .zero
                 } else {
-                    size = .init(width: self.sheetWidth, height: CGFloat(self.sheetSize!.floatValue))
+                    size = .init(width: self.sheetWidth, height: CGFloat(self._sheetSize!.floatValue))
+                }
+                if size.width > self.sheetWidth {
+                    size.width = self.sheetWidth
                 }
                 self.notifyForBoundsChange(newBounds: size)
                 self._modalViewController = SheetViewController(
@@ -303,7 +327,7 @@ class HostFittetSheet: UIView {
         _bridge = nil
         manager?.sheetView = nil
         onSheetDismiss = nil
-        sheetSize = nil
+        _sheetSize = nil
         sheetMaxWidthSize = nil
     }
     

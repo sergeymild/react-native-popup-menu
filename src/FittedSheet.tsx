@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { requireNativeComponent } from 'react-native';
+import { Platform, requireNativeComponent } from "react-native";
 
 export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
 
@@ -67,13 +67,15 @@ export class FittedSheet extends React.PureComponent<Props, State> {
       console.log('[FitterSheet.render.remove]');
       return null;
     }
-    console.log('[FitterSheet.render.add]');
+    let height = this.state.sheetSize ?? this.props.sheetSize
+    if (height === undefined && Platform.OS === 'android') height = -1
+    console.log('[FitterSheet.render.add]', height);
     return (
       <_FitterSheet
         onSheetDismiss={this.onDismiss}
         ref={this.sheetRef}
         sheetMaxWidthSize={this.props.maxWidth}
-        sheetSize={this.state.sheetSize ?? this.props.sheetSize}
+        sheetSize={height}
       >
         <FittedSheetContext.Provider value={this}>
           {this.props.children}
