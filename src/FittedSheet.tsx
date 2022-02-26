@@ -89,13 +89,7 @@ export class FittedSheet extends React.PureComponent<Props, State> {
         sheetSize={height}
       >
         <FittedSheetContext.Provider value={this}>
-          {Platform.OS === 'android' ? (
-            <View accessibilityLabel={'androidFittedSheetChildrenWrapper'}>
-              {this.props.children}
-            </View>
-          ) : (
-            this.props.children
-          )}
+          {this.props.children}
         </FittedSheetContext.Provider>
       </_FitterSheet>
     );
