@@ -17,7 +17,7 @@ internal class ModalHostShadowNode : LayoutShadowNode() {
     super.addChildAt(child, i)
     println("🥲shadowNode.addChildAt")
     val modalSize = ModalHostHelper.getModalHostSize(themedContext)
-    //child.setStyleWidth(modalSize.x.toFloat())
+    child.setStyleWidth(modalSize.x.toFloat())
     //child.setStyleHeight(modalSize.y.toFloat())
     child.setPositionType(YogaPositionType.ABSOLUTE)
   }
@@ -39,6 +39,22 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
   fun sheetSize(view: AppFittedSheet, size: Double) {
     println("🥲sheetSize $size")
     view.sheetSize = if (size < 0) -1 else PixelUtil.toPixelFromDIP(size).toInt()
+  }
+
+  @ReactProp(name = "increaseHeight")
+  fun setIncreaseHeight(view: AppFittedSheet, by: Double) {
+    if (by == 0.0) return
+    val newHeight = view.mHostView.reactHeight + PixelUtil.toPixelFromDIP(by)
+    println("🥲increaseHeight from: ${view.mHostView.reactHeight} to: $newHeight")
+    view.sheetSize = newHeight.toInt()
+  }
+
+  @ReactProp(name = "decreaseHeight")
+  fun setDecreaseHeight(view: AppFittedSheet, by: Double) {
+    if (by == 0.0) return
+    val newHeight = view.mHostView.reactHeight - PixelUtil.toPixelFromDIP(by)
+    println("🥲decreaseHeight from: ${view.mHostView.reactHeight} to: $newHeight")
+    view.sheetSize = newHeight.toInt()
   }
 
   @ReactProp(name = "sheetMaxWidthSize")
