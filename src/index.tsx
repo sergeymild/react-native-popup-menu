@@ -1,5 +1,5 @@
 import { Image, NativeModules, Platform, processColor } from 'react-native';
-import { DynamicView } from './DynamicView';
+import { ScalePress, SKIP_SCALE_PRESS } from './ScalePress';
 import {
   FittedSheet,
   FITTED_SHEET_SCROLL_VIEW,
@@ -82,5 +82,6 @@ export {
   FittedSheet,
   FITTED_SHEET_SCROLL_VIEW,
   useFittedSheetContext,
-  DynamicView,
+  ScalePress,
+  SKIP_SCALE_PRESS,
 };

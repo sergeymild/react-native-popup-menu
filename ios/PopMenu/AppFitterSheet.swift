@@ -11,83 +11,88 @@ import UIKit
 import React
 import FittedSheets
 
-class DynamicShadowView: RCTShadowView {
-    override func insertReactSubview(_ subview: RCTShadowView!, at atIndex: Int) {
-        super.insertReactSubview(subview, at: atIndex)
-        if subview != nil {
-            subview.position = .absolute
-        }
-    }
-}
+let SKIP_SCALE_PRESS = "skipScalePress"
 
-
-@objc(DynamicViewManager)
-class DynamicViewManager: RCTViewManager {
+@objc(ScalePressViewManager)
+class ScalePressViewManager: RCTViewManager {
     override class func requiresMainQueueSetup() -> Bool {
         return true
     }
     
     override func view() -> UIView! {
-        let v = SimpleDynamicView(bridge: bridge, manager: self)
-        return v
+        return ScalePress()
     }
     
     override func shadowView() -> RCTShadowView! {
-        return DynamicShadowView()
-    }
-    
-    @objc
-    func didDismiss() {
-        debugPrint("🥲didDismiss")
+        return RCTShadowView()
     }
 }
 
-class SimpleDynamicView: UIView {
-    var _bridge: RCTBridge?
-    weak var manager: DynamicViewManager?
+class ScalePress: UIView {
     
     @objc
-    var simpleEmptyProp: NSNumber?
+    private var onPress: RCTBubblingEventBlock?
+    @objc
+    private var scale: NSNumber?
+    @objc
+    private var durationIn: NSNumber?
+    @objc
+    private var durationOut: NSNumber?
     
-    init(bridge: RCTBridge, manager: DynamicViewManager) {
-        self._bridge = bridge
-        self.manager = manager
+    init() {
         super.init(frame: .zero)
+        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var prefFrame: CGRect = .zero
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        debugPrint("touchesBegan")
         
-        let registery = self._bridge?.uiManager.value(forKey: "_shadowViewRegistry") as? [NSNumber: RCTShadowView]
-        let shadowView = registery?[subviews[0].reactTag]
-        let origin = shadowView?.layoutMetrics.frame ?? .zero
+        var shouldSkip = false
+        let touch = touches.first
+        var targetView = touch?.view
+        while (targetView != nil) {
+            if targetView?.accessibilityLabel == SKIP_SCALE_PRESS {
+                shouldSkip = true
+                break
+            }
+            targetView = targetView?.superview
+        }
+
+        if shouldSkip { return }
         
-        debugPrint("==== ", frame, origin)
-        frame = .init(origin: frame.origin, size: origin.size)
+        let dur = (durationIn?.doubleValue ?? 500.0) / 1000.0
+        let sc = scale?.doubleValue ?? 0.9
+        UIView.animate(withDuration: dur, delay: 0, options: [.allowUserInteraction]) {
+            self.transform = CGAffineTransform(scaleX: sc, y: sc)
+        }
     }
     
-    override func insertReactSubview(_ subview: UIView!, at atIndex: Int) {
-        super.insertReactSubview(subview, at: atIndex)
-        //frame = .init(origin: frame.origin, size: .init(width: subviews[0].frame.size.width, height: 520))
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        if self.transform == .identity { return }
+        debugPrint("touchesEnded")
+        let dur = (durationOut?.doubleValue ?? 500.0) / 1000.0
+        UIView.animate(withDuration: dur) {
+            self.transform = .identity
+        }
         
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//            shadowView?.size = .init(width: self.frame.width, height: self.frame.height)
-//            shadowView?.onLayout?([
-//              "layout": [
-//                  "x": "\(origin.origin.x)",
-//                  "y": "\(origin.origin.y)",
-//                  "width": "\(self.frame.width)",
-//                  "height": "\(self.frame.height)"
-//              ]
-//            ])
-//        }
+        let touch = touches.first
+        guard let location = touch?.location(in: touch?.view) else { return }
+        guard let converted = touch?.view?.convert(location, to: self) else { return }
+
+        if self.point(inside: converted, with: event) {
+            onPress?([:])
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        debugPrint("touchesCancelled")
     }
 }
 

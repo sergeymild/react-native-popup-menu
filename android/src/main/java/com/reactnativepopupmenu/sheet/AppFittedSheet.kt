@@ -15,7 +15,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter
 
 class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListener {
     private val fragmentTag = "CCBottomSheet-${System.currentTimeMillis()}"
-    private var mHostView: Wrapper = Wrapper(context)
+    var mHostView: Wrapper = Wrapper(context)
 
     var sheetSize: Int = -1
         set(value) {
