@@ -54,11 +54,11 @@ class ScalePress: UIView {
         case .began:
             debugPrint("==== began")
             didLongPressStarted = true
+            onLongPress?([:])
         case .ended:
             debugPrint("==== ended")
             didLongPressStarted = false
             scaleToNormal()
-            onLongPress?([:])
         default:
             debugPrint("==== default")
         }
