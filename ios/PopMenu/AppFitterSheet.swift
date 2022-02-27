@@ -92,7 +92,12 @@ class ScalePress: UIView {
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        if self.transform == .identity { return }
         debugPrint("touchesCancelled")
+        let dur = (durationOut?.doubleValue ?? 500.0) / 1000.0
+        UIView.animate(withDuration: dur) {
+            self.transform = .identity
+        }
     }
 }
 
