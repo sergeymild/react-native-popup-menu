@@ -29,9 +29,17 @@ class ScalePressViewManager: RCTViewManager {
 }
 
 class ScalePress: UIView {
+    private var didLongPressStarted = false
     
     @objc
     private var onPress: RCTBubblingEventBlock?
+    @objc
+    private var onLongPress: RCTBubblingEventBlock? {
+        didSet {
+            let tap = UILongPressGestureRecognizer(target: self, action: #selector(didTap(_:)))
+            addGestureRecognizer(tap)
+        }
+    }
     @objc
     private var scale: NSNumber?
     @objc
@@ -39,19 +47,27 @@ class ScalePress: UIView {
     @objc
     private var durationOut: NSNumber?
     
-    init() {
-        super.init(frame: .zero)
-        backgroundColor = .red
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @objc
+    func didTap(_ gesture: UIGestureRecognizer) {
+        
+        switch gesture.state {
+        case .began:
+            debugPrint("==== began")
+            didLongPressStarted = true
+        case .ended:
+            debugPrint("==== ended")
+            didLongPressStarted = false
+            scaleToNormal()
+            onLongPress?([:])
+        default:
+            debugPrint("==== default")
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        debugPrint("touchesBegan")
-        
+        debugPrint("==== touchesBegan")
+
         var shouldSkip = false
         let touch = touches.first
         var targetView = touch?.view
@@ -64,23 +80,23 @@ class ScalePress: UIView {
         }
 
         if shouldSkip { return }
-        
-        let dur = (durationIn?.doubleValue ?? 500.0) / 1000.0
-        let sc = scale?.doubleValue ?? 0.9
+
+        let dur = (durationIn?.doubleValue ?? 150.0) / 1000.0
+        let sc = scale?.doubleValue ?? 0.95
         UIView.animate(withDuration: dur, delay: 0, options: [.allowUserInteraction]) {
             self.transform = CGAffineTransform(scaleX: sc, y: sc)
         }
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         if self.transform == .identity { return }
-        debugPrint("touchesEnded")
-        let dur = (durationOut?.doubleValue ?? 500.0) / 1000.0
+        debugPrint("==== touchesEnded")
+        let dur = (durationOut?.doubleValue ?? 150.0) / 1000.0
         UIView.animate(withDuration: dur) {
             self.transform = .identity
         }
-        
+
         let touch = touches.first
         guard let location = touch?.location(in: touch?.view) else { return }
         guard let converted = touch?.view?.convert(location, to: self) else { return }
@@ -89,11 +105,16 @@ class ScalePress: UIView {
             onPress?([:])
         }
     }
-    
+
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        debugPrint("==== touchesCancelled")
+        scaleToNormal()
+    }
+    
+    func scaleToNormal() {
+        if didLongPressStarted { return }
         if self.transform == .identity { return }
-        debugPrint("touchesCancelled")
         let dur = (durationOut?.doubleValue ?? 500.0) / 1000.0
         UIView.animate(withDuration: dur) {
             self.transform = .identity
