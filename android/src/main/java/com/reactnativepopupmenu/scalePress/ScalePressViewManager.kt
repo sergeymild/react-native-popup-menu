@@ -41,6 +41,11 @@ class ScalePressViewManager : ReactClippingViewManager<ScalePress>() {
     view.scale = scale.toFloat()
   }
 
+  @ReactProp(name = "longPressEnabled")
+  fun setOnLongPress(view: ScalePress, enabled: Boolean) {
+    view.gestureDetector.setIsLongpressEnabled(enabled)
+  }
+
   @ReactProp(name = "durationIn")
   fun durationIn(view: ScalePress, durationIn: Double) {
     view.durationIn = durationIn.toLong()
@@ -81,14 +86,14 @@ class ScalePressViewManager : ReactClippingViewManager<ScalePress>() {
     if (!YogaConstants.isUndefined(width)) {
       width = PixelUtil.toPixelFromDIP(width)
     }
-    view.setBorderWidth(SPACING_TYPES.get(index), width)
+    view.setBorderWidth(SPACING_TYPES[index], width)
   }
 
   @ReactPropGroup(names = [ViewProps.BORDER_COLOR, ViewProps.BORDER_LEFT_COLOR, ViewProps.BORDER_RIGHT_COLOR, ViewProps.BORDER_TOP_COLOR, ViewProps.BORDER_BOTTOM_COLOR, ViewProps.BORDER_START_COLOR, ViewProps.BORDER_END_COLOR], customType = "Color")
   fun setBorderColor(view: ReactViewGroup, index: Int, color: Int?) {
     val rgbComponent = if (color == null) YogaConstants.UNDEFINED else (color and 0x00FFFFFF).toFloat()
     val alphaComponent = if (color == null) YogaConstants.UNDEFINED else (color ushr 24).toFloat()
-    view.setBorderColor(SPACING_TYPES.get(index), rgbComponent, alphaComponent)
+    view.setBorderColor(SPACING_TYPES[index], rgbComponent, alphaComponent)
   }
 
   @ReactProp(name = ViewProps.OVERFLOW)
@@ -99,6 +104,7 @@ class ScalePressViewManager : ReactClippingViewManager<ScalePress>() {
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
     return MapBuilder.builder<String, Any>()
       .put("onPress", MapBuilder.of("registrationName", "onPress"))
+      .put("onLongPress", MapBuilder.of("registrationName", "onLongPress"))
       .build()
   }
 }
