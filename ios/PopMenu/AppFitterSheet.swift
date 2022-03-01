@@ -29,7 +29,6 @@ class ScalePressViewManager: RCTViewManager {
 }
 
 class ScalePress: UIView {
-    private var didLongPressStarted = false
     
     @objc
     private var onPress: RCTBubblingEventBlock?
@@ -52,22 +51,16 @@ class ScalePress: UIView {
         
         switch gesture.state {
         case .began:
-            debugPrint("==== began")
-            didLongPressStarted = true
-            scaleToNormal()
             onLongPress?([:])
         case .ended:
-            debugPrint("==== ended")
-            didLongPressStarted = false
             scaleToNormal()
         default:
-            debugPrint("==== default")
+            break
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        debugPrint("==== touchesBegan")
 
         var shouldSkip = false
         let touch = touches.first
@@ -92,7 +85,6 @@ class ScalePress: UIView {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         if self.transform == .identity { return }
-        debugPrint("==== touchesEnded")
         let dur = (durationOut?.doubleValue ?? 150.0) / 1000.0
         UIView.animate(withDuration: dur) {
             self.transform = .identity
@@ -109,12 +101,10 @@ class ScalePress: UIView {
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
-        debugPrint("==== touchesCancelled")
         scaleToNormal()
     }
     
     func scaleToNormal() {
-        if didLongPressStarted { return }
         if self.transform == .identity { return }
         let dur = (durationOut?.doubleValue ?? 500.0) / 1000.0
         UIView.animate(withDuration: dur) {
