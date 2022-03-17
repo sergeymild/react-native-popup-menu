@@ -25,11 +25,8 @@ class PopupMenu: NSObject {
                 }
                 
                 let baseItem = baseOptions?["item"] as? [String: Any]
-                var color = RCTConvert.uiColor(button["tint"] ?? baseItem?["tint"])
-
-                if button["tint"] != nil {
-                    color = RCTConvert.uiColor(button["tint"])
-                }
+                let iconColor = RCTConvert.uiColor(button["iconTint"] ?? baseItem?["iconTint"])
+                let textColor = RCTConvert.uiColor(button["textColor"] ?? baseItem?["textColor"])
                 
                 let itemFontSize = RCTConvert.cgFloat(baseItem?["fontSize"] ?? 17)
                 var itemFont: UIFont = .systemFont(ofSize: itemFontSize)
@@ -44,7 +41,8 @@ class PopupMenu: NSObject {
                     iconSize: RCTConvert.cgFloat(baseItem?["iconSize"] ?? 20),
                     separatorHeight: RCTConvert.cgFloat(button["separatorHeight"] ?? baseItem?["separatorHeight"] ?? 0),
                     separatorColor: RCTConvert.uiColor(button["separatorColor"] ?? baseItem?["separatorColor"] ?? 0),
-                    tintColor: color!,
+                    tintColor: iconColor!,
+                    textColor: textColor!,
                     font: itemFont,
                     horizontalPadding: RCTConvert.cgFloat(baseItem?["paddingHorizontal"] ?? 16)
                 ))
@@ -66,7 +64,10 @@ class PopupMenu: NSObject {
                 shadowRadius: RCTConvert.cgFloat(baseShadow?["radius"]),
                 shadowColor: RCTConvert.uiColor(baseShadow?["color"]) ?? .clear)
             
-            let style = Style(backgroundColor: RCTConvert.uiColor(baseOptions?["backgroundColor"]) ?? .white)
+            let style = Style(
+                backgroundColor: RCTConvert.uiColor(baseOptions?["backgroundColor"]) ?? .white,
+                cornerRadius: RCTConvert.cgFloat(baseOptions?["cornerRadius"] ?? 20)
+            )
             
             CM.items = items
             CM.showMenu(frame: frame!, shadow: shadow, style: style)
