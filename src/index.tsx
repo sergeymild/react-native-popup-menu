@@ -31,7 +31,8 @@ export function configurePopup(params: PopupMenuConfigure) {
       separatorColor: params.item?.separatorColor
         ? processColor(params.item.separatorColor)
         : undefined,
-      tint: params.item?.tint ? processColor(params.item.tint) : undefined,
+      iconTint: params.item?.iconTint ? processColor(params.item.iconTint) : undefined,
+      textColor: params.item?.textColor ? processColor(params.item.textColor) : undefined
     },
 
     shadow: !params.shadow
@@ -56,7 +57,8 @@ export function showPopup(
         buttons: params.buttons.map((b) => ({
           ...b,
           icon: b.icon ? Image.resolveAssetSource(b.icon).uri : undefined,
-          tint: b.tint ? processColor(b.tint) : undefined,
+          iconTint: b.iconTint ? processColor(b.iconTint) : undefined,
+          textColor: b.textColor ? processColor(b.textColor) : undefined,
           separatorColor: b.separatorColor
             ? processColor(b.separatorColor)
             : undefined,
