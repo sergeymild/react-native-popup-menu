@@ -13,7 +13,8 @@ data class PopMenuAppearance(
   var backgroundColor: Int = Color.WHITE,
   var popMenuGravity: Int = Gravity.NO_GRAVITY,
   var rightIcon: Boolean = true,
-  var actionColor: Int = Color.BLACK,
+  var iconTint: Int = Color.BLACK,
+  var textColor: Int = Color.BLACK,
   var separatorColor: Int = Color.parseColor("#1F000000"),
   var separatorHeight: Float = 0f
 )
