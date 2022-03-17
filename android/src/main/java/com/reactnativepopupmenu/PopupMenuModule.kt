@@ -64,8 +64,12 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
         appearance.separatorColor = item.color(reactApplicationContext!!, "separatorColor", Color.parseColor("#1F000000"))
       }
 
-      if (item.hasKey("tint") && reactApplicationContext != null) {
-        appearance.actionColor = item.color(reactApplicationContext!!, "tint", Color.parseColor("#1F000000"))
+      if (item.hasKey("iconTint") && reactApplicationContext != null) {
+        appearance.iconTint = item.color(reactApplicationContext!!, "iconTint", Color.parseColor("#1F000000"))
+      }
+
+      if (item.hasKey("textColor") && reactApplicationContext != null) {
+        appearance.textColor = item.color(reactApplicationContext!!, "textColor", Color.parseColor("#1F000000"))
       }
     }
 
@@ -98,9 +102,14 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
           val icon = Helpers.getIcon(activity, button.getString("icon"))
           val drawable = Helpers.toDrawable(activity, icon)
 
-          var tint = appearance.actionColor
-          if (button.hasKey("tint")) {
-            tint = button.color(activity, "tint", Color.BLACK)
+          var iconTint = appearance.iconTint
+          if (button.hasKey("iconTint")) {
+            iconTint = button.color(activity, "iconTint", Color.BLACK)
+          }
+
+          var textColor = appearance.textColor
+          if (button.hasKey("textColor")) {
+            textColor = button.color(activity, "textColor", Color.BLACK)
           }
 
           var sh = appearance.separatorHeight
@@ -116,8 +125,8 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
           item {
             rightIconDrawable = if (appearance.rightIcon) drawable else null
             iconDrawable = if (!appearance.rightIcon) drawable else null
-            iconColor = tint
-            labelColor = tint
+            iconColor = iconTint
+            labelColor = textColor
             label = button.getString("text")
             showSeparator = sh > 0
             separatorHeight = sh.toInt()
