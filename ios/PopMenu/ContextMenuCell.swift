@@ -1,11 +1,3 @@
-//
-//  ContextMenuTVC.swift
-//  ContextMenuSwift
-//
-//  Created by Umer Jabbar on 13/06/2020.
-//  Copyright © 2020 Umer jabbar. All rights reserved.
-//
-
 import UIKit
 
 open class ContextMenuCell: UITableViewCell {
@@ -72,7 +64,7 @@ open class ContextMenuCell: UITableViewCell {
         separatorView.backgroundColor = isLast ? .clear : item.separatorColor
         
         titleLabel.text = item.title
-        titleLabel.textColor = item.tintColor
+        titleLabel.textColor = item.textColor
         titleLabel.font = item.font
         
         
