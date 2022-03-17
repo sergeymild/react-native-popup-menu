@@ -6,11 +6,11 @@ export interface PopupMenuConfigure {
   readonly cornerRadius?: number;
   readonly gravity?: 'top' | 'bottom';
   readonly overlayColor?: string;
-  readonly minWidth?: number
+  readonly minWidth?: number;
   readonly safeArea?: {
-    bottom?: number
-    top?: number
-  }
+    bottom?: number;
+    top?: number;
+  };
 
   readonly item?: {
     readonly fontFamily?: string;
@@ -20,7 +20,8 @@ export interface PopupMenuConfigure {
     readonly paddingHorizontal?: number;
     readonly separatorHeight?: number;
     readonly separatorColor?: string;
-    readonly tint?: string;
+    readonly iconTint: string;
+    readonly textColor: string;
   };
 
   readonly shadow?: {
@@ -35,7 +36,8 @@ export interface PopupMenuConfigure {
 export interface PopupMenuButton {
   readonly text: string;
   readonly data?: any;
-  readonly tint?: string;
+  readonly iconTint?: string;
+  readonly textColor?: string;
   readonly icon?: ImageRequireSource;
   readonly showSeparator?: boolean;
   readonly separatorHeight?: number;
