@@ -4,8 +4,6 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.*
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.facebook.yoga.YogaMeasureFunction
-import com.facebook.yoga.YogaMeasureOutput
 import com.facebook.yoga.YogaPositionType
 
 internal class ModalHostShadowNode : LayoutShadowNode() {
@@ -61,6 +59,12 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
   fun sheetMaxWidthSize(view: AppFittedSheet, size: Double) {
     println("🥲sheetMaxWidthSize")
     view.sheetMaxWidthSize = PixelUtil.toPixelFromDIP(size).toDouble()
+  }
+
+  @ReactProp(name = "sheetMaxHeightSize")
+  fun sheetMaxHeightSize(view: AppFittedSheet, size: Double) {
+    println("🥲sheetMaxHeightSize")
+    view.sheetMaxHeightSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {

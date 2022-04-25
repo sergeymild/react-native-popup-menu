@@ -152,13 +152,17 @@ export default function App() {
       </View>
 
       <FittedSheet sheetSize={-1} ref={sheetRef}>
-        <CustomV
-          style={{
-            width: '100%',
-            height: 400,
-            backgroundColor: 'red',
-          }}
-        />
+        {() => {
+          return (
+            <CustomV
+              style={{
+                width: '100%',
+                height: 400,
+                backgroundColor: 'red',
+              }}
+            />
+          );
+        }}
       </FittedSheet>
     </>
   );

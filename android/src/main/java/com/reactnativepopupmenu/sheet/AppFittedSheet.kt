@@ -25,6 +25,15 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
         }
         get() = mHostView.reactHeight
     var sheetMaxWidthSize: Double = -1.0
+      set(value) {
+        field = value
+        mHostView.sheetMaxWidthSize = value
+      }
+    var sheetMaxHeightSize: Double = -1.0
+      set(value) {
+        field = value
+        mHostView.sheetMaxHeightSize = value
+      }
 
     private fun getCurrentActivity(): AppCompatActivity {
         return (context as ReactContext).currentActivity as AppCompatActivity

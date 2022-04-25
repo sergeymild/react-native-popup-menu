@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import com.facebook.infer.annotation.Assertions;
 
 /** Helper class for Modals. */
-/*package*/ class ModalHostHelper {
+public class ModalHostHelper {
 
   private static final Point MIN_POINT = new Point();
   private static final Point MAX_POINT = new Point();

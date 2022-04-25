@@ -3,6 +3,7 @@ package com.reactnativepopupmenu.sheet;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.facebook.react.bridge.GuardedRunnable;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.NativeViewHierarchyOptimizer;
 import com.facebook.react.uimanager.OnLayoutEvent;
@@ -107,22 +108,33 @@ public class ReactNativeReflection {
 //  }
 
   static void setSize(View view, int width, int height) {
-    final int viewTag = view.getId();
-    ReactShadowNode reactShadowNode = shadowNodeSparseArray.get(viewTag);
-    reactShadowNode.setStyleWidth(width);
-    reactShadowNode.setStyleHeight(height);
-    applyUpdatesRecursive(reactShadowNode, ReactNativeReflection.uiViewOperationQueue, ReactNativeReflection.nativeViewHierarchyOptimizer, ReactNativeReflection.eventDispatcher, 0f, 0f);
-
-    ReactNativeReflection.eventDispatcher.dispatchEvent(
-      OnLayoutEvent.obtain(
-        viewTag,
-        reactShadowNode.getScreenX(),
-        reactShadowNode.getScreenY(),
-        reactShadowNode.getScreenWidth(),
-        reactShadowNode.getScreenHeight()));
-    if (ReactNativeReflection.layoutUpdateListener != null) {
-      ReactNativeReflection.layoutUpdateListener.onLayoutUpdated(reactShadowNode);
-    }
+    ReactContext context = (ReactContext) view.getContext();
+    context.runOnNativeModulesQueueThread(new GuardedRunnable(context) {
+      @Override
+      public void runGuarded() {
+        if (view.getParent() == null) return;
+        if (!view.isAttachedToWindow()) return;
+        UIManagerModule managerModule = context.getNativeModule(UIManagerModule.class);
+        if (managerModule == null) return;
+        managerModule.updateNodeSize(view.getId(), width, height);
+      }
+    });
+//    final int viewTag = view.getId();
+//    ReactShadowNode reactShadowNode = shadowNodeSparseArray.get(viewTag);
+//    reactShadowNode.setStyleWidth(width);
+//    reactShadowNode.setStyleHeight(height);
+//    applyUpdatesRecursive(reactShadowNode, ReactNativeReflection.uiViewOperationQueue, ReactNativeReflection.nativeViewHierarchyOptimizer, ReactNativeReflection.eventDispatcher, 0f, 0f);
+//
+//    ReactNativeReflection.eventDispatcher.dispatchEvent(
+//      OnLayoutEvent.obtain(
+//        viewTag,
+//        reactShadowNode.getScreenX(),
+//        reactShadowNode.getScreenY(),
+//        reactShadowNode.getScreenWidth(),
+//        reactShadowNode.getScreenHeight()));
+//    if (ReactNativeReflection.layoutUpdateListener != null) {
+//      ReactNativeReflection.layoutUpdateListener.onLayoutUpdated(reactShadowNode);
+//    }
   }
 
   static void applyUpdatesRecursive(

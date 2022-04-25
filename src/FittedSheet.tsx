@@ -6,12 +6,15 @@ export const _FitterSheet = requireNativeComponent<any>('AppFitterSheet');
 interface Props {
   readonly sheetSize?: number;
   readonly maxWidth?: number;
+  readonly maxHeight?: number;
   readonly onSheetDismiss?: () => void;
+  readonly children: (data: any) => React.ReactElement;
 }
 
 interface State {
   show: boolean;
   sheetSize?: number;
+  data: any | null;
 }
 
 export const FITTED_SHEET_SCROLL_VIEW = 'fittedSheetScrollView';
@@ -33,12 +36,13 @@ export class FittedSheet extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       show: false,
+      data: null,
     };
   }
 
-  show = () => {
+  show = (data: any) => {
     console.log('[FittedSheet.show]');
-    this.setState({ show: true });
+    this.setState({ show: true, data });
   };
 
   hide = () => {
@@ -80,16 +84,16 @@ export class FittedSheet extends React.PureComponent<Props, State> {
     }
     let height = this.state.sheetSize ?? this.props.sheetSize;
     if (height === undefined && Platform.OS === 'android') height = -1;
-    console.log('[FitterSheet.render.add]', height);
     return (
       <_FitterSheet
         onSheetDismiss={this.onDismiss}
         ref={this.sheetRef}
         sheetMaxWidthSize={this.props.maxWidth}
+        sheetMaxHeightSize={this.props.maxHeight}
         sheetSize={height}
       >
         <FittedSheetContext.Provider value={this}>
-          {this.props.children}
+          {this.props.children(this.state.data)}
         </FittedSheetContext.Provider>
       </_FitterSheet>
     );
