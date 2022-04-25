@@ -7,6 +7,7 @@ interface Props {
   readonly sheetSize?: number;
   readonly maxWidth?: number;
   readonly maxHeight?: number;
+  readonly topLeftRightCornerRadius?: number;
   readonly onSheetDismiss?: () => void;
   readonly children: (data: any) => React.ReactElement;
 }
@@ -49,6 +50,8 @@ export class FittedSheet extends React.PureComponent<Props, State> {
     console.log('[FittedSheet.hide]');
     this.setState({ show: false, sheetSize: undefined });
   };
+
+  data = () => this.state.data;
 
   toggle = () => {
     console.log('[FittedSheet.toggle]');
