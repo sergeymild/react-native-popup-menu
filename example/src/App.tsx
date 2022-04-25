@@ -13,8 +13,6 @@ import {
   configurePopup,
   FITTED_SHEET_SCROLL_VIEW,
   FittedSheet,
-  ScalePress,
-  SKIP_SCALE_PRESS,
   useFittedSheetContext,
 } from 'react-native-popup-menu';
 
@@ -109,40 +107,6 @@ export default function App() {
   return (
     <>
       <View style={styles.container} accessibilityLabel={'container'}>
-        <ScalePress
-          onPress={() => sheetRef.current?.show()}
-          style={{
-            marginTop: 100,
-            width: 100,
-            height: 150,
-            borderRadius: 10,
-            overflow: 'hidden',
-            backgroundColor: 'orange',
-            borderWidth: 2,
-            borderColor: 'red',
-          }}
-        >
-          <Text
-            style={{
-              backgroundColor: 'yellow',
-            }}
-          >
-            Press
-          </Text>
-
-          <TouchableOpacity
-            accessibilityLabel={SKIP_SCALE_PRESS}
-            style={{
-              width: 30,
-              height: 30,
-              backgroundColor: 'green',
-              borderRadius: 8,
-            }}
-            onPress={() => console.log('[App.0000]')}
-          >
-            <Text>press 222</Text>
-          </TouchableOpacity>
-        </ScalePress>
         <Text style={{ marginBottom: 10 }} accessibilityLabel={'text'}>
           The constructor is init(controller:, sizes:, options:). Sizes is
           optional, but if specified, the first size in the array will determine

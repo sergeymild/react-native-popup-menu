@@ -1,5 +1,4 @@
 import { Image, NativeModules, Platform, processColor } from 'react-native';
-import { ScalePress, SKIP_SCALE_PRESS } from './ScalePress';
 import {
   FittedSheet,
   FITTED_SHEET_SCROLL_VIEW,
@@ -78,10 +77,4 @@ export function showPopup(
 }
 
 export { PopupMenuButton };
-export {
-  FittedSheet,
-  FITTED_SHEET_SCROLL_VIEW,
-  useFittedSheetContext,
-  ScalePress,
-  SKIP_SCALE_PRESS,
-};
+export { FittedSheet, FITTED_SHEET_SCROLL_VIEW, useFittedSheetContext };
