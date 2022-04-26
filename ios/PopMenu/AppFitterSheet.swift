@@ -227,6 +227,7 @@ class HostFittetSheet: UIView {
                 self.reactViewController().present(self._modalViewController!, animated: true)
 
                 self._modalViewController?.didDismiss = { [weak self] _ in
+                    debugPrint("🥲didDismiss")
                     self?.onSheetDismiss?([:])
                 }
             }
@@ -250,6 +251,10 @@ class HostFittetSheet: UIView {
     func destroy() {
         debugPrint("🥲destroy")
         _isPresented = false
+        if self._modalViewController?.isBeingDismissed != true {
+            debugPrint("🥲dismissViewController")
+            self._modalViewController?.dismiss(animated: true)
+        }
         _modalViewController = nil
         _reactSubview?.removeFromSuperview()
         _touchHandler?.detach(from: _reactSubview)
