@@ -54,6 +54,7 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
 
         val sheet = this.sheet
         if (sheet == null) {
+            sheet?.handleRadius = topLeftRightCornerRadius.toFloat()
             val fragment = FragmentModalBottomSheet()
             fragment.createViewCallable = ::getContentView
             fragment.onDismiss = Runnable {
@@ -82,14 +83,18 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
     override fun getChildAt(index: Int): View? = mHostView.getChildAt(index)
 
     override fun removeView(child: View?) {
+        println("🥲removeView")
         UiThreadUtil.assertOnUiThread()
-        mHostView.removeView(child)
+        //mHostView.removeView(child)
+        dismiss()
     }
 
     override fun removeViewAt(index: Int) {
+        println("🥲removeViewAt")
         UiThreadUtil.assertOnUiThread()
-        val child = getChildAt(index)
-        mHostView.removeView(child)
+        //val child = getChildAt(index)
+        //mHostView.removeView(child)
+        dismiss()
     }
 
     override fun addChildrenForAccessibility(outChildren: ArrayList<View?>?) {
@@ -104,6 +109,7 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
     }
 
     override fun onHostResume() {
+        println("🥲onHostResume")
         // We show the dialog again when the host resumes
         showOrUpdate()
     }
@@ -113,16 +119,19 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
     }
 
     override fun onHostDestroy() {
+        println("🥲onHostDestroy")
         // Drop the instance if the host is destroyed which will dismiss the dialog
         onDropInstance()
     }
 
     fun onDropInstance() {
+        println("🥲onDropInstance")
         (context as ReactContext).removeLifecycleEventListener(this)
         dismiss()
     }
 
     private fun dismiss() {
+        println("🥲dismiss")
         UiThreadUtil.assertOnUiThread()
         val sheet = this.sheet
         if (sheet != null) {
