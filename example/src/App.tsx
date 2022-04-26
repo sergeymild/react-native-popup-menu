@@ -100,7 +100,7 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      //sheetRef.current?.show();
+      sheetRef.current?.show();
     }, 2000);
   }, []);
 
@@ -115,7 +115,7 @@ export default function App() {
         </Text>
       </View>
 
-      <FittedSheet sheetSize={-1} ref={sheetRef}>
+      <FittedSheet sheetSize={-1} ref={sheetRef} topLeftRightCornerRadius={30}>
         {() => {
           return (
             <CustomV

@@ -118,6 +118,8 @@ class HostFittetSheet: UIView {
     private var sheetMaxWidthSize: NSNumber?
     @objc
     private var sheetMaxHeightSize: NSNumber?
+    @objc
+    private var topLeftRightCornerRadius: NSNumber?
 
     private var sheetWidth: CGFloat {
         return CGFloat(sheetMaxWidthSize?.floatValue ?? Float(UIScreen.main.bounds.width))
@@ -215,6 +217,7 @@ class HostFittetSheet: UIView {
                 )
                 self._modalViewController?.allowPullingPastMaxHeight = false
                 self._modalViewController?.autoAdjustToKeyboard = false
+                self._modalViewController?.cornerRadius = self.topLeftRightCornerRadius?.doubleValue ?? 12
 
                 let scrollView = self._reactSubview?.find(FITTED_SHEET_SCROLL_VIEW, deepIndex: 0) as? RCTScrollView
                 if scrollView != nil {

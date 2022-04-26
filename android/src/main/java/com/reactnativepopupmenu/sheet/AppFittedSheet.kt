@@ -35,6 +35,12 @@ class AppFittedSheet(context: Context) : ViewGroup(context), LifecycleEventListe
         mHostView.sheetMaxHeightSize = value
       }
 
+  var topLeftRightCornerRadius: Double = -1.0
+      set(value) {
+        field = value
+        sheet?.handleRadius = value.toFloat()
+      }
+
     private fun getCurrentActivity(): AppCompatActivity {
         return (context as ReactContext).currentActivity as AppCompatActivity
     }

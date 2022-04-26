@@ -47,6 +47,7 @@ class Wrapper(context: Context) : ReactViewGroup(context), RootView {
 
   var sheetMaxWidthSize: Double = -1.0
   var sheetMaxHeightSize: Double = -1.0
+  var topLeftRightCornerRadius: Double = -1.0
   private val screenHeight: Int
     get() = context.resources.displayMetrics.heightPixels
 

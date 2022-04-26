@@ -13,11 +13,6 @@ import com.reactnativepopupmenu.R
 
 class FragmentModalBottomSheet : BottomSheetDialogFragment() {
 
-    var peekHeight: Double = 0.0
-        set(value) {
-            field = value
-            (dialog as SheetDialog?)?.peekHeight = value.toInt()
-        }
     var handleRadius: Float = 12F
         set(value) {
             field = value

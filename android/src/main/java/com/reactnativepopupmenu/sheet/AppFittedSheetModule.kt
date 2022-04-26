@@ -67,6 +67,12 @@ class AppFittedSheetModule: ViewGroupManager<AppFittedSheet>() {
     view.sheetMaxHeightSize = PixelUtil.toPixelFromDIP(size).toDouble()
   }
 
+  @ReactProp(name = "topLeftRightCornerRadius")
+  fun topLeftRightCornerRadius(view: AppFittedSheet, size: Double) {
+    println("🥲topLeftRightCornerRadius")
+    view.topLeftRightCornerRadius = PixelUtil.toPixelFromDIP(size).toDouble()
+  }
+
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
     return MapBuilder.builder<String, Any>()
       .put("onSheetDismiss", MapBuilder.of("registrationName", "onSheetDismiss"))
