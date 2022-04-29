@@ -108,6 +108,7 @@ internal constructor(
     val rightIconDrawable: Drawable?,
     @ColorInt val iconColor: Int,
     val fontSize: Float,
+    val iconSize: Float,
     val hasNestedItems: Boolean,
     override val viewBoundCallback: ViewBoundCallback,
     override val callback: () -> Unit,

@@ -40,13 +40,14 @@ export interface PopupMenuButton {
   readonly textColor?: string;
   readonly fontSize?: number;
   readonly icon?: ImageRequireSource;
+  readonly iconSize?: number;
   readonly showSeparator?: boolean;
   readonly separatorHeight?: number;
   readonly separatorColor?: string;
 }
 
 export interface PopupMenuProperties
-  extends Omit<PopupMenuConfigure, 'shadow' | 'elevation'> {
+  extends Omit<PopupMenuConfigure, 'shadow' | 'elevation' | 'item'> {
   readonly buttons: PopupMenuButton[];
   readonly frame?: { x: number; y: number; width: number; height: number };
 }

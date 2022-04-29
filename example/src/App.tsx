@@ -69,7 +69,9 @@ export default function App() {
                     separatorHeight: 19,
                     separatorColor: 'red',
                     // showSeparator: true,
-                    // icon: require('./assets/icViews.png'),
+                    iconSize: 30,
+                    iconTint: 'red',
+                    icon: require('./assets/icViews.png'),
                   },
                   {
                     text: 'SETTINGS',

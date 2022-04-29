@@ -123,10 +123,6 @@ internal class PopupMenuAdapter(
         0
       )
       content.layoutParams.height = appearance.itemHeight.toInt()
-      rightIcon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
-      rightIcon.layoutParams.height = appearance.popMenuActionIconSize.toInt()
-      icon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
-      icon.layoutParams.height = appearance.popMenuActionIconSize.toInt()
 
 
       val castedPopupMenuItem = popupMenuItem as MaterialPopupMenu.PopupMenuItem
@@ -145,6 +141,11 @@ internal class PopupMenuAdapter(
       } else {
         icon.visibility = View.GONE
       }
+
+      rightIcon.layoutParams.width = castedPopupMenuItem.iconSize.toInt()
+      rightIcon.layoutParams.height = castedPopupMenuItem.iconSize.toInt()
+      icon.layoutParams.width = castedPopupMenuItem.iconSize.toInt()
+      icon.layoutParams.height = castedPopupMenuItem.iconSize.toInt()
 
       if (castedPopupMenuItem.rightIconDrawable != null) {
         rightIcon.apply {

@@ -27,6 +27,7 @@ class PopupMenu: NSObject {
                 let baseItem = baseOptions?["item"] as? [String: Any]
                 let iconColor = RCTConvert.uiColor(button["iconTint"] ?? baseItem?["iconTint"])
                 let textColor = RCTConvert.uiColor(button["textColor"] ?? baseItem?["textColor"])
+                let iconSize = RCTConvert.cgFloat(button["iconSize"] ?? baseItem?["iconSize"] ?? 20)
                 
                 let itemFontSize = RCTConvert.cgFloat(button["fontSize"] ?? baseItem?["fontSize"] ?? 17)
                 var itemFont: UIFont = .systemFont(ofSize: itemFontSize)
@@ -38,7 +39,7 @@ class PopupMenu: NSObject {
                     title: button["text"] as! String,
                     image: icon,
                     itemHeight: RCTConvert.cgFloat(baseItem?["height"] ?? 48),
-                    iconSize: RCTConvert.cgFloat(baseItem?["iconSize"] ?? 20),
+                    iconSize: iconSize,
                     separatorHeight: RCTConvert.cgFloat(button["separatorHeight"] ?? baseItem?["separatorHeight"] ?? 0),
                     separatorColor: RCTConvert.uiColor(button["separatorColor"] ?? baseItem?["separatorColor"] ?? 0),
                     tintColor: iconColor!,
