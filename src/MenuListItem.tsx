@@ -35,7 +35,7 @@ export const MenuListItem: React.FC<Props> = memo((props) => {
 
   const textStyle: TextStyle = {
     fontSize: props.params.item?.fontSize ?? 14,
-    color: props.button.tint ?? props.params.item?.tint,
+    color: props.button.textColor ?? props.params.item?.textColor,
     fontFamily: props.defaultParams.item?.fontFamily,
     maxWidth: props.button.icon ? '90%' : undefined,
   };
@@ -57,7 +57,7 @@ export const MenuListItem: React.FC<Props> = memo((props) => {
       height: props.defaultParams.item?.iconSize ?? 20,
       marginEnd: props.defaultParams.isIconsFromRight ? undefined : 12,
       marginStart: props.defaultParams.isIconsFromRight ? 12 : 0,
-      tintColor: props.defaultParams.item?.tint ?? props.button.tint
+      tintColor: props.defaultParams.item?.iconTint ?? props.button.iconTint
     };
   }
 

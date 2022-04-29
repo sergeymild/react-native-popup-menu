@@ -1,10 +1,3 @@
-//
-//  CustomFocusedView.swift
-//  Seekr
-//
-//  Created by macmin on 29/04/2020.
-//  Copyright © 2020 macmin. All rights reserved.
-//
 
 import UIKit
 
@@ -24,6 +17,7 @@ public struct Shadow {
 
 public struct Style {
     let backgroundColor: UIColor
+    let cornerRadius: CGFloat
 }
 
 public struct ContextMenuItem {
@@ -34,6 +28,7 @@ public struct ContextMenuItem {
     public let itemHeight: CGFloat
     public let iconSize: CGFloat
     public let tintColor: UIColor
+    public let textColor: UIColor
     public let separatorColor: UIColor
     public let font: UIFont
     public let horizontalPadding: CGFloat
@@ -46,6 +41,7 @@ public struct ContextMenuItem {
         separatorHeight: CGFloat,
         separatorColor: UIColor,
         tintColor: UIColor,
+        textColor: UIColor,
         font: UIFont,
         horizontalPadding: CGFloat
     ) {
@@ -56,20 +52,10 @@ public struct ContextMenuItem {
         self.separatorColor = separatorColor
         self.separatorHeight = separatorHeight
         self.tintColor = tintColor
+        self.textColor = textColor
         self.font = font
         self.horizontalPadding = horizontalPadding
     }
-}
-
-public protocol ContextMenuDelegate : AnyObject {
-    func contextMenuDidSelect(_ contextMenu: ContextMenu, cell: ContextMenuCell, didSelect item: ContextMenuItem, forRowAt index: Int) -> Bool
-    func contextMenuDidDeselect(_ contextMenu: ContextMenu, cell: ContextMenuCell, didSelect item: ContextMenuItem, forRowAt index: Int)
-    func contextMenuDidAppear(_ contextMenu: ContextMenu)
-    func contextMenuDidDisappear(_ contextMenu: ContextMenu)
-}
-extension ContextMenuDelegate {
-    func contextMenuDidAppear(_ contextMenu: ContextMenu){}
-    func contextMenuDidDisappear(_ contextMenu: ContextMenu){}
 }
 
 public var CM : ContextMenu = ContextMenu()
@@ -83,10 +69,6 @@ public struct ContextMenuConstants {
     public var TopMarginSpace : CGFloat = 0
     public var BottomMarginSpace : CGFloat = 24
     public var horizontalMarginSpace : CGFloat = 16
-
-    public var ItemDefaultColor = UIColor.white
-    
-    public var MenuCornerRadius : CGFloat = 20
 }
 
 open class ContextMenu: NSObject {
@@ -250,8 +232,7 @@ open class ContextMenu: NSObject {
         }
         
         //let rect = viewTargeted.convert(mainViewRect.origin, to: nil)
-        
-        menuView.backgroundColor = style.backgroundColor
+
         menuView.frame = CGRect(
             x: showFrame.minX,
             y: showFrame.minY,
@@ -269,13 +250,13 @@ open class ContextMenu: NSObject {
         tableView.frame = menuView.bounds
         tableView.register(ContextMenuCell.self, forCellReuseIdentifier: "ContextMenuCell")
         tableView.tableHeaderView = self.headerView
-        tableView.layer.cornerRadius = MenuConstants.MenuCornerRadius
+        tableView.layer.cornerRadius = style.cornerRadius
         tableView.tableFooterView = self.footerView
         tableView.clipsToBounds = true
         tableView.isScrollEnabled = true
         tableView.alwaysBounceVertical = false
         tableView.allowsMultipleSelection = true
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = style.backgroundColor
         tableView.reloadData()
     }
     
@@ -589,7 +570,7 @@ extension ContextMenu : UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContextMenuCell", for: indexPath) as! ContextMenuCell
         cell.contextMenu = self
         cell.tableView = tableView
-        cell.style = self.MenuConstants
+        cell.style = self.style
         cell.item = self.items[indexPath.row]
         cell.setup(isLast: indexPath.row == self.items.count - 1)
         return cell

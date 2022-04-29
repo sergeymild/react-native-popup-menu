@@ -1,11 +1,3 @@
-//
-//  ContextMenuTVC.swift
-//  ContextMenuSwift
-//
-//  Created by Umer Jabbar on 13/06/2020.
-//  Copyright © 2020 Umer jabbar. All rights reserved.
-//
-
 import UIKit
 
 open class ContextMenuCell: UITableViewCell {
@@ -18,15 +10,15 @@ open class ContextMenuCell: UITableViewCell {
     weak var contextMenu: ContextMenu?
     weak var tableView: UITableView?
     var item: ContextMenuItem!
-    var style : ContextMenuConstants? = nil
+    var style : Style? = nil
     
     let separatorView = UIView()
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        addSubview(separatorView)
-        addSubview(titleLabel)
-        addSubview(iconImageView)
+        contentView.addSubview(separatorView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(iconImageView)
     }
     
     required public init?(coder: NSCoder) {
@@ -68,15 +60,17 @@ open class ContextMenuCell: UITableViewCell {
     }
     
     open func setup(isLast: Bool) {
+        contentView.backgroundColor = style?.backgroundColor ?? .clear
         separatorView.backgroundColor = isLast ? .clear : item.separatorColor
         
         titleLabel.text = item.title
-        titleLabel.textColor = item.tintColor
+        titleLabel.textColor = item.textColor
         titleLabel.font = item.font
         
         
-        iconImageView.image = item.image
+        iconImageView.image = item.image?.withRenderingMode(.alwaysTemplate)
         iconImageView.isHidden = (item.image == nil)
+        iconImageView.tintColor = item.tintColor
     }
     
 }

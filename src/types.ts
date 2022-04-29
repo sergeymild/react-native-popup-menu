@@ -20,7 +20,8 @@ export interface PopupMenuConfigure {
     readonly paddingHorizontal?: number;
     readonly separatorHeight?: number;
     readonly separatorColor?: string;
-    readonly tint: string;
+    readonly iconTint: string;
+    readonly textColor: string;
   };
 
   readonly shadow?: {
@@ -35,7 +36,8 @@ export interface PopupMenuConfigure {
 export interface PopupMenuButton {
   readonly text: string;
   readonly data?: any;
-  readonly tint?: string;
+  readonly iconTint?: string;
+  readonly textColor?: string;
   readonly icon?: ImageRequireSource;
   readonly showSeparator?: boolean;
   readonly separatorHeight?: number;
@@ -44,7 +46,6 @@ export interface PopupMenuButton {
 
 export interface PopupMenuProperties
   extends Omit<PopupMenuConfigure, 'shadow' | 'elevation'> {
-  readonly nativeID: string;
   readonly buttons: PopupMenuButton[];
   readonly frame?: { x: number; y: number; width: number; height: number };
 }

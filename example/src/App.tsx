@@ -9,11 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  configurePopup,
-  PopupHostView,
-  showPopup,
-} from 'react-native-popup-menu';
+import { configurePopup, showPopup } from 'react-native-popup-menu';
 
 configurePopup({
   cornerRadius: 20,
@@ -23,8 +19,8 @@ configurePopup({
   item: {
     fontSize: 17,
     paddingHorizontal: 16,
-    separatorColor: '#F4F4F4',
-    separatorHeight: StyleSheet.hairlineWidth,
+    // separatorColor: '#F4F4F4',
+    //separatorHeight: StyleSheet.hairlineWidth,
     tint: 'rgba(18, 18, 18, 1)',
   },
   shadow: {
@@ -49,7 +45,7 @@ export default function App() {
             height: 56,
             width: 56,
             marginTop: 100,
-            marginStart: Dimensions.get('window').width - 56,
+            marginStart: Dimensions.get('window').width - 156,
             backgroundColor: 'red',
             alignItems: 'center',
             justifyContent: 'center',
@@ -58,7 +54,6 @@ export default function App() {
             ref.current?.measureInWindow(async (x, y, width, height) => {
               const selected = await showPopup({
                 frame: { x, y, width, height },
-                nativeID: 'Pressable',
                 gravity: 'bottom',
                 buttons: [
                   {
@@ -71,6 +66,7 @@ export default function App() {
                     data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
                     separatorHeight: 19,
                     separatorColor: 'red',
+                    // showSeparator: true,
                     // icon: require('./assets/icViews.png'),
                   },
                   {
@@ -104,7 +100,6 @@ export default function App() {
                 cornerRadius: 10,
                 gravity: 'top',
                 frame: { x, y, width, height },
-                // nativeID: 'twoNative',
                 buttons: [
                   {
                     text: 'Firstsadkjk',
@@ -125,8 +120,6 @@ export default function App() {
           <Text nativeID={'twoNative'}>two</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      <PopupHostView />
     </View>
   );
 }
