@@ -17,11 +17,12 @@ configurePopup({
   isIconsFromRight: false,
   minWidth: 250,
   item: {
+    textColor: 'red',
     fontSize: 17,
     paddingHorizontal: 16,
     // separatorColor: '#F4F4F4',
     //separatorHeight: StyleSheet.hairlineWidth,
-    tint: 'rgba(18, 18, 18, 1)',
+    iconTint: 'rgba(18, 18, 18, 1)',
   },
   shadow: {
     color: 'rgba(0, 0, 0, 0.16)',
@@ -59,6 +60,7 @@ export default function App() {
                   {
                     text: 'SHARE',
                     data: 'SHARE',
+                    fontSize: 30,
                     // icon: require('./assets/icShare.png'),
                   },
                   {

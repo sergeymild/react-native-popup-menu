@@ -28,7 +28,7 @@ class PopupMenu: NSObject {
                 let iconColor = RCTConvert.uiColor(button["iconTint"] ?? baseItem?["iconTint"])
                 let textColor = RCTConvert.uiColor(button["textColor"] ?? baseItem?["textColor"])
                 
-                let itemFontSize = RCTConvert.cgFloat(baseItem?["fontSize"] ?? 17)
+                let itemFontSize = RCTConvert.cgFloat(button["fontSize"] ?? baseItem?["fontSize"] ?? 17)
                 var itemFont: UIFont = .systemFont(ofSize: itemFontSize)
                 if let family = baseItem?["fontFamily"] as? String {
                     itemFont = UIFont(name: family, size: itemFontSize)!

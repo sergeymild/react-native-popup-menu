@@ -38,6 +38,7 @@ export interface PopupMenuButton {
   readonly data?: any;
   readonly iconTint?: string;
   readonly textColor?: string;
+  readonly fontSize?: number;
   readonly icon?: ImageRequireSource;
   readonly showSeparator?: boolean;
   readonly separatorHeight?: number;

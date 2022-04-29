@@ -5,7 +5,7 @@ This library allows to create simple popup menus
 ## Installation
 
 ```sh
-"react-native-popup-menu": "sergeymild/react-native-popup-menu"
+"react-native-popup-menu": "sergeymild/react-native-popup-menu#1.0.13"
 ```
 
 ## Usage
@@ -40,7 +40,7 @@ interface PopupMenuConfigure {
     readonly separatorColor?: string;
     readonly tint?: string;
   };
-  
+
   readonly safeArea?: {
     bottom?: number
     top?: number

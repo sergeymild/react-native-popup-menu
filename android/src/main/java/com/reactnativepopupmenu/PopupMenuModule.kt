@@ -122,6 +122,11 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             sc = button.color(activity, "separatorColor", appearance.separatorColor)
           }
 
+          var fontSize = appearance.itemFontSize
+          if (button.hasKey("fontSize")) {
+            fontSize = button.getDouble("fontSize").toFloat()
+          }
+
           item {
             rightIconDrawable = if (appearance.rightIcon) drawable else null
             iconDrawable = if (!appearance.rightIcon) drawable else null
@@ -131,6 +136,7 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             showSeparator = sh > 0
             separatorHeight = sh.toInt()
             separatorColor = sc
+            fontSize = fontSize
             callback = {
               didDismissBySelectItem = true
               actionCallback.invoke(i)

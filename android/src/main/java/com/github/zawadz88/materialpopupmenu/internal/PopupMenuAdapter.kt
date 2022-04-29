@@ -123,7 +123,6 @@ internal class PopupMenuAdapter(
         0
       )
       content.layoutParams.height = appearance.itemHeight.toInt()
-      label.setTextSize(TypedValue.COMPLEX_UNIT_SP, appearance.itemFontSize)
       rightIcon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
       rightIcon.layoutParams.height = appearance.popMenuActionIconSize.toInt()
       icon.layoutParams.width = appearance.popMenuActionIconSize.toInt()
@@ -134,6 +133,7 @@ internal class PopupMenuAdapter(
       if (castedPopupMenuItem.label != null) {
         label.text = castedPopupMenuItem.label
       }
+      label.setTextSize(TypedValue.COMPLEX_UNIT_SP, castedPopupMenuItem.fontSize)
       if (castedPopupMenuItem.iconDrawable != null) {
         icon.apply {
           visibility = View.VISIBLE

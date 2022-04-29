@@ -194,6 +194,7 @@ class MaterialPopupMenuBuilder {
     var showSeparator: Boolean = false
     var separatorHeight: Int = 1
     var separatorColor = Color.BLACK
+    var fontSize = 17f
 
     override fun toString(): String {
       return "ItemHolder(label=$label, labelColor=$labelColor, iconDrawable=$iconDrawable, rightIconDrawable=$rightIconDrawable, iconColor=$iconColor, hasNestedItems=$hasNestedItems, viewBoundCallback=$viewBoundCallback, callback=$callback, dismissOnSelect=$dismissOnSelect)"
@@ -207,6 +208,7 @@ class MaterialPopupMenuBuilder {
         iconDrawable = iconDrawable,
         rightIconDrawable = rightIconDrawable,
         iconColor = iconColor,
+        fontSize = fontSize,
         hasNestedItems = hasNestedItems,
         viewBoundCallback = resolveViewBoundCallback(),
         callback = callback,
