@@ -59,21 +59,16 @@ export default function App() {
                 textAlign: 'center',
                 gravity: 'bottom',
                 buttons: [
-                  // {
-                  //   text: '1',
-                  //   data: 'SHARE',
-                  //   fontSize: 30,
-                  //   // icon: require('./assets/icShare.png'),
-                  // },
                   {
-                    text: 'М3',
+                    text: 'Create Story',
+                    data: 'SHARE',
+                    fontSize: 16,
+                    // icon: require('./assets/icShare.png'),
+                  },
+                  {
+                    text: 'Create Post',
                     data: '1',
-                    //separatorHeight: 19,
-                    separatorColor: 'red',
-                    // showSeparator: true,
-                    iconSize: 30,
-                    iconTint: 'red',
-                    icon: require('./assets/icViews.png'),
+                    fontSize: 16,
                   },
                   // {
                   //   text: '1',

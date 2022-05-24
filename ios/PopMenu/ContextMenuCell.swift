@@ -34,10 +34,14 @@ open class ContextMenuCell: UITableViewCell {
             height: item.separatorHeight
         )
         
+        var titleW: CGFloat = frame.width - (item.horizontalPadding * 2)
+        if item.image != nil {
+            titleW -= item.iconSize + 16
+        }
         titleLabel.frame = .init(
             x: item.horizontalPadding,
             y: 0,
-            width: frame.width - (item.horizontalPadding * 2) - 16 - item.iconSize,
+            width: titleW,
             height: frame.height - item.separatorHeight
         )
         
