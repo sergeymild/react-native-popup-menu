@@ -44,6 +44,10 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
         appearance.itemHeight = PixelUtil.toPixelFromDIP(item.getDouble("height"))
       }
 
+      if (item.hasKey("minWidth")) {
+        appearance.minWidth = PixelUtil.toPixelFromDIP(item.getDouble("minWidth")).toInt()
+      }
+
       if (item.hasKey("fontSize")) {
         appearance.itemFontSize = item.getDouble("fontSize").toFloat()
       }
@@ -92,8 +96,15 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     var gravity = Gravity.NO_GRAVITY
     if (!params.hasKey("frame")) gravity = params.gravity()
     appearance.popMenuGravity = gravity
+
+    var minWidth = appearance.minWidth
+    if (params.hasKey("minWidth")) {
+      minWidth = PixelUtil.toPixelFromDIP(params.getDouble("minWidth")).toInt()
+    }
+
     var didDismissBySelectItem = false
     val popupMenu = popupMenu {
+      fixedContentWidthInPx = minWidth
       style = s
       val buttons = params.getArray("buttons") ?: return@popupMenu
       section {
@@ -137,6 +148,7 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             iconDrawable = if (!appearance.rightIcon) drawable else null
             iconColor = iconTint
             labelColor = textColor
+            textAlign = if (params.hasKey("textAlign")) params.getString("textAlign") else null
             label = button.getString("text")
             showSeparator = sh > 0
             separatorHeight = sh.toInt()

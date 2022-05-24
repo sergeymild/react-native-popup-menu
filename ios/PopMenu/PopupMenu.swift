@@ -45,7 +45,8 @@ class PopupMenu: NSObject {
                     tintColor: iconColor!,
                     textColor: textColor!,
                     font: itemFont,
-                    horizontalPadding: RCTConvert.cgFloat(baseItem?["paddingHorizontal"] ?? 16)
+                    horizontalPadding: RCTConvert.cgFloat(baseItem?["paddingHorizontal"] ?? 16),
+                    textAlign: options["textAlign"] as? String
                 ))
             }
 
@@ -70,6 +71,9 @@ class PopupMenu: NSObject {
                 cornerRadius: RCTConvert.cgFloat(baseOptions?["cornerRadius"] ?? 20)
             )
             
+            if let w = (options["minWidth"] ?? baseOptions?["minWidth"]) as? NSNumber {
+                CM.minWidth = CGFloat(w.floatValue)
+            }
             CM.items = items
             CM.showMenu(frame: frame!, shadow: shadow, style: style)
             

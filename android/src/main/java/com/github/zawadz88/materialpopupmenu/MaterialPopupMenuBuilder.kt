@@ -153,6 +153,7 @@ class MaterialPopupMenuBuilder {
      */
     @ColorInt
     var labelColor: Int = 0
+    var textAlign: String? = null
 
     /**
      * Optional icon to be displayed together with the label.
@@ -206,6 +207,7 @@ class MaterialPopupMenuBuilder {
       return MaterialPopupMenu.PopupMenuItem(
         label = label,
         labelColor = labelColor,
+        textAlign = textAlign,
         iconDrawable = iconDrawable,
         rightIconDrawable = rightIconDrawable,
         iconColor = iconColor,

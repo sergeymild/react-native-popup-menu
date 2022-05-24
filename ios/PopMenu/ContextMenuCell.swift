@@ -66,6 +66,9 @@ open class ContextMenuCell: UITableViewCell {
         titleLabel.text = item.title
         titleLabel.textColor = item.textColor
         titleLabel.font = item.font
+        if item.textAlign == "center" {
+            titleLabel.textAlignment = .center
+        }
         
         
         iconImageView.image = item.image?.withRenderingMode(.alwaysTemplate)

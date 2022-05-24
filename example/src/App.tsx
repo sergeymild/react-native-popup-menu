@@ -15,7 +15,7 @@ configurePopup({
   cornerRadius: 20,
   backgroundColor: 'white',
   isIconsFromRight: false,
-  minWidth: 250,
+  minWidth: 300,
   item: {
     textColor: 'red',
     fontSize: 17,
@@ -104,6 +104,7 @@ export default function App() {
                 cornerRadius: 10,
                 gravity: 'top',
                 frame: { x, y, width, height },
+                textAlign: 'center',
                 buttons: [
                   {
                     text: 'Firstsadkjk',

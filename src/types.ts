@@ -50,6 +50,7 @@ export interface PopupMenuProperties
   extends Omit<PopupMenuConfigure, 'shadow' | 'elevation' | 'item'> {
   readonly buttons: PopupMenuButton[];
   readonly frame?: { x: number; y: number; width: number; height: number };
+  readonly textAlign?: 'center'
 }
 
 export type InternalParams = PopupMenuProperties & {

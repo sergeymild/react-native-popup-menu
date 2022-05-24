@@ -104,6 +104,7 @@ internal constructor(
     val separatorHeight: Int,
     val separatorColor: Int,
     @ColorInt val labelColor: Int,
+    var textAlign: String?,
     val iconDrawable: Drawable?,
     val rightIconDrawable: Drawable?,
     @ColorInt val iconColor: Int,

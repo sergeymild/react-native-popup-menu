@@ -16,7 +16,8 @@ data class PopMenuAppearance(
   var iconTint: Int = Color.BLACK,
   var textColor: Int = Color.BLACK,
   var separatorColor: Int = Color.parseColor("#1F000000"),
-  var separatorHeight: Float = 0f
+  var separatorHeight: Float = 0f,
+  var minWidth: Int = PixelUtil.toPixelFromDIP(250f).toInt()
 )
 
 var appearance = PopMenuAppearance()

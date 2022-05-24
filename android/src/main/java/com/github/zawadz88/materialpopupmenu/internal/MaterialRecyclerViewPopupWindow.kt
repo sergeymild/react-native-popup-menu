@@ -218,11 +218,13 @@ internal class MaterialRecyclerViewPopupWindow(
                 )
             }
             else -> {
+                val w = if (widthSpec > 0) widthSpec else screenWidth
                 if (popup.contentView.measuredWidth == 0) {
                     popup.contentView.measure(
-                        MeasureSpec.makeMeasureSpec(screenWidth, MeasureSpec.AT_MOST),
+                        MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
                         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                     )
+                    popup.width = w
                 }
                 val contentWidth = popup.contentView.measuredWidth
                 val contentHeight = popup.contentView.measuredHeight

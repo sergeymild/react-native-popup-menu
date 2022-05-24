@@ -32,6 +32,7 @@ public struct ContextMenuItem {
     public let separatorColor: UIColor
     public let font: UIFont
     public let horizontalPadding: CGFloat
+    public let textAlign: String?
     
     public init(
         title: String,
@@ -43,7 +44,8 @@ public struct ContextMenuItem {
         tintColor: UIColor,
         textColor: UIColor,
         font: UIFont,
-        horizontalPadding: CGFloat
+        horizontalPadding: CGFloat,
+        textAlign: String?
     ) {
         self.title = title
         self.image = image
@@ -55,6 +57,7 @@ public struct ContextMenuItem {
         self.textColor = textColor
         self.font = font
         self.horizontalPadding = horizontalPadding
+        self.textAlign = textAlign
     }
 }
 
@@ -64,7 +67,6 @@ public struct ContextMenuConstants {
     public var MaxZoom : CGFloat = 1.15
     public var MinZoom : CGFloat = 0.6
     public var menuDefaultHeight : CGFloat = 120
-    public var MenuWidth : CGFloat = 250
     public var menuMarginSpace : CGFloat = 16
     public var TopMarginSpace : CGFloat = 0
     public var BottomMarginSpace : CGFloat = 24
@@ -96,6 +98,7 @@ open class ContextMenu: NSObject {
     private var zoomedTargetedSize = CGRect()
     
     private var menuHeight : CGFloat = 180
+    open var minWidth : CGFloat = 250
     private var isLandscape : Bool = false
     private var shadow: Shadow!
     private var style: Style!
@@ -497,7 +500,7 @@ open class ContextMenu: NSObject {
         tvY = showFrame.origin.y
         tvX = showFrame.origin.x
         mH = menuHeight
-        mW = MenuConstants.MenuWidth
+        mW = minWidth
         mY = tvY + MenuConstants.menuMarginSpace
         mX = max(MenuConstants.menuMarginSpace, tvX)
         if mX + mW >= mainViewRect.width - MenuConstants.menuMarginSpace {

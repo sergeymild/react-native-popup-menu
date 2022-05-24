@@ -3,6 +3,7 @@ package com.github.zawadz88.materialpopupmenu.internal
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -160,6 +161,10 @@ internal class PopupMenuAdapter(
       }
       if (castedPopupMenuItem.labelColor != 0) {
         label.setTextColor(castedPopupMenuItem.labelColor)
+      }
+
+      if (castedPopupMenuItem.textAlign == "center") {
+        label.gravity = Gravity.CENTER
       }
       nestedIcon.visibility = if (castedPopupMenuItem.hasNestedItems) View.VISIBLE else View.GONE
 
