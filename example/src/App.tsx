@@ -53,6 +53,7 @@ export default function App() {
           }}
           onPress={() => {
             ref.current?.measureInWindow(async (x, y, width, height) => {
+              console.log('[App.]', x, y, width, height)
               const selected = await showPopup({
                 frame: { x, y, width, height },
                 gravity: 'bottom',
@@ -102,17 +103,18 @@ export default function App() {
               const selected = await showPopup({
                 isIconsFromRight: true,
                 cornerRadius: 10,
+                //minWidth: 250,
                 gravity: 'top',
                 frame: { x, y, width, height },
                 textAlign: 'center',
                 buttons: [
                   {
-                    text: 'Firstsadkjk',
+                    text: 'First',
                     data: '1',
                     icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond',
+                    text: 'Second',
                     data: '2',
                     icon: require('./assets/icUnsave.png'),
                   },

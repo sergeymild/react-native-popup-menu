@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.zawadz88.materialpopupmenu.appearance
 import com.reactnativepopupmenu.R
 import java.lang.reflect.Method
+import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
 
@@ -38,6 +39,8 @@ private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 internal class MaterialRecyclerViewPopupWindow(
     private val context: Context,
     private val fixedContentWidthInPx: Int,
+    private var popupMinWidth: Int,
+    private var popupMaxWidth: Int,
     dropDownVerticalOffset: Int?,
     dropDownHorizontalOffset: Int?
 ) {
@@ -103,10 +106,6 @@ internal class MaterialRecyclerViewPopupWindow(
 
     private val popup: PopupWindow
 
-    private val popupMaxWidth: Int
-
-    private val popupMinWidth: Int
-
     private val popupWidthUnit: Int
 
     private val windowManager: WindowManager by lazy {
@@ -126,8 +125,12 @@ internal class MaterialRecyclerViewPopupWindow(
         popup.inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
         popup.isFocusable = true
 
-        popupMaxWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_max_width)
-        popupMinWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_min_width)
+        if (popupMaxWidth == 0) {
+          popupMaxWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_max_width)
+        }
+        if (popupMinWidth == 0) {
+          popupMinWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_min_width)
+        }
         popupWidthUnit = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_width_unit)
 
         val a = context.obtainStyledAttributes(null, R.styleable.MaterialRecyclerViewPopupWindow)
@@ -218,15 +221,14 @@ internal class MaterialRecyclerViewPopupWindow(
                 )
             }
             else -> {
-                val w = if (widthSpec > 0) widthSpec else screenWidth
                 if (popup.contentView.measuredWidth == 0) {
                     popup.contentView.measure(
-                        MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(screenWidth, MeasureSpec.EXACTLY),
                         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                     )
-                    popup.width = w
+                    popup.width = min(popup.contentView.measuredWidth, dropDownWidth)
                 }
-                val contentWidth = popup.contentView.measuredWidth
+                val contentWidth = popup.width
                 val contentHeight = popup.contentView.measuredHeight
                 val left = max(dp16, min(location.left, screenWidth - contentWidth - dp16))
                 val top = max(dp16, min(location.top, screenHeight - contentHeight - dp16))
@@ -473,7 +475,7 @@ internal class MaterialRecyclerViewPopupWindow(
             }
         }
 
-        menuWidth = Math.ceil(menuWidth.toDouble() / popupWidthUnit).toInt() * popupWidthUnit
+        menuWidth = ceil(menuWidth.toDouble() / popupWidthUnit).toInt() * popupWidthUnit
 
         return menuWidth
     }

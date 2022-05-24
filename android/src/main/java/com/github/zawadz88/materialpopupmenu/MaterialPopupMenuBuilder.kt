@@ -39,6 +39,8 @@ class MaterialPopupMenuBuilder {
    * If set to 0, the default mechanism for measuring popup menu width will be applied.
    */
   var fixedContentWidthInPx: Int = 0
+  var popupMinWidth: Int = 0
+  var popupMaxWidth: Int = 0
 
   /**
    * Setting this to non-`null` value will override `android:dropDownVerticalOffset` set by the style applied in [style].
@@ -80,6 +82,8 @@ class MaterialPopupMenuBuilder {
       style = style,
       sections = sections,
       fixedContentWidthInPx = fixedContentWidthInPx,
+      popupMaxWidth = popupMaxWidth,
+      popupMinWidth = popupMinWidth,
       dropDownVerticalOffset = dropDownVerticalOffset,
       dropDownHorizontalOffset = dropDownHorizontalOffset
     )

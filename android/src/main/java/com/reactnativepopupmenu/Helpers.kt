@@ -11,8 +11,11 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.graphics.drawable.DrawableCompat
 import com.facebook.react.bridge.ColorPropConverter
+import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.UIManager
 import com.facebook.react.uimanager.PixelUtil
+import com.facebook.react.uimanager.UIManagerHelper
 import com.facebook.react.uimanager.util.ReactFindViewUtil
 import java.net.URI
 
@@ -30,11 +33,9 @@ object Helpers {
   }
 
   fun findView(activity: Activity, params: ReadableMap): View? {
-    val nativeID = params.getString("nativeID")
     val viewID = if (params.hasKey("viewID")) params.getInt("viewID") else 0
-    val rootView = activity.window.decorView.rootView ?: return null
+    //UIManagerHelper.getUIManager(activity as ReactContext, viewID)
     return when {
-      nativeID !== null -> ReactFindViewUtil.findView(rootView, nativeID)
       viewID != 0 -> activity.findViewById(viewID)
       else -> null
     }

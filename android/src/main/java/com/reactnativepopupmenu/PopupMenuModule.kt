@@ -97,14 +97,14 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     if (!params.hasKey("frame")) gravity = params.gravity()
     appearance.popMenuGravity = gravity
 
-    var minWidth = appearance.minWidth
+    var minWidth = 0
     if (params.hasKey("minWidth")) {
       minWidth = PixelUtil.toPixelFromDIP(params.getDouble("minWidth")).toInt()
     }
 
     var didDismissBySelectItem = false
     val popupMenu = popupMenu {
-      fixedContentWidthInPx = minWidth
+      popupMinWidth = minWidth
       style = s
       val buttons = params.getArray("buttons") ?: return@popupMenu
       section {

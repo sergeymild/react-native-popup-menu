@@ -28,6 +28,8 @@ internal constructor(
   @StyleRes internal val style: Int,
   internal val sections: List<PopupMenuSection>,
   internal val fixedContentWidthInPx: Int,
+  internal val popupMinWidth: Int,
+  internal val popupMaxWidth: Int,
   internal val dropDownVerticalOffset: Int?,
   internal val dropDownHorizontalOffset: Int?
 ) {
@@ -50,6 +52,8 @@ internal constructor(
     val popupWindow = MaterialRecyclerViewPopupWindow(
       context = styledContext,
       fixedContentWidthInPx = fixedContentWidthInPx,
+      popupMinWidth = popupMinWidth,
+      popupMaxWidth = popupMaxWidth,
       dropDownVerticalOffset = dropDownVerticalOffset,
       dropDownHorizontalOffset = dropDownHorizontalOffset
     )
