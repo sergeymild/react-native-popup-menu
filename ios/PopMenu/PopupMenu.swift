@@ -1,8 +1,12 @@
 import React
 
 @objc(PopupMenu)
-class PopupMenu: NSObject {
+class PopupMenu: RCTViewManager {
     private var baseOptions: NSDictionary?
+    
+    override static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
     
     @objc
     func configurePopup(_ options: NSDictionary) {
