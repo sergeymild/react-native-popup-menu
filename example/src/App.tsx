@@ -15,7 +15,7 @@ configurePopup({
   cornerRadius: 20,
   backgroundColor: 'white',
   isIconsFromRight: false,
-  minWidth: 300,
+  minWidth: 100,
   item: {
     textColor: 'red',
     fontSize: 17,
@@ -56,29 +56,30 @@ export default function App() {
               console.log('[App.]', x, y, width, height)
               const selected = await showPopup({
                 frame: { x, y, width, height },
+                textAlign: 'center',
                 gravity: 'bottom',
                 buttons: [
+                  // {
+                  //   text: '1',
+                  //   data: 'SHARE',
+                  //   fontSize: 30,
+                  //   // icon: require('./assets/icShare.png'),
+                  // },
                   {
-                    text: 'SHARE',
-                    data: 'SHARE',
-                    fontSize: 30,
-                    // icon: require('./assets/icShare.png'),
-                  },
-                  {
-                    text: 'М',
-                    data: 'VIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEWVIEW_PAGE_PREVIEW',
-                    separatorHeight: 19,
+                    text: 'М3',
+                    data: '1',
+                    //separatorHeight: 19,
                     separatorColor: 'red',
                     // showSeparator: true,
                     iconSize: 30,
                     iconTint: 'red',
                     icon: require('./assets/icViews.png'),
                   },
-                  {
-                    text: 'SETTINGS',
-                    data: 'SETTINGS',
-                    // icon: require('./assets/icSettings.png'),
-                  },
+                  // {
+                  //   text: '1',
+                  //   data: 'SETTINGS',
+                  //   // icon: require('./assets/icSettings.png'),
+                  // },
                 ],
               });
               console.log(selected);

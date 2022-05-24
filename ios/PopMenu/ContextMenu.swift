@@ -98,7 +98,7 @@ open class ContextMenu: NSObject {
     private var zoomedTargetedSize = CGRect()
     
     private var menuHeight : CGFloat = 180
-    open var minWidth : CGFloat = 250
+    open var minWidth : CGFloat = 0
     private var isLandscape : Bool = false
     private var shadow: Shadow!
     private var style: Style!
@@ -501,6 +501,27 @@ open class ContextMenu: NSObject {
         tvX = showFrame.origin.x
         mH = menuHeight
         mW = minWidth
+        
+        
+        var maxWidth: CGFloat = 0
+        for item in items {
+            let label = UILabel()
+            label.text = item.title
+            label.textColor = item.textColor
+            label.font = item.font
+            var w = label.intrinsicContentSize.width + item.horizontalPadding * 2
+            if item.image != nil {
+                w += item.iconSize + 16
+            }
+            debugPrint(item.title, label.intrinsicContentSize.width, item.horizontalPadding, item.iconSize, w)
+            if maxWidth < w {
+                maxWidth = w
+            }
+        }
+
+        mW = max(minWidth, maxWidth + items[0].horizontalPadding)
+        
+        
         mY = tvY + MenuConstants.menuMarginSpace
         mX = max(MenuConstants.menuMarginSpace, tvX)
         if mX + mW >= mainViewRect.width - MenuConstants.menuMarginSpace {
