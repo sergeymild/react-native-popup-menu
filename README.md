@@ -5,7 +5,7 @@ This library allows to create simple popup menus
 ## Installation
 
 ```sh
-"react-native-popup-menu": "sergeymild/react-native-popup-menu#1.0.17"
+"react-native-popup-menu": "sergeymild/react-native-popup-menu#1.0.18"
 ```
 
 ## Usage
