@@ -38,16 +38,17 @@ open class ContextMenuCell: UITableViewCell {
         if item.image != nil {
             titleW -= item.iconSize + 16
         }
+        let h = frame.height - item.separatorHeight
         titleLabel.frame = .init(
             x: item.horizontalPadding,
             y: 0,
             width: titleW,
-            height: frame.height - item.separatorHeight
+            height: h
         )
         
         iconImageView.frame = .init(
             x: frame.width - item.horizontalPadding - item.iconSize,
-            y: (frame.height - item.iconSize) / 2,
+            y: (h - item.iconSize) / 2,
             width: item.iconSize,
             height: item.iconSize
         )
