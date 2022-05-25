@@ -140,7 +140,7 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
 
           var iconSize = appearance.popMenuActionIconSize
           if (button.hasKey("iconSize")) {
-            iconSize = button.getDouble("iconSize").toFloat()
+            iconSize = PixelUtil.toPixelFromDIP(button.getDouble("iconSize"))
           }
 
           item {
