@@ -99,6 +99,7 @@ open class ContextMenu: NSObject {
     
     private var menuHeight : CGFloat = 180
     open var minWidth : CGFloat = 0
+    open var maxWidth : CGFloat = 0
     private var isLandscape : Bool = false
     private var shadow: Shadow!
     private var style: Style!
@@ -503,7 +504,10 @@ open class ContextMenu: NSObject {
         mW = minWidth
         
         
-        var maxWidth: CGFloat = 0
+        let maxW = self.maxWidth > 0
+        ? self.maxWidth
+        : UIScreen.main.bounds.width - MenuConstants.horizontalMarginSpace * 2
+        var itemsWidth: CGFloat = 0
         for item in items {
             let label = UILabel()
             label.text = item.title
@@ -514,12 +518,12 @@ open class ContextMenu: NSObject {
                 w += item.iconSize + 16
             }
             debugPrint(item.title, label.intrinsicContentSize.width, item.horizontalPadding, item.iconSize, w)
-            if maxWidth < w {
-                maxWidth = w
+            if itemsWidth < w {
+                itemsWidth = w
             }
         }
 
-        mW = max(minWidth, maxWidth + items[0].horizontalPadding)
+        mW = max(minWidth, min(maxW, itemsWidth + items[0].horizontalPadding))
         
         
         mY = tvY + MenuConstants.menuMarginSpace

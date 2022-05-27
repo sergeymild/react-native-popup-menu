@@ -38,14 +38,18 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
       appearance.cornerRadius = PixelUtil.toPixelFromDIP(options.getDouble("cornerRadius"))
     }
 
+    if (options.hasKey("minWidth")) {
+      appearance.minWidth = PixelUtil.toPixelFromDIP(options.getDouble("minWidth")).toInt()
+    }
+
+    if (options.hasKey("maxWidth")) {
+      appearance.maxWidth = PixelUtil.toPixelFromDIP(options.getDouble("maxWidth")).toInt()
+    }
+
     if (options.hasKey("item")) {
       val item = options.getMap("item")!!
       if (item.hasKey("height")) {
         appearance.itemHeight = PixelUtil.toPixelFromDIP(item.getDouble("height"))
-      }
-
-      if (item.hasKey("minWidth")) {
-        appearance.minWidth = PixelUtil.toPixelFromDIP(item.getDouble("minWidth")).toInt()
       }
 
       if (item.hasKey("fontSize")) {
@@ -102,9 +106,15 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
       minWidth = PixelUtil.toPixelFromDIP(params.getDouble("minWidth")).toInt()
     }
 
+    var maxWidth = 0
+    if (params.hasKey("maxWidth")) {
+      maxWidth = PixelUtil.toPixelFromDIP(params.getDouble("maxWidth")).toInt()
+    }
+
     var didDismissBySelectItem = false
     val popupMenu = popupMenu {
       popupMinWidth = minWidth
+      popupMaxWidth = maxWidth
       style = s
       val buttons = params.getArray("buttons") ?: return@popupMenu
       section {

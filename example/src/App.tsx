@@ -15,7 +15,8 @@ configurePopup({
   cornerRadius: 20,
   backgroundColor: 'white',
   isIconsFromRight: false,
-  minWidth: 100,
+  minWidth: 140,
+  maxWidth: 240,
   item: {
     textColor: 'red',
     fontSize: 17,
@@ -60,13 +61,13 @@ export default function App() {
                 gravity: 'bottom',
                 buttons: [
                   {
-                    text: 'Create Story',
+                    text: '1',
                     data: 'SHARE',
                     fontSize: 16,
                     // icon: require('./assets/icShare.png'),
                   },
                   {
-                    text: 'Create Post',
+                    text: '1',
                     data: '1',
                     fontSize: 16,
                   },
@@ -105,7 +106,7 @@ export default function App() {
                 textAlign: 'center',
                 buttons: [
                   {
-                    text: 'First',
+                    text: 'FirstFirstFirstFirstFirstFirstFirst',
                     data: '1',
                     icon: require('./assets/icShare.png'),
                   },

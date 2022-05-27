@@ -7,6 +7,7 @@ export interface PopupMenuConfigure {
   readonly gravity?: 'top' | 'bottom';
   readonly overlayColor?: string;
   readonly minWidth?: number;
+  readonly maxWidth?: number;
   readonly safeArea?: {
     bottom?: number;
     top?: number;

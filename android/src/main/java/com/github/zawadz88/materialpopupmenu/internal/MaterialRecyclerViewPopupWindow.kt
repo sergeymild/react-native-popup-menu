@@ -126,10 +126,10 @@ internal class MaterialRecyclerViewPopupWindow(
         popup.isFocusable = true
 
         if (popupMaxWidth == 0) {
-          popupMaxWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_max_width)
+          popupMaxWidth = appearance.maxWidth ?: context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_max_width)
         }
         if (popupMinWidth == 0) {
-          popupMinWidth = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_min_width)
+            popupMinWidth = appearance.minWidth ?: context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_min_width)
         }
         popupWidthUnit = context.resources.getDimensionPixelSize(R.dimen.mpm_popup_menu_width_unit)
 

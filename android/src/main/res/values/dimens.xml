@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="mpm_popup_menu_vertical_padding">8dp</dimen>
-    <dimen name="mpm_popup_menu_max_width">280dp</dimen>
+    <dimen name="mpm_popup_menu_max_width">350dp</dimen>
     <dimen name="mpm_popup_menu_min_width">112dp</dimen>
     <dimen name="mpm_popup_menu_width_unit">56dp</dimen>
 

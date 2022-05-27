@@ -78,6 +78,9 @@ class PopupMenu: RCTViewManager {
             if let w = (options["minWidth"] ?? baseOptions?["minWidth"]) as? NSNumber {
                 CM.minWidth = CGFloat(w.floatValue)
             }
+            if let w = (options["maxWidth"] ?? baseOptions?["maxWidth"]) as? NSNumber {
+                CM.maxWidth = CGFloat(w.floatValue)
+            }
             CM.items = items
             CM.showMenu(frame: frame!, shadow: shadow, style: style)
             

@@ -17,7 +17,8 @@ data class PopMenuAppearance(
   var textColor: Int = Color.BLACK,
   var separatorColor: Int = Color.parseColor("#1F000000"),
   var separatorHeight: Float = 0f,
-  var minWidth: Int = 0
+  var minWidth: Int? = null,
+  var maxWidth: Int? = null
 )
 
 var appearance = PopMenuAppearance()
