@@ -52,6 +52,7 @@ export interface PopupMenuProperties
   readonly buttons: PopupMenuButton[];
   readonly frame?: { x: number; y: number; width: number; height: number };
   readonly textAlign?: 'center'
+  readonly centered?: boolean
 }
 
 export type InternalParams = PopupMenuProperties & {
