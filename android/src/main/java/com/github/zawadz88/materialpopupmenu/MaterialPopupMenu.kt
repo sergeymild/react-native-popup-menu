@@ -46,7 +46,7 @@ internal constructor(
    * @param anchor view used to anchor the popup
    */
   @UiThread
-  fun show(context: Context, anchor: View, location: Rect? = null) {
+  fun show(context: Context, anchor: View, location: Rect? = null, centered: Boolean) {
     val style = resolvePopupStyle(context)
     val styledContext = ContextThemeWrapper(context, style)
     val popupWindow = MaterialRecyclerViewPopupWindow(
@@ -62,7 +62,7 @@ internal constructor(
     popupWindow.adapter = adapter
     popupWindow.anchorView = anchor
 
-    popupWindow.show(location)
+    popupWindow.show(location, centered)
     this.popupWindow = popupWindow
     setOnDismissListener(this.dismissListener)
   }

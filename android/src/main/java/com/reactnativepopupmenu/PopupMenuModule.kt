@@ -184,11 +184,13 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
             y += frame.getDouble("height").toPixel()
           }
           y += Helpers.getStatusBarHeight(activity)
+          val r = frame.getDouble("x").toPixel() + frame.getDouble("width").toPixel()
+          val b = frame.getDouble("y").toPixel() + frame.getDouble("height").toPixel()
           rect = Rect(
-            frame.getDouble("x").toPixel() + (16.0).toPixel(),
+            frame.getDouble("x").toPixel(),
             y,
-            0,
-            0
+            r,
+            b
           )
         }
         popupMenu.setOnDismissListener {
@@ -198,7 +200,8 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
         popupMenu.show(
           context = activity,
           anchor = anchor,
-          location = rect
+          location = rect,
+          centered = params.bool("centered")
         )
       }
       if (params.hasKey("frame")) {

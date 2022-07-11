@@ -184,7 +184,7 @@ internal class MaterialRecyclerViewPopupWindow(
      * Show the popupMenu list. If the list is already showing, this method
      * will recalculate the popupMenu's size and position.
      */
-    internal fun show(location: Rect?) {
+    internal fun show(location: Rect?, centered: Boolean) {
         checkNotNull(anchorView) { "Anchor view must be set!" }
         val height = buildDropDown()
 
@@ -230,8 +230,12 @@ internal class MaterialRecyclerViewPopupWindow(
                 }
                 val contentWidth = popup.width
                 val contentHeight = popup.contentView.measuredHeight
-                val left = max(dp16, min(location.left, screenWidth - contentWidth - dp16))
-                val top = max(dp16, min(location.top, screenHeight - contentHeight - dp16))
+                var left = max(dp16, min(location.left + dp16, screenWidth - contentWidth - dp16))
+                if (centered) {
+                  val x = location.left + location.width() / 2
+                  left = x - popup.width / 2
+                }
+                val top = max(dp16, min(location.top + dp16, screenHeight - contentHeight - dp16))
                 popup.showAtLocation(anchorView, appearance.popMenuGravity, left, top)
             }
         }
