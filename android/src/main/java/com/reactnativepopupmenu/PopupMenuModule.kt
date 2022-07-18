@@ -45,6 +45,10 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
     if (options.hasKey("maxWidth")) {
       appearance.maxWidth = PixelUtil.toPixelFromDIP(options.getDouble("maxWidth")).toInt()
     }
+    
+    if (options.hasKey("allowFontScaling")) {
+      appearance.allowFontScaling = options.bool("allowFontScaling")
+    }
 
     if (options.hasKey("item")) {
       val item = options.getMap("item")!!
@@ -54,10 +58,6 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
 
       if (item.hasKey("fontSize")) {
         appearance.itemFontSize = item.getDouble("fontSize").toFloat()
-      }
-
-      if (item.hasKey("allowFontScaling")) {
-        appearance.allowFontScaling = item.bool("allowFontScaling")
       }
 
       if (item.hasKey("iconSize")) {
