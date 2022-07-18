@@ -27,6 +27,7 @@ interface PopupMenuConfigure {
   readonly backgroundColor?: string;
   readonly cornerRadius?: number;
   readonly gravity?: 'top' | 'bottom';
+  readonly allowFontScaling?: TextProps['allowFontScaling']
   readonly overlayColor?: string;
   readonly minWidth?: number;
 

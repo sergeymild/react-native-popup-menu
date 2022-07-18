@@ -56,6 +56,10 @@ class PopupMenuModule(reactContext: ReactApplicationContext) :
         appearance.itemFontSize = item.getDouble("fontSize").toFloat()
       }
 
+      if (item.hasKey("allowFontScaling")) {
+        appearance.allowFontScaling = item.bool("allowFontScaling")
+      }
+
       if (item.hasKey("iconSize")) {
         appearance.popMenuActionIconSize = PixelUtil.toPixelFromDIP(item.getDouble("iconSize"))
       }

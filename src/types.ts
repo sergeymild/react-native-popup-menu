@@ -1,10 +1,11 @@
-import type { ImageRequireSource } from 'react-native';
+import type { ImageRequireSource, TextProps } from 'react-native';
 
 export interface PopupMenuConfigure {
   readonly isIconsFromRight?: boolean;
   readonly backgroundColor?: string;
   readonly cornerRadius?: number;
   readonly gravity?: 'top' | 'bottom';
+  readonly allowFontScaling?: TextProps['allowFontScaling']
   readonly overlayColor?: string;
   readonly minWidth?: number;
   readonly maxWidth?: number;

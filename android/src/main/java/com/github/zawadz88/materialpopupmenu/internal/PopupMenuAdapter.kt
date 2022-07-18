@@ -130,7 +130,11 @@ internal class PopupMenuAdapter(
       if (castedPopupMenuItem.label != null) {
         label.text = castedPopupMenuItem.label
       }
-      label.setTextSize(TypedValue.COMPLEX_UNIT_SP, castedPopupMenuItem.fontSize)
+      if (appearance.allowFontScaling) {
+        label.setTextSize(TypedValue.COMPLEX_UNIT_SP, castedPopupMenuItem.fontSize)
+      } else {
+        label.setTextSize(TypedValue.COMPLEX_UNIT_DIP, castedPopupMenuItem.fontSize)
+      }
       if (castedPopupMenuItem.iconDrawable != null) {
         icon.apply {
           visibility = View.VISIBLE
